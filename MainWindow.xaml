@@ -3,14 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NoblegardenLauncherSharp"
         mc:Ignorable="d"
-        Title="Лаунчер Noblegarden (test)" Height="450" Width="800" ResizeMode="NoResize">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="233*"/>
-            <ColumnDefinition Width="31*"/>
-        </Grid.ColumnDefinitions>
-
-    </Grid>
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Title="Лаунчер Noblegarden" Height="600" Width="900" ResizeMode="NoResize">
+    <Border BorderBrush="#FF062131" BorderThickness="4">
+        <Grid Width="900" Height="600" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="860"/>
+                <ColumnDefinition Width="16" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="545"/>
+            </Grid.RowDefinitions>
+            <Image Stretch="Fill" Source="bg.jpg" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="700" Grid.RowSpan="2" VerticalAlignment="Top" Width="1400"/>
+            <Rectangle Fill="#FF062131" Grid.ColumnSpan="3">
+                <Rectangle.Effect>
+                    <DropShadowEffect/>
+                </Rectangle.Effect>
+            </Rectangle>
+        </Grid>
+    </Border>
 </Window>
