@@ -18,7 +18,40 @@
                 <RowDefinition Height="55"/>
                 <RowDefinition Height="545"/>
             </Grid.RowDefinitions>
-            <Image Stretch="Fill" Source="bg.jpg" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="700" Grid.RowSpan="2" VerticalAlignment="Top" Width="1400"/>
+            <Image Name ="BgImage" Stretch="Fill" Source="bg.jpg" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="700" Grid.RowSpan="2" VerticalAlignment="Top" Width="1400">
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Image.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ThicknessAnimationUsingKeyFrames 
+                                    Storyboard.TargetName="BgImage" 
+                                    Storyboard.TargetProperty="Margin"
+                                    RepeatBehavior="Forever"
+                                    BeginTime="00:00:00"
+                                    AutoReverse="True"
+                                >
+                                    <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
+                                    <SplineThicknessKeyFrame KeyTime="00:00:16" Value="-250,-50,0,0" />
+                                    <SplineThicknessKeyFrame KeyTime="00:00:24" Value="-150,-80,0,0" />
+                                    <SplineThicknessKeyFrame KeyTime="00:00:30" Value="-50,-50,0,0" />
+                                    <SplineThicknessKeyFrame KeyTime="00:00:36" Value="0,0,0,0" />
+                                </ThicknessAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+            <Rectangle Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#00062131" Offset="0"/>
+                        <GradientStop Color="#FF062131" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+                <Rectangle.Effect>
+                    <DropShadowEffect/>
+                </Rectangle.Effect>
+            </Rectangle>
             <Rectangle Fill="#FF062131" Grid.ColumnSpan="3">
                 <Rectangle.Effect>
                     <DropShadowEffect/>
