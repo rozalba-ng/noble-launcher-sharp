@@ -7,7 +7,7 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Title="Лаунчер Noblegarden" Height="600" Width="900" ResizeMode="NoResize">
-    <Border BorderBrush="#FF062131" BorderThickness="4">
+    <Border BorderBrush="#FF062131" BorderThickness="4, 0, 4, 4">
         <Grid Width="900" Height="600" Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="16" />
@@ -55,6 +55,22 @@
                 </Rectangle.Effect>
             </Rectangle>
             <Image Name = "Logo" Source="logo-image.png" Grid.Row="0" Grid.Column="1" Width="48" HorizontalAlignment="Left" />
+            <Image Name = "CloseIcon" Source="close.png" Grid.Row="0" Grid.Column="1" Width="24" HorizontalAlignment="Right" Height="24">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Opacity" Value="0.6"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="NOBLEGARDEN" FontSize="24" Foreground="#D8FAFAFA" Margin="56,2.25,577,20.75" FontFamily="Segoe UI Black" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Ролевой сервер World of Warcraft" FontFamily="Bahnschrift Light" FontSize="14" Foreground="#D8FAFAFA" Margin="56,31.25,216.73,4.75"/>
+            <Rectangle Fill="#59050505" Grid.Row="0" Grid.Column="1" RadiusY="16" RadiusX="16" Height="32" Margin="308,-18,176,41" />
         </Grid>
     </Border>
 </Window>
