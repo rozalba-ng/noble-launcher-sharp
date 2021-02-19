@@ -94,5 +94,11 @@
   <ItemGroup>
     <Resource Include="close.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="discord.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="vk.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

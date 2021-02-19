@@ -18,6 +18,7 @@
                 <RowDefinition Height="55"/>
                 <RowDefinition Height="545"/>
             </Grid.RowDefinitions>
+            <!--Шапка-->
             <Image Name ="BgImage" Stretch="Fill" Source="bg.jpg" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="700" Grid.RowSpan="2" VerticalAlignment="Top" Width="1400">
                 <Image.Triggers>
                     <EventTrigger RoutedEvent="Image.Loaded">
@@ -51,7 +52,7 @@
             </Rectangle>
             <Rectangle Fill="#FF062131" Grid.ColumnSpan="3">
                 <Rectangle.Effect>
-                    <DropShadowEffect/>
+                    <DropShadowEffect BlurRadius="10" Direction="300"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Image Name = "Logo" Source="logo-image.png" Grid.Row="0" Grid.Column="1" Width="48" HorizontalAlignment="Left" />
@@ -71,6 +72,123 @@
             <TextBlock Grid.Row="0" Grid.Column="1" Text="NOBLEGARDEN" FontSize="24" Foreground="#D8FAFAFA" Margin="56,2.25,577,20.75" FontFamily="Segoe UI Black" VerticalAlignment="Center"/>
             <TextBlock Grid.Row="0" Grid.Column="1" Text="Ролевой сервер World of Warcraft" FontFamily="Bahnschrift Light" FontSize="14" Foreground="#D8FAFAFA" Margin="56,31.25,216.73,4.75"/>
             <Rectangle Fill="#59050505" Grid.Row="0" Grid.Column="1" RadiusY="16" RadiusX="16" Height="32" Margin="308,-18,176,41" />
+            <!-- Основной контент -->
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="552" />
+                    <ColumnDefinition Width="32" />
+                    <ColumnDefinition Width="276" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="400" />
+                    <RowDefinition Height="110" />
+                </Grid.RowDefinitions>
+                <!-- Лента новостей -->
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="544" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="344" />
+                    </Grid.RowDefinitions>
+                    <Rectangle Fill="#FFF0F0F0" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="3" Direction="320"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+                    <Rectangle Fill="#FF12161A" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Лента новостей" FontSize="20" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" VerticalAlignment="Center"/>
+                </Grid>
+                <!-- Правая колонка -->
+                <Grid Grid.Row="1" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="216" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+                    <!-- Дискорд -->
+                    <Rectangle Fill="#FF6C71B4" Grid.Row="0" Grid.Column="0" RadiusX="4" RadiusY="4">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="15" Direction="360" ShadowDepth="0" Opacity="0.8"/>
+                        </Rectangle.Effect>
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                    <Image Source="discord.png" Grid.Row="0" Grid.Column="0" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                    <!-- VK -->
+                    <Rectangle Fill="#FF254E79" Grid.Row="0" Grid.Column="2" RadiusX="4" RadiusY="4">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="15" Direction="360" ShadowDepth="0" Opacity="0.8"/>
+                        </Rectangle.Effect>
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                    <Image Source="vk.png" Grid.Row="0" Grid.Column="2" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                    <!-- Текущий онлайн -->
+                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="114"/>
+                            <ColumnDefinition Width="16"/>
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Fill="#FFF0F0F0" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="4" RadiusX="4" RadiusY="4">
+                            <Rectangle.Effect>
+                                <DropShadowEffect BlurRadius="15" Direction="360" ShadowDepth="0" Opacity="0.8"/>
+                            </Rectangle.Effect>
+                        </Rectangle>
+                        <Rectangle Fill="#FF12161A" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="2" RadiusX="4" RadiusY="4"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Сейчас" FontSize="20" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="на сервере" FontSize="14" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="0" FontSize="20" Foreground="#FF12161A" FontFamily="Bahnschrift Light" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="подробнее" FontSize="14" Foreground="#FF106ECD" FontFamily="Bahnschrift Light" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="#FF106ECD"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="#FF198BFF"/>
+                                            <Setter Property="TextDecorations" Value="Underline"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Grid>
     </Border>
 </Window>
