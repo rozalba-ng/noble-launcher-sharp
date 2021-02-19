@@ -173,7 +173,7 @@
                         <Rectangle Fill="#FF12161A" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="2" RadiusX="4" RadiusY="4"/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="Сейчас" FontSize="20" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" VerticalAlignment="Center"/>
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="на сервере" FontSize="14" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" VerticalAlignment="Center" />
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="0" FontSize="20" Foreground="#FF12161A" FontFamily="Bahnschrift Light" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <TextBlock Name = "CurrentOnline" Grid.Row="1" Grid.Column="2" Text="0" FontSize="16" Foreground="#FF12161A" FontFamily="Bahnschrift Light" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                         <TextBlock Grid.Row="2" Grid.Column="2" Text="подробнее" FontSize="14" Foreground="#FF106ECD" FontFamily="Bahnschrift Light" VerticalAlignment="Center" HorizontalAlignment="Right">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
@@ -212,14 +212,13 @@
                         IsHitTestVisible="False"
                     />
                     <TextBlock
+                        Name="CurrentLoadingStep"
                         FontFamily="Bahnschrift Light"
                         FontSize="14"
                         Foreground="#FFFAFAFA"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center" Margin="300,352,298,230"
-                    >
-                        Пробуем подключиться к серверу обновлений
-                    </TextBlock>
+                    />
                 </Grid>
             </Grid>
         </Grid>
