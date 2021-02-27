@@ -1,15 +1,11 @@
-﻿using NoblegardenLauncherSharp.Controllers;
-using NoblegardenLauncherSharp.Models;
-using System;
+﻿using System.Windows;
 using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
+using NoblegardenLauncherSharp.Models;
+using NoblegardenLauncherSharp.Controllers;
 
 namespace NoblegardenLauncherSharp {
     public partial class MainWindow : Window
     {
-        //private TextBlock currentLoadingStepText;
         private ServerModel UpdateServer;
         private UpdateServerRequestController UpdateServerRequest;
         private static readonly ServerModel NobleServer = new ServerModel("https://noblegarden.net");
@@ -19,43 +15,21 @@ namespace NoblegardenLauncherSharp {
             InitializeComponent();
         }
 
-        /*
-        private TextBlock GetCurrentLoadingStepView() {
-            if (currentLoadingStepText != null) return currentLoadingStepText;
-
-            currentLoadingStepText = (TextBlock)FindName("CurrentLoadingStep");
-            return currentLoadingStepText;
-        }
-        */
-
         private async void OnWindowLoad(object sender, RoutedEventArgs e) {
-            /*
-            var PreloaderController = new PreloaderController(this, GetCurrentLoadingStepView());
-            await PreloaderController.LoadUpdateServerIPAddress();
-            await PreloaderController.CheckLauncherVersion();
-            await PreloaderController.DrawVisualInformation();
-            PlaySuccessLoadAnimation();
-            */
-            var updateServerAdressResponse = await NobleRequest.GetUpdateServerAddress();
-            string updateServerIP = (string)updateServerAdressResponse.GetFormattedData();
+            PreloaderTaskController PreloaderController = new PreloaderTaskController(this, NobleRequest);
+            string updateServerIP = await PreloaderController.GetUpdateServerAddress();
             UpdateServer = new ServerModel($"http://{updateServerIP}");
             UpdateServerRequest = new UpdateServerRequestController(UpdateServer);
-
-            var launcherVersionResponse = await UpdateServerRequest.GetActualLauncherVersion();
-            string actualLauncherVersion = (string)launcherVersionResponse.GetFormattedData().version;
-            if (actualLauncherVersion != Globals.LAUNCHER_VERSION) {
-                throw new Exception("Используется неактуальная версия лаунчера");
-            }
+            PreloaderController.SetUpdateRequestController(UpdateServerRequest);
+            await PreloaderController.CheckLauncherVersion();
+            await PreloaderController.DrawVisualInformation();
+            PreloaderController.PlaySuccessLoadAnimation();
         }
 
-        private void PlaySuccessLoadAnimation() {
-            /*
-            GetCurrentLoadingStepView().Text = "";
-            Storyboard fadeOutAnim = (Storyboard)FindResource("FadeOutModalBG");
-            if (fadeOutAnim != null) {
-                fadeOutAnim.Begin();
-            }
-            */
+        private void OpenLinkFromTag(object sender, RoutedEventArgs e) {
+            var target = (FrameworkElement)sender;
+            string link = target.Tag.ToString();
+            Process.Start(link);
         }
     }
 }

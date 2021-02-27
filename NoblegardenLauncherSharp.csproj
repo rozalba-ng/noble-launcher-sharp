@@ -70,19 +70,20 @@
     </Compile>
     <Compile Include="Controllers\BaseRequestController.cs" />
     <Compile Include="Controllers\NobleRequestController.cs" />
+    <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Controllers\UpdateServerRequestController.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="Models\AuthorModel.cs" />
     <Compile Include="Models\NobleRequestModel.cs" />
     <Compile Include="Models\NobleResponseModel.cs" />
     <Compile Include="Models\ServerModel.cs" />
-    <Compile Include="NoblegardenRequestResponse.cs" />
-    <Compile Include="NoblegardenRequestController.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\SingleNewsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -102,7 +103,6 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <Compile Include="PreloaderController.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

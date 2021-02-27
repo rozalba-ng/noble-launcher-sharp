@@ -10,7 +10,7 @@ namespace NoblegardenLauncherSharp.Controllers
 
         public async Task<NobleResponseModel> GetActualLauncherVersion() {
             var response = await MakeAsyncRequest($"{Server.URL}/launcher-version.json");
-            if (!response.isOK)
+            if (!response.IsOK)
                 throw new Exception("Не удалось получить данные об актуальной версии лаунчера");
             return response;
         }

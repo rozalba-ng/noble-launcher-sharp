@@ -4,31 +4,31 @@ namespace NoblegardenLauncherSharp.Models
 {
     public class NobleResponseModel
     {
-        private readonly string data;
-        public bool isOK;
-        public string err;
+        private readonly string Data;
+        public bool IsOK;
+        public string Err;
 
         public NobleResponseModel(bool isOK, string err) {
-            this.isOK = isOK;
-            this.err = err;
+            IsOK = isOK;
+            Err = err;
         }
         public NobleResponseModel(string data) {
-            isOK = true;
-            this.data = data;
+            IsOK = true;
+            Data = data;
         }
         public NobleResponseModel(string data, bool isOK, string err) {
-            this.isOK = isOK;
-            this.data = data;
-            this.err = err;
+            IsOK = isOK;
+            Data = data;
+            Err = err;
         }
 
         public dynamic GetFormattedData() {
-            if (data[0] == '{')
-                return JObject.Parse(data);
-            else if (data[0] == '[')
-                return JArray.Parse(data);
+            if (Data[0] == '{')
+                return JObject.Parse(Data);
+            else if (Data[0] == '[')
+                return JArray.Parse(Data);
 
-            return data;
+            return Data;
         }
     }
 }
