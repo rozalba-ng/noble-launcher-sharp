@@ -126,6 +126,10 @@
   <ItemGroup>
     <Resource Include="Images\preloader.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\square-character.jpg" />
+    <Resource Include="Images\square-guild.jpg" />
+    <Resource Include="Images\square-plots.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
