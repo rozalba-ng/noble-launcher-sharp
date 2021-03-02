@@ -71,6 +71,7 @@
     <Compile Include="Controllers\BaseRequestController.cs" />
     <Compile Include="Controllers\NobleRequestController.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
+    <Compile Include="Controllers\SliderBlockController.cs" />
     <Compile Include="Controllers\UpdateServerRequestController.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Models\AuthorModel.cs" />
@@ -84,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\SingleNewsModel.cs" />
+    <Compile Include="Models\SliderElementModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

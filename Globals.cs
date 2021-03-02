@@ -1,9 +1,17 @@
-﻿namespace NoblegardenLauncherSharp
+﻿using System.Collections.Generic;
+using NoblegardenLauncherSharp.Models;
+
+namespace NoblegardenLauncherSharp
 {
     public static class Globals
     {
         public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
         public static readonly string LAUNCHER_VERSION = "1.3.1";
+        public static readonly List<SliderElementModel> SliderElements = new List<SliderElementModel> {
+            new SliderElementModel("Персонажи", "https://noblegarden.net/charlist", "Images/square-character.jpg"),
+            new SliderElementModel("Гильдии", "https://noblegarden.net/guild", "Images/square-guild.jpg"),
+            new SliderElementModel("Сюжеты", "https://noblegarden.net/storyline", "Images/square-plots.jpg")
+        };
 
         public enum LOADING_STEPS {
             GET_SERVER_ADDRESS = 0,
