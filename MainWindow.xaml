@@ -418,7 +418,7 @@
                 </Grid>
             </Grid>
             <!-- Модалки на весь экран -->
-            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Width="0">
+            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="900" />
                 </Grid.ColumnDefinitions>
