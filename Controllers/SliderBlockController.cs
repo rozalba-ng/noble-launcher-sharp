@@ -6,13 +6,15 @@ namespace NoblegardenLauncherSharp.Controllers
 {
     public class SliderBlockController
     {
+        private static SliderBlockController instance;
+
         public bool IsOnSlide = false;
         private int currentImageIndex = -1;
         private Image CurrentImage;
         private Image MovingImage;
         private TextBlock CurrentSliderName;
         private readonly MainWindow Window;
-        public SliderBlockController(MainWindow Window) {
+        private SliderBlockController(MainWindow Window) {
             this.Window = Window;
             GetImageControllers();
 
@@ -20,6 +22,15 @@ namespace NoblegardenLauncherSharp.Controllers
             CurrentImage.Tag = Globals.SliderElements[0].Link;
             CurrentSliderName.Text = Globals.SliderElements[0].Name;
             currentImageIndex = 0;
+        }
+
+
+        public static SliderBlockController Init(MainWindow Window) {
+            if (instance == null) {
+                instance = new SliderBlockController(Window);
+            }
+
+            return instance;
         }
 
         public void SlideToPrevious() {

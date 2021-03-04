@@ -13,7 +13,8 @@
         <Grid Width="900" Height="600" Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="16" />
-                <ColumnDefinition Width="860"/>
+                <ColumnDefinition Width="596"/>
+                <ColumnDefinition Width="264"/>
                 <ColumnDefinition Width="16" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -21,7 +22,7 @@
                 <RowDefinition Height="545"/>
             </Grid.RowDefinitions>
             <!--Шапка-->
-            <Image Name ="BgImage" Stretch="Fill" Source="Images/bg.jpg" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="700" Grid.RowSpan="2" VerticalAlignment="Top" Width="1400">
+            <Image Name ="BgImage" Stretch="Fill" Source="Images/bg.jpg" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Height="700" Grid.RowSpan="2" VerticalAlignment="Top" Width="1400">
                 <Image.Triggers>
                     <EventTrigger RoutedEvent="Image.Loaded">
                         <BeginStoryboard>
@@ -44,7 +45,7 @@
                     </EventTrigger>
                 </Image.Triggers>
             </Image>
-            <Rectangle Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+            <Rectangle Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="4">
                 <Rectangle.Fill>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#00062131" Offset="0"/>
@@ -52,13 +53,13 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle Fill="#FF062131" Grid.ColumnSpan="3">
+            <Rectangle Fill="#FF062131" Grid.ColumnSpan="4">
                 <Rectangle.Effect>
                     <DropShadowEffect BlurRadius="10" Direction="300"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Image Name = "Logo" Source="Images/logo-image.png" Grid.Row="0" Grid.Column="1" Width="48" HorizontalAlignment="Left" />
-            <Image Name = "CloseIcon" Source="Images/close.png" Grid.Row="0" Grid.Column="1" Width="24" HorizontalAlignment="Right" Height="24">
+            <Image Name = "SettingsIcon" MouseLeftButtonUp="ToggleSettingsVisibility" Source="Images/settings.png" Grid.Row="0" Grid.Column="2" Width="24" HorizontalAlignment="Right" Height="24" Margin="0,0,38,0">
                 <Image.Style>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Opacity" Value="0.6"/>
@@ -71,13 +72,26 @@
                     </Style>
                 </Image.Style>
             </Image>
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="NOBLEGARDEN" FontSize="24" Foreground="#D8FAFAFA" Margin="56,2.25,577,20.75" FontFamily="Segoe UI Black" VerticalAlignment="Center"/>
+            <Image Name = "CloseIcon" Source="Images/close.png" Grid.Row="0" Grid.Column="2" Width="24" HorizontalAlignment="Right" Height="24">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Opacity" Value="0.6"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="NOBLEGARDEN" FontSize="24" Foreground="#D8FAFAFA" Margin="56,2.25,577,20.75" FontFamily="Segoe UI Black" VerticalAlignment="Center"/>
             <TextBlock Grid.Row="0" Grid.Column="1" Text="Ролевой сервер World of Warcraft" FontFamily="Corbel" FontSize="14" Foreground="#D8FAFAFA" Margin="56,31.25,216.73,4.75"/>
-            <Rectangle Fill="#59050505" Grid.Row="0" Grid.Column="1" RadiusY="16" RadiusX="16" Height="32" Margin="308,-18,176,41" />
+            <Rectangle Fill="#59050505" Grid.Row="0" Grid.Column="1" RadiusY="16" RadiusX="16" Height="32" Margin="308,-18,138,41" Grid.ColumnSpan="2" />
             <!-- Основной контент -->
-            <Grid Grid.Row="1" Grid.Column="1">
+            <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="552" />
+                    <ColumnDefinition Width="560" />
                     <ColumnDefinition Width="24" />
                     <ColumnDefinition Width="280" />
                 </Grid.ColumnDefinitions>
@@ -417,8 +431,19 @@
                     </Grid>
                 </Grid>
             </Grid>
+            <Grid Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Width="280" Margin="284,0,0,0" Name="SettingsView">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Rectangle Fill="#FFFAFAFA" Grid.Row="0" Grid.RowSpan="2" Width="280">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Direction="180" Opacity="0.2"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+            </Grid>
             <!-- Модалки на весь экран -->
-            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2" Width="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="900" />
                 </Grid.ColumnDefinitions>
@@ -470,6 +495,18 @@
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SquareMoving" Storyboard.TargetProperty="Margin">
                 <SplineThicknessKeyFrame KeyTime="00:00:00" Value="-570,0,0,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="0,0,0,0" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="ShowSettings">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SettingsView" Storyboard.TargetProperty="Margin">
+                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="284,0,0,0" />
+                <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="0,0,0,0" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="HideSettings">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SettingsView" Storyboard.TargetProperty="Margin">
+                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
+                <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="284,0,0,0" />
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>

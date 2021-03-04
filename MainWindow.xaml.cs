@@ -10,12 +10,14 @@ namespace NoblegardenLauncherSharp {
         private ServerModel UpdateServer;
         private UpdateServerRequestController UpdateServerRequest;
         private readonly SliderBlockController SliderController;
+        private readonly SettingsBlockController SettingsController;
         private static readonly ServerModel NobleServer = new ServerModel("https://noblegarden.net");
         private static readonly NobleRequestController NobleRequest = new NobleRequestController(NobleServer);
         public MainWindow()
         {
             InitializeComponent();
-            SliderController = new SliderBlockController(this);
+            SliderController = SliderBlockController.Init(this);
+            SettingsController = SettingsBlockController.Init(this);
         }
 
         private async void OnWindowLoad(object sender, RoutedEventArgs e) {
@@ -32,7 +34,6 @@ namespace NoblegardenLauncherSharp {
         private void OpenLinkFromTag(object sender, RoutedEventArgs e) {
             var target = (FrameworkElement)sender;
             string link = target.Tag.ToString();
-            Debug.WriteLine(link);
             Process.Start(link);
         }
 
@@ -45,6 +46,10 @@ namespace NoblegardenLauncherSharp {
         }
         private void OnSlideCompleted(object sender, EventArgs e) {
             SliderController.OnSlideCompleted();
+        }
+
+        private void ToggleSettingsVisibility(object sender, RoutedEventArgs e) {
+            SettingsController.ToggleVisibility();
         }
     }
 }

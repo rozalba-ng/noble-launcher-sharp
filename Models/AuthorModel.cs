@@ -6,7 +6,7 @@
         public string Link { get; set; }
 
         public AuthorModel(string name, string link) {
-            Name = name;
+            Name = name.Trim();
             Link = link;
         }
     }

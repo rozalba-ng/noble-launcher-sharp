@@ -71,6 +71,7 @@
     <Compile Include="Controllers\BaseRequestController.cs" />
     <Compile Include="Controllers\NobleRequestController.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
+    <Compile Include="Controllers\SettingsBlockController.cs" />
     <Compile Include="Controllers\SliderBlockController.cs" />
     <Compile Include="Controllers\UpdateServerRequestController.cs" />
     <Compile Include="Globals.cs" />
@@ -132,6 +133,9 @@
     <Resource Include="Images\square-character.jpg" />
     <Resource Include="Images\square-guild.jpg" />
     <Resource Include="Images\square-plots.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

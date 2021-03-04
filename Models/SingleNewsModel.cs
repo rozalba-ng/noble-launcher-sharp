@@ -8,8 +8,8 @@
         public AuthorModel Author { get; set; }
 
         public SingleNewsModel(string title, string content, string link, string authorName, string authorLink) {
-            Title = title;
-            Content = content;
+            Title = title.Trim();
+            Content = content.Trim();
             Link = link;
             Author = new AuthorModel(authorName, authorLink);
         }
