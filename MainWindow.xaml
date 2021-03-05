@@ -113,78 +113,85 @@
                     <Rectangle Fill="#FFF0F0F0" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3"/>
                     <Rectangle Fill="#FF12161A" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="Лента новостей" FontSize="20" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" VerticalAlignment="Center"/>
-                    <ListView Grid.Row="1" Grid.Column="1" Name="LastNewsView" Background="#FFF0F0F0" BorderThickness="0">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="16" />
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="6" />
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="6" />
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="12" />
-                                        <RowDefinition Height="1"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="470"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Path=Title}" Tag ="{Binding Path=Link}" MouseLeftButtonUp="OpenLinkFromTag" Grid.Column="0" Grid.Row="1" FontSize="16" FontFamily="Corbel" FontWeight="Bold" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" IsHitTestVisible="True">
-                                        <TextBlock.Style>
-                                            <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="Foreground" Value="#D8091526"/>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Foreground" Value="#FF1F7DE0"/>
-                                                        <Setter Property="Cursor" Value="Hand"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    <TextBlock Text="от" Grid.Column="0" Grid.Row="3" FontSize="14" Foreground="#99091526" FontFamily="Corbel" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" />
-                                    <TextBlock Text="{Binding Path=Author.Name}" Tag ="{Binding Path=Author.Link}" MouseLeftButtonUp="OpenLinkFromTag" Grid.Column="0" Grid.Row="3" FontSize="14" FontFamily="Corbel" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Margin="18,0,0,0" FontWeight="Bold">
-                                        <TextBlock.Style>
-                                            <Style TargetType="{x:Type TextBlock}">
-                                                <Setter Property="Foreground" Value="#CC1F7DE0"/>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Foreground" Value="#FF1F7DE0"/>
-                                                        <Setter Property="Cursor" Value="Hand"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding Path=Content}" Grid.Column="0" Grid.Row="5" FontSize="14" Foreground="#D8091526" FontFamily="Corbel" VerticalAlignment="Top" TextWrapping="WrapWithOverflow">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <Trigger Property="Text" Value="">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    <Rectangle Grid.Column="0" Grid.Row="7" Fill="#59090126"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                            <ContentPresenter />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
+                    <ScrollViewer Grid.Row="1" Grid.Column="1" CanContentScroll="True">
+                        <ListView Name="LastNewsView" Background="#FFF0F0F0" BorderThickness="0">
+                            <ListView.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter />
+                                </ControlTemplate>
+                            </ListView.Template>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="16" />
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="6" />
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="6" />
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="12" />
+                                            <RowDefinition Height="1"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="470"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Path=Title}" Tag ="{Binding Path=Link}" MouseLeftButtonUp="OpenLinkFromTag" Grid.Column="0" Grid.Row="1" FontSize="16" FontFamily="Corbel" FontWeight="Bold" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" IsHitTestVisible="True">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Foreground" Value="#D8091526"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value="#FF1F7DE0"/>
+                                                            <Setter Property="Cursor" Value="Hand"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Text="от" Grid.Column="0" Grid.Row="3" FontSize="14" Foreground="#99091526" FontFamily="Corbel" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" />
+                                        <TextBlock Text="{Binding Path=Author.Name}" Tag ="{Binding Path=Author.Link}" MouseLeftButtonUp="OpenLinkFromTag" Grid.Column="0" Grid.Row="3" FontSize="14" FontFamily="Corbel" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" Margin="18,0,0,0" FontWeight="Bold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Foreground" Value="#CC1F7DE0"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value="#FF1F7DE0"/>
+                                                            <Setter Property="Cursor" Value="Hand"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding Path=Content}" Grid.Column="0" Grid.Row="5" FontSize="14" Foreground="#D8091526" FontFamily="Corbel" VerticalAlignment="Top" TextWrapping="WrapWithOverflow">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Text" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <Rectangle Grid.Column="0" Grid.Row="7" Fill="#59090126"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </ScrollViewer>
                 </Grid>
                 <!-- Правая колонка -->
                 <Grid Grid.Row="1" Grid.Column="2">
@@ -431,16 +438,75 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Width="280" Margin="284,0,0,0" Name="SettingsView">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Rectangle Fill="#FFFAFAFA" Grid.Row="0" Grid.RowSpan="2" Width="280">
+            <!-- Выезжающее меню -->
+            <Grid Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Width="280" Margin="0,0,0,0" Name="SettingsView">
+                <Rectangle Fill="#FFFAFAFA" Width="280">
                     <Rectangle.Effect>
                         <DropShadowEffect Direction="180" Opacity="0.2"/>
                     </Rectangle.Effect>
                 </Rectangle>
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Настройки" FontSize="20" Foreground="#FF091526" FontFamily="Segoe UI Black" />
+                        <Border BorderBrush="#FF062131" BorderThickness="2" Grid.Row="3" Grid.Column="1" CornerRadius="4">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="6"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Fill="#FFFAFAFA" Height="19" Width="69" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,-12,0,0" Grid.Row="0" Grid.Column="1"/>
+                                <TextBlock FontSize="16" FontFamily="Corbel" Height="19" Width="62" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-12,0,0" Foreground="#FF091526" Grid.Row="0" Grid.Column="1">
+                                    Загрузка
+                                </TextBlock>
+                                <TextBlock FontSize="14" FontFamily="Corbel" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#D8091526" Grid.Row="2" Grid.Column="1">
+                                    Потоков загрузки
+                                </TextBlock>
+                                <ComboBox HorizontalAlignment="Right" Grid.Row="2" Grid.Column="1" FontSize="14" SelectedIndex="0" FontFamily="Bahnschrift Light" Width="50" Margin="0,0,12,0" Height="20">
+                                    <TextBlock>1</TextBlock>
+                                    <TextBlock>2</TextBlock>
+                                    <TextBlock>3</TextBlock>
+                                </ComboBox>
+                            </Grid>
+                        </Border>
+                        <Border BorderBrush="#FF062131" BorderThickness="2" Grid.Row="5" Grid.Column="1" CornerRadius="4">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="6"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Fill="#FFFAFAFA" Height="19" Width="164" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,-12,0,0" Grid.Row="0" Grid.Column="1"/>
+                                <TextBlock FontSize="16" FontFamily="Corbel" Height="19" Width="160" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-12,0,0" Foreground="#FF091526" Grid.Row="0" Grid.Column="1">
+                                    Необязательные патчи
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
             </Grid>
             <!-- Модалки на весь экран -->
             <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2" Width="0">
