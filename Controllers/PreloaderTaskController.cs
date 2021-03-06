@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NoblegardenLauncherSharp.Models;
 
 namespace NoblegardenLauncherSharp.Controllers
@@ -53,6 +55,11 @@ namespace NoblegardenLauncherSharp.Controllers
                 Task.Run(() => SetDiscordLink()),
                 Task.Run(() => SetVKLink())
             );
+        }
+
+        public async Task RequestPatches() {
+            CurrentLoadingStepText.Text = Globals.LOADING_TEXTS[(int)Globals.LOADING_STEPS.GET_PATCHES_INFO];
+            await GetAndDrawCustomPatches();
         }
 
         public void PlaySuccessLoadAnimation() {
@@ -137,6 +144,13 @@ namespace NoblegardenLauncherSharp.Controllers
                 })
             );
         }
+
+        private async Task GetAndDrawCustomPatches() {
+            var customPatchesResponse = await UpdateRequest.GetCustomPatches();
+            var customPatches = customPatchesResponse.GetFormattedData();
+            var tokens = await JObjectConverter.ConvertToPatch(customPatches);
+            Globals.Patches.AddRange(tokens);
+        } 
         private TextBlock GetCurrentLoadingStepView() {
             if (CurrentLoadingStepText != null)
                 return CurrentLoadingStepText;
