@@ -7,6 +7,7 @@ namespace NoblegardenLauncherSharp
     {
         public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
         public static readonly string LAUNCHER_VERSION = "1.3.1";
+        public static List<NoblePatchModel> Patches = new List<NoblePatchModel>();
         public static readonly List<SliderElementModel> SliderElements = new List<SliderElementModel> {
             new SliderElementModel("Персонажи", "https://noblegarden.net/charlist", "Images/square-character.jpg"),
             new SliderElementModel("Гильдии", "https://noblegarden.net/guild", "Images/square-guild.jpg"),
@@ -17,12 +18,14 @@ namespace NoblegardenLauncherSharp
             GET_SERVER_ADDRESS = 0,
             CHECK_LAUNCHER_VERSION = 1,
             GET_LAST_UPDATES = 2,
+            GET_PATCHES_INFO = 3,
         }
 
         public static readonly string[] LOADING_TEXTS = {
             "Получаем адрес сервера обновлений",
             "Сверяем версии лаунчеров",
             "Получаем последние новости",
+            "Получаем информацию о патчах",
         };
 
         public static string GetRightWordForm(int count, string[] words) {

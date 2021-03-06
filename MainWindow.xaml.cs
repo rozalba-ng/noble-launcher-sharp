@@ -28,6 +28,7 @@ namespace NoblegardenLauncherSharp {
             PreloaderController.SetUpdateRequestController(UpdateServerRequest);
             await PreloaderController.CheckLauncherVersion();
             await PreloaderController.DrawVisualInformation();
+            await PreloaderController.RequestPatches();
             PreloaderController.PlaySuccessLoadAnimation();
         }
 

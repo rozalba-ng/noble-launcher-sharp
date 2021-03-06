@@ -14,5 +14,12 @@ namespace NoblegardenLauncherSharp.Controllers
                 throw new Exception("Не удалось получить данные об актуальной версии лаунчера");
             return response;
         }
+        
+        public async Task<NobleResponseModel> GetCustomPatches() {
+            var response = await MakeAsyncRequest($"{Server.URL}/custom-patches.json");
+            if (!response.IsOK)
+                throw new Exception("Не удалось получить данные о необязательных патчах");
+            return response;
+        }
     }
 }

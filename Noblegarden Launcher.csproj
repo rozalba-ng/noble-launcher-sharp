@@ -69,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\BaseRequestController.cs" />
+    <Compile Include="Controllers\JObjectConverter.cs" />
     <Compile Include="Controllers\NobleRequestController.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Controllers\SettingsBlockController.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Models\AuthorModel.cs" />
     <Compile Include="Models\NobleRequestModel.cs" />
     <Compile Include="Models\NobleResponseModel.cs" />
+    <Compile Include="Models\NoblePatchModel.cs" />
     <Compile Include="Models\ServerModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
