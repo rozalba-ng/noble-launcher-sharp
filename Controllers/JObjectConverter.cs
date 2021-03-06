@@ -28,7 +28,7 @@ namespace NoblegardenLauncherSharp.Controllers
             return convertedList;
         }
 
-        private static Task<NoblePatchModel> ConvertTokenToPatch(JToken token) {
+        private static NoblePatchModel ConvertTokenToPatch(JToken token) {
             NoblePatchModel patch = new NoblePatchModel();
             var reader = new JTokenReader(token);
             bool isObjectStarted = false;
@@ -66,16 +66,15 @@ namespace NoblegardenLauncherSharp.Controllers
             return patch;
         }
 
-        public async static Task<List<NoblePatchModel>> ConvertToPatch(JObject Target) {
+        public static List<NoblePatchModel> ConvertToPatch(JObject Target) {
             var tokens = ConvertToTokenList(Target);
-            var ConvertTaskList = new List<Task<NoblePatchModel>>();
+            var patches = new List<NoblePatchModel>();
 
-            for (int i = 0; i < tokens.Count; i++) {
-                ConvertTaskList.Add(ConvertTokenToPatch(tokens[i]));
-            }
+            Parallel.For(0, tokens.Count, (i) => {
+                patches.Add(ConvertTokenToPatch(tokens[i]));
+            });
 
-            var convertResults = await Task.WhenAll(ConvertTaskList);
-            return new List<NoblePatchModel>(convertResults);
+            return patches;
         }
     }
 }

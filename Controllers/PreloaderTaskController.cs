@@ -148,7 +148,7 @@ namespace NoblegardenLauncherSharp.Controllers
         private async Task GetAndDrawCustomPatches() {
             var customPatchesResponse = await UpdateRequest.GetCustomPatches();
             var customPatches = customPatchesResponse.GetFormattedData();
-            var tokens = await JObjectConverter.ConvertToPatch(customPatches);
+            var tokens = JObjectConverter.ConvertToPatch(customPatches);
             Globals.Patches.AddRange(tokens);
         } 
         private TextBlock GetCurrentLoadingStepView() {
