@@ -21,5 +21,12 @@ namespace NoblegardenLauncherSharp.Controllers
                 throw new Exception("Не удалось получить данные о необязательных патчах");
             return response;
         }
+
+        public async Task<NobleResponseModel> GetBasePatches() {
+            var response = await MakeAsyncRequest($"{Server.URL}/patches.json");
+            if (!response.IsOK)
+                throw new Exception("Не удалось получить данные об обязательных патчах");
+            return response;
+        }
     }
 }

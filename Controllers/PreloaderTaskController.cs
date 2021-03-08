@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using NoblegardenLauncherSharp.Models;
 
 namespace NoblegardenLauncherSharp.Controllers
@@ -53,13 +50,10 @@ namespace NoblegardenLauncherSharp.Controllers
                 Task.Run(() => DrawCurrentOnline()),
                 Task.Run(() => DrawLastNews()),
                 Task.Run(() => SetDiscordLink()),
-                Task.Run(() => SetVKLink())
+                Task.Run(() => SetVKLink()),
+                Task.Run(() => GetAndDrawCustomPatches()),
+                Task.Run(() => GetBasePatches())
             );
-        }
-
-        public async Task RequestPatches() {
-            CurrentLoadingStepText.Text = Globals.LOADING_TEXTS[(int)Globals.LOADING_STEPS.GET_PATCHES_INFO];
-            await GetAndDrawCustomPatches();
         }
 
         public void PlaySuccessLoadAnimation() {
@@ -145,11 +139,26 @@ namespace NoblegardenLauncherSharp.Controllers
             );
         }
 
+        private async Task GetBasePatches() {
+            var defaultPatchesResponse = await UpdateRequest.GetBasePatches();
+            var patchesInfo = defaultPatchesResponse.GetFormattedData();
+            var defaultPatches = JObjectConverter.ConvertToPatch(patchesInfo);
+            Globals.Patches = new NoblePatchGroupController(defaultPatches);
+        }
+
         private async Task GetAndDrawCustomPatches() {
             var customPatchesResponse = await UpdateRequest.GetCustomPatches();
-            var customPatches = customPatchesResponse.GetFormattedData();
-            var tokens = JObjectConverter.ConvertToPatch(customPatches);
-            Globals.Patches.AddRange(tokens);
+            var patchesInfo = customPatchesResponse.GetFormattedData();
+            var customPatches = JObjectConverter.ConvertToPatch(patchesInfo);
+            Globals.CustomPatches = new NoblePatchGroupController(customPatches);
+
+            await Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render,
+                new Action(() => {
+                    var customPatchesView = (ListView)LauncherWindow.FindName("CustomPatchesView");
+                    customPatchesView.ItemsSource = Globals.CustomPatches.Patches;
+                })
+            );
         } 
         private TextBlock GetCurrentLoadingStepView() {
             if (CurrentLoadingStepText != null)

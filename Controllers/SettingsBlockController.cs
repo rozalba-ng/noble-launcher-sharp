@@ -13,12 +13,10 @@ namespace NoblegardenLauncherSharp.Controllers
         private static SettingsBlockController instance;
 
         private bool IsVisible = false;
-        private Grid View;
-        private MainWindow Window;
+        private readonly MainWindow Window;
 
         private SettingsBlockController(MainWindow Window) {
             this.Window = Window;
-            FindView();
         }
 
         public static SettingsBlockController Init(MainWindow Window) {
@@ -36,10 +34,6 @@ namespace NoblegardenLauncherSharp.Controllers
                 PlayShowAnimation();
             }
             IsVisible = !IsVisible;
-        }
-
-        private void FindView() {
-            View = (Grid)Window.FindName("SettingsView");
         }
         private void PlayShowAnimation() {
             Storyboard showAnim = (Storyboard)Window.FindResource("ShowSettings");

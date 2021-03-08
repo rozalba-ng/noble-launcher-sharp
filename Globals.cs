@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Models;
 
 namespace NoblegardenLauncherSharp
@@ -7,7 +8,9 @@ namespace NoblegardenLauncherSharp
     {
         public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
         public static readonly string LAUNCHER_VERSION = "1.3.1";
-        public static List<NoblePatchModel> Patches = new List<NoblePatchModel>();
+        public static NoblePatchGroupController Patches;
+        public static NoblePatchGroupController CustomPatches;
+
         public static readonly List<SliderElementModel> SliderElements = new List<SliderElementModel> {
             new SliderElementModel("Персонажи", "https://noblegarden.net/charlist", "Images/square-character.jpg"),
             new SliderElementModel("Гильдии", "https://noblegarden.net/guild", "Images/square-guild.jpg"),

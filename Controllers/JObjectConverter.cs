@@ -63,18 +63,20 @@ namespace NoblegardenLauncherSharp.Controllers
                     }
                 }
             }
+            patch.CalcNameFromPath();
             return patch;
         }
 
         public static List<NoblePatchModel> ConvertToPatch(JObject Target) {
             var tokens = ConvertToTokenList(Target);
-            var patches = new List<NoblePatchModel>();
+            var patches = new NoblePatchModel[tokens.Count];
 
             Parallel.For(0, tokens.Count, (i) => {
-                patches.Add(ConvertTokenToPatch(tokens[i]));
+                patches[i] = ConvertTokenToPatch(tokens[i]);
+                patches[i].Index = i;
             });
 
-            return patches;
+            return new List<NoblePatchModel>(patches);
         }
     }
 }

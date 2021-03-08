@@ -3,6 +3,7 @@ using System.Diagnostics;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Controllers;
 using System;
+using System.Windows.Controls;
 
 namespace NoblegardenLauncherSharp {
     public partial class MainWindow : Window
@@ -28,7 +29,6 @@ namespace NoblegardenLauncherSharp {
             PreloaderController.SetUpdateRequestController(UpdateServerRequest);
             await PreloaderController.CheckLauncherVersion();
             await PreloaderController.DrawVisualInformation();
-            await PreloaderController.RequestPatches();
             PreloaderController.PlaySuccessLoadAnimation();
         }
 
@@ -51,6 +51,16 @@ namespace NoblegardenLauncherSharp {
 
         private void ToggleSettingsVisibility(object sender, RoutedEventArgs e) {
             SettingsController.ToggleVisibility();
+        }
+
+        private void OnCustomPatchSelectorClick(object sender, RoutedEventArgs e) {
+            var target = (FrameworkElement)sender;
+            var id = Int32.Parse(target.Tag.ToString());
+
+            var patch = Globals.CustomPatches.GetPatchByID(id);
+            var patchController = new NoblePatchController(patch);
+            patchController.ToggleSelection();
+            Debug.WriteLine(patch.Selected);
         }
     }
 }

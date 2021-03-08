@@ -70,7 +70,9 @@
     </Compile>
     <Compile Include="Controllers\BaseRequestController.cs" />
     <Compile Include="Controllers\JObjectConverter.cs" />
+    <Compile Include="Controllers\NoblePatchController.cs" />
     <Compile Include="Controllers\NobleRequestController.cs" />
+    <Compile Include="Controllers\NoblePatchGroupController.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Controllers\SettingsBlockController.cs" />
     <Compile Include="Controllers\SliderBlockController.cs" />
