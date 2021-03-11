@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
+﻿using System.Windows.Media.Animation;
 
 namespace NoblegardenLauncherSharp.Controllers
 {
@@ -13,15 +7,15 @@ namespace NoblegardenLauncherSharp.Controllers
         private static SettingsBlockController instance;
 
         private bool IsVisible = false;
-        private readonly MainWindow Window;
+        private readonly ElementSearcherController ElementSearcher;
 
-        private SettingsBlockController(MainWindow Window) {
-            this.Window = Window;
+        private SettingsBlockController() {
+            ElementSearcher = ElementSearcherController.GetInstance();
         }
 
-        public static SettingsBlockController Init(MainWindow Window) {
+        public static SettingsBlockController Init() {
             if (instance == null) {
-                instance = new SettingsBlockController(Window);
+                instance = new SettingsBlockController();
             }
 
             return instance;
@@ -36,14 +30,14 @@ namespace NoblegardenLauncherSharp.Controllers
             IsVisible = !IsVisible;
         }
         private void PlayShowAnimation() {
-            Storyboard showAnim = (Storyboard)Window.FindResource("ShowSettings");
+            Storyboard showAnim = ElementSearcher.FindStoryboard("ShowSettings");
             if (showAnim != null) {
                 showAnim.Begin();
             }
         }
 
         private void PlayHideAnimation() {
-            Storyboard hideAnim = (Storyboard)Window.FindResource("HideSettings");
+            Storyboard hideAnim = ElementSearcher.FindStoryboard("HideSettings");
             if (hideAnim != null) {
                 hideAnim.Begin();
             }

@@ -8,8 +8,15 @@ namespace NoblegardenLauncherSharp
     {
         public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
         public static readonly string LAUNCHER_VERSION = "1.3.1";
+
         public static NoblePatchGroupController Patches;
         public static NoblePatchGroupController CustomPatches;
+        public static readonly SettingsFileController SettingsFile = new SettingsFileController();
+
+        public static readonly ServerModel NobleServer = new ServerModel("https://noblegarden.net");
+        public static readonly NobleRequestController NobleRequest = new NobleRequestController(NobleServer);
+        public static ServerModel UpdateServer;
+        public static UpdateServerRequestController UpdateServerRequest;
 
         public static readonly List<SliderElementModel> SliderElements = new List<SliderElementModel> {
             new SliderElementModel("Персонажи", "https://noblegarden.net/charlist", "Images/square-character.jpg"),

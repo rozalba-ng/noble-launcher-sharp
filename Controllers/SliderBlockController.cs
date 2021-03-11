@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 
 namespace NoblegardenLauncherSharp.Controllers
 {
@@ -13,21 +12,21 @@ namespace NoblegardenLauncherSharp.Controllers
         private Image CurrentImage;
         private Image MovingImage;
         private TextBlock CurrentSliderName;
-        private readonly MainWindow Window;
-        private SliderBlockController(MainWindow Window) {
-            this.Window = Window;
-            GetImageControllers();
+        private readonly ElementSearcherController ElementSearcher;
+        private SliderBlockController() {
+            ElementSearcher = ElementSearcherController.GetInstance();
 
+            GetImageControllers();
+            currentImageIndex = 0;
             CurrentImage.Source = Globals.SliderElements[0].Image;
             CurrentImage.Tag = Globals.SliderElements[0].Link;
             CurrentSliderName.Text = Globals.SliderElements[0].Name;
-            currentImageIndex = 0;
         }
 
 
-        public static SliderBlockController Init(MainWindow Window) {
+        public static SliderBlockController Init() {
             if (instance == null) {
-                instance = new SliderBlockController(Window);
+                instance = new SliderBlockController();
             }
 
             return instance;
@@ -99,14 +98,14 @@ namespace NoblegardenLauncherSharp.Controllers
         }
 
         private void GetImageControllers() {
-            CurrentImage = (Image)Window.FindName("SquareCurrent");
-            MovingImage = (Image)Window.FindName("SquareMoving");
-            CurrentSliderName = (TextBlock)Window.FindName("SquareName");
+            CurrentImage = (Image)ElementSearcher.FindName("SquareCurrent");
+            MovingImage = (Image)ElementSearcher.FindName("SquareMoving");
+            CurrentSliderName = (TextBlock)ElementSearcher.FindName("SquareName");
         }
 
         private void PlayRightToLeftTransition() {
             IsOnSlide = true;
-            Storyboard fadeOutAnim = (Storyboard)Window.FindResource("RightToLeft");
+            var fadeOutAnim = ElementSearcher.FindStoryboard("RightToLeft");
             if (fadeOutAnim != null) {
                 fadeOutAnim.Begin();
             }
@@ -114,7 +113,7 @@ namespace NoblegardenLauncherSharp.Controllers
 
         private void PlayLeftToRightTransition() {
             IsOnSlide = true;
-            Storyboard fadeOutAnim = (Storyboard)Window.FindResource("LeftToRight");
+            var fadeOutAnim = ElementSearcher.FindStoryboard("LeftToRight");
             if (fadeOutAnim != null) {
                 fadeOutAnim.Begin();
             }

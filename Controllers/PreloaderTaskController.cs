@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using NoblegardenLauncherSharp.Models;
@@ -12,29 +11,24 @@ namespace NoblegardenLauncherSharp.Controllers
 {
     public class PreloaderTaskController
     {
-        private readonly MainWindow LauncherWindow;
-        private readonly NobleRequestController NobleRequest;
-        private UpdateServerRequestController UpdateRequest;
+        private readonly ElementSearcherController ElementSearcher;
         private TextBlock CurrentLoadingStepText;
-        public PreloaderTaskController (MainWindow LauncherWindow, NobleRequestController NobleRequest) {
-            this.NobleRequest = NobleRequest;
-            this.LauncherWindow = LauncherWindow;
+        public PreloaderTaskController () {
+            ElementSearcher = ElementSearcherController.GetInstance();
             GetCurrentLoadingStepView();
         }
 
-        public void SetUpdateRequestController(UpdateServerRequestController UpdateRequest) {
-            this.UpdateRequest = UpdateRequest;
-        }
-        public async Task<string> GetUpdateServerAddress() {
+        public async Task GetUpdateServerAddress() {
             CurrentLoadingStepText.Text = Globals.LOADING_TEXTS[(int)Globals.LOADING_STEPS.GET_SERVER_ADDRESS];
-            var updateServerAdressResponse = await NobleRequest.GetUpdateServerAddress();
+            var updateServerAdressResponse = await Globals.NobleRequest.GetUpdateServerAddress();
             string updateServerIP = (string)updateServerAdressResponse.GetFormattedData();
-            return updateServerIP;
+            Globals.UpdateServer = new ServerModel($"http://{updateServerIP}");
+            Globals.UpdateServerRequest = new UpdateServerRequestController(Globals.UpdateServer);
         }
 
         public async Task CheckLauncherVersion() {
             CurrentLoadingStepText.Text = Globals.LOADING_TEXTS[(int)Globals.LOADING_STEPS.CHECK_LAUNCHER_VERSION];
-            var launcherVersionResponse = await UpdateRequest.GetActualLauncherVersion();
+            var launcherVersionResponse = await Globals.UpdateServerRequest.GetActualLauncherVersion();
             string actualLauncherVersion = (string)launcherVersionResponse.GetFormattedData().version;
             if (actualLauncherVersion == "") {
                 throw new Exception("Сервер не вернул актуальной версии лаунчера");
@@ -58,14 +52,14 @@ namespace NoblegardenLauncherSharp.Controllers
 
         public void PlaySuccessLoadAnimation() {
             CurrentLoadingStepText.Text = "";
-            Storyboard fadeOutAnim = (Storyboard)LauncherWindow.FindResource("FadeOutModalBG");
+            var fadeOutAnim = ElementSearcher.FindStoryboard("FadeOutModalBG");
             if (fadeOutAnim != null) {
                 fadeOutAnim.Begin();
             }
         }
 
         private async Task DrawCurrentOnline() {
-            var onlineResponse = await NobleRequest.GetOnlineCount();
+            var onlineResponse = await Globals.NobleRequest.GetOnlineCount();
             var wordForms = new string[] { "игрок", "игрока", "игроков" };
             string text = "Не найдено";
             if (onlineResponse.IsOK) {
@@ -82,13 +76,13 @@ namespace NoblegardenLauncherSharp.Controllers
             await Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() => {
-                    var onlineCountBlock = (TextBlock)LauncherWindow.FindName("CurrentOnline");
+                    var onlineCountBlock = (TextBlock)ElementSearcher.FindName("CurrentOnline");
                     onlineCountBlock.Text = text;
                 })
             );
         }
         private async Task DrawLastNews() {
-            var newsResponse = await NobleRequest.GetLastNews();
+            var newsResponse = await Globals.NobleRequest.GetLastNews();
             var newsAsJSONArray = newsResponse.GetFormattedData();
 
             var newsList = new List<SingleNewsModel>();
@@ -108,46 +102,46 @@ namespace NoblegardenLauncherSharp.Controllers
             await Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() => {
-                    var newsListView = (ListView)LauncherWindow.FindName("LastNewsView");
+                    var newsListView = (ListView)ElementSearcher.FindName("LastNewsView");
                     newsListView.ItemsSource = newsList;
                 })
             );
         }
 
         private async Task SetDiscordLink() {
-            var discordLinkResponse = await NobleRequest.GetActualDiscordLink();
+            var discordLinkResponse = await Globals.NobleRequest.GetActualDiscordLink();
             var link = discordLinkResponse.GetFormattedData();
 
             await Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() => {
-                    var discordView = (Rectangle)LauncherWindow.FindName("DiscordView");
+                    var discordView = (Rectangle)ElementSearcher.FindName("DiscordView");
                     discordView.Tag = link;
                 })
             );
         }
         private async Task SetVKLink() {
-            var discordLinkResponse = await NobleRequest.GetActualVKLink();
+            var discordLinkResponse = await Globals.NobleRequest.GetActualVKLink();
             var link = discordLinkResponse.GetFormattedData();
 
             await Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() => {
-                    var vkView = (Rectangle)LauncherWindow.FindName("VKView");
+                    var vkView = (Rectangle)ElementSearcher.FindName("VKView");
                     vkView.Tag = link;
                 })
             );
         }
 
         private async Task GetBasePatches() {
-            var defaultPatchesResponse = await UpdateRequest.GetBasePatches();
+            var defaultPatchesResponse = await Globals.UpdateServerRequest.GetBasePatches();
             var patchesInfo = defaultPatchesResponse.GetFormattedData();
             var defaultPatches = JObjectConverter.ConvertToPatch(patchesInfo);
             Globals.Patches = new NoblePatchGroupController(defaultPatches);
         }
 
         private async Task GetAndDrawCustomPatches() {
-            var customPatchesResponse = await UpdateRequest.GetCustomPatches();
+            var customPatchesResponse = await Globals.UpdateServerRequest.GetCustomPatches();
             var patchesInfo = customPatchesResponse.GetFormattedData();
             var customPatches = JObjectConverter.ConvertToPatch(patchesInfo);
             Globals.CustomPatches = new NoblePatchGroupController(customPatches);
@@ -155,8 +149,8 @@ namespace NoblegardenLauncherSharp.Controllers
             await Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() => {
-                    var customPatchesView = (ListView)LauncherWindow.FindName("CustomPatchesView");
-                    customPatchesView.ItemsSource = Globals.CustomPatches.Patches;
+                    var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
+                    customPatchesView.ItemsSource = Globals.CustomPatches.List;
                 })
             );
         } 
@@ -164,7 +158,7 @@ namespace NoblegardenLauncherSharp.Controllers
             if (CurrentLoadingStepText != null)
                 return CurrentLoadingStepText;
 
-            CurrentLoadingStepText = (TextBlock)LauncherWindow.FindName("CurrentLoadingStep");
+            CurrentLoadingStepText = (TextBlock)ElementSearcher.FindName("CurrentLoadingStep");
             return CurrentLoadingStepText;
         }
     }

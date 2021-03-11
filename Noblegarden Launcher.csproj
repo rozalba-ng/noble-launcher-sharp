@@ -69,12 +69,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\BaseRequestController.cs" />
+    <Compile Include="Controllers\ElementSearcherController.cs" />
+    <Compile Include="Controllers\BaseFileController.cs" />
     <Compile Include="Controllers\JObjectConverter.cs" />
     <Compile Include="Controllers\NoblePatchController.cs" />
     <Compile Include="Controllers\NobleRequestController.cs" />
     <Compile Include="Controllers\NoblePatchGroupController.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Controllers\SettingsBlockController.cs" />
+    <Compile Include="Controllers\SettingsFileController.cs" />
     <Compile Include="Controllers\SliderBlockController.cs" />
     <Compile Include="Controllers\UpdateServerRequestController.cs" />
     <Compile Include="Globals.cs" />
