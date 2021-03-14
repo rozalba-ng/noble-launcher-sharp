@@ -60,6 +60,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Files\FileModel.cs" />
+    <Compile Include="Models\Files\FileWithDefaultDictionaryContentModel.cs" />
+    <Compile Include="Structures\SitePost.cs" />
+    <Compile Include="Structures\SitePostAuthor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,31 +72,27 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\BaseRequestController.cs" />
     <Compile Include="Controllers\ElementSearcherController.cs" />
     <Compile Include="Controllers\BaseFileController.cs" />
     <Compile Include="Controllers\JObjectConverter.cs" />
-    <Compile Include="Controllers\NoblePatchController.cs" />
-    <Compile Include="Controllers\NobleRequestController.cs" />
-    <Compile Include="Controllers\NoblePatchGroupController.cs" />
+    <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Controllers\SettingsBlockController.cs" />
     <Compile Include="Controllers\SettingsFileController.cs" />
     <Compile Include="Controllers\SliderBlockController.cs" />
-    <Compile Include="Controllers\UpdateServerRequestController.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="Models\AuthorModel.cs" />
-    <Compile Include="Models\NobleRequestModel.cs" />
-    <Compile Include="Models\NobleResponseModel.cs" />
-    <Compile Include="Models\NoblePatchModel.cs" />
-    <Compile Include="Models\ServerModel.cs" />
+    <Compile Include="Models\API\UpdateServerAPIModel.cs" />
+    <Compile Include="Models\API\SiteAPIModel.cs" />
+    <Compile Include="Models\API\ResponseModel.cs" />
+    <Compile Include="Models\Patches\NoblePatchModel.cs" />
+    <Compile Include="Models\API\APIModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\SingleNewsModel.cs" />
+    <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="Models\SliderElementModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

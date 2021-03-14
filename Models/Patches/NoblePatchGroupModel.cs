@@ -5,11 +5,11 @@ using NoblegardenLauncherSharp.Models;
 
 namespace NoblegardenLauncherSharp.Controllers
 {
-    public class NoblePatchGroupController
+    public class NoblePatchGroupModel
     {
         public ObservableCollection<NoblePatchModel> List;
 
-        public NoblePatchGroupController(IEnumerable<NoblePatchModel> Patches) {
+        public NoblePatchGroupModel(IEnumerable<NoblePatchModel> Patches) {
             List = new ObservableCollection<NoblePatchModel>(Patches);
         }
 

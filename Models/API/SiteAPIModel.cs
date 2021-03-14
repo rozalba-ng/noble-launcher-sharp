@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NoblegardenLauncherSharp.Models;
 
-namespace NoblegardenLauncherSharp.Controllers
+namespace NoblegardenLauncherSharp.Models
 {
-    public class NobleRequestController : BaseRequestController {
-        public NobleRequestController(ServerModel Server) : base(Server) { }
-
+    public class SiteAPIModel : APIModel
+    {
+        public SiteAPIModel(string BaseURL) : base(BaseURL) { }
         public async Task<NobleResponseModel> GetUpdateServerAddress() {
-            var response = await MakeAsyncRequest($"{Server.URL}/site/patches-ip");
+            var response = await MakeAsyncRequest("/site/patches-ip");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить адрес сервера обновлений");
             }
@@ -16,7 +15,7 @@ namespace NoblegardenLauncherSharp.Controllers
         }
 
         public async Task<NobleResponseModel> GetOnlineCount() {
-            var response = await MakeAsyncRequest($"{Server.URL}/armory/online");
+            var response = await MakeAsyncRequest($"/armory/online");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить текущий онлайн");
             }
@@ -24,7 +23,7 @@ namespace NoblegardenLauncherSharp.Controllers
         }
 
         public async Task<NobleResponseModel> GetLastNews() {
-            var response = await MakeAsyncRequest($"{Server.URL}/site/articles");
+            var response = await MakeAsyncRequest($"/site/articles");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить новости");
             }
@@ -32,7 +31,7 @@ namespace NoblegardenLauncherSharp.Controllers
         }
 
         public async Task<NobleResponseModel> GetActualDiscordLink() {
-            var response = await MakeAsyncRequest($"{Server.URL}/site/discord-link");
+            var response = await MakeAsyncRequest($"/site/discord-link");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить ссылку на Discord");
             }
@@ -40,7 +39,7 @@ namespace NoblegardenLauncherSharp.Controllers
         }
 
         public async Task<NobleResponseModel> GetActualVKLink() {
-            var response = await MakeAsyncRequest($"{Server.URL}/site/vk-link");
+            var response = await MakeAsyncRequest($"/site/vk-link");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить ссылку на VK");
             }

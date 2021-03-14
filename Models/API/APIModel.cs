@@ -1,27 +1,31 @@
-﻿using NoblegardenLauncherSharp.Models;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Controllers
+namespace NoblegardenLauncherSharp.Models
 {
-    public class BaseRequestController
+    public class APIModel
     {
-        protected readonly ServerModel Server;
+        public string BaseURL;
 
-        public BaseRequestController(ServerModel Server) {
-            this.Server = Server;
+        public APIModel() { }
+        public APIModel(string BaseURL) {
+            this.BaseURL = BaseURL;
         }
 
-        protected async Task<NobleResponseModel> MakeAsyncRequest(string url) {
+        protected async Task<NobleResponseModel> MakeAsyncRequest(string TargetURL) {
+            if (BaseURL == null) {
+                return new NobleResponseModel(false, "Не определн адрес удаленного сервера");
+            }
+
             string errMsg = "Неизвестная ошибка";
-            Debug.WriteLine($"Request to: {url}");
+            Debug.WriteLine($"Request to: {BaseURL}{TargetURL}");
 
             string responseText = await Task.Run(() => {
                 try {
-                    WebRequest request = WebRequest.Create(url);
+                    WebRequest request = WebRequest.Create($"{BaseURL}{TargetURL}");
                     WebResponse response = request.GetResponse();
                     Stream responseStream = response.GetResponseStream();
                     return new StreamReader(responseStream).ReadToEnd();

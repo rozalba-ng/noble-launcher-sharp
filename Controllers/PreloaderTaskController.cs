@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using NoblegardenLauncherSharp.Models;
+using NoblegardenLauncherSharp.Structures;
 
 namespace NoblegardenLauncherSharp.Controllers
 {
@@ -20,15 +20,14 @@ namespace NoblegardenLauncherSharp.Controllers
 
         public async Task GetUpdateServerAddress() {
             CurrentLoadingStepText.Text = Globals.LOADING_TEXTS[(int)Globals.LOADING_STEPS.GET_SERVER_ADDRESS];
-            var updateServerAdressResponse = await Globals.NobleRequest.GetUpdateServerAddress();
+            var updateServerAdressResponse = await Globals.SiteAPI.GetUpdateServerAddress();
             string updateServerIP = (string)updateServerAdressResponse.GetFormattedData();
-            Globals.UpdateServer = new ServerModel($"http://{updateServerIP}");
-            Globals.UpdateServerRequest = new UpdateServerRequestController(Globals.UpdateServer);
+            Globals.UpdateServerAPI.BaseURL = $"http://{updateServerIP}";
         }
 
         public async Task CheckLauncherVersion() {
             CurrentLoadingStepText.Text = Globals.LOADING_TEXTS[(int)Globals.LOADING_STEPS.CHECK_LAUNCHER_VERSION];
-            var launcherVersionResponse = await Globals.UpdateServerRequest.GetActualLauncherVersion();
+            var launcherVersionResponse = await Globals.UpdateServerAPI.GetActualLauncherVersion();
             string actualLauncherVersion = (string)launcherVersionResponse.GetFormattedData().version;
             if (actualLauncherVersion == "") {
                 throw new Exception("Сервер не вернул актуальной версии лаунчера");
@@ -59,7 +58,7 @@ namespace NoblegardenLauncherSharp.Controllers
         }
 
         private async Task DrawCurrentOnline() {
-            var onlineResponse = await Globals.NobleRequest.GetOnlineCount();
+            var onlineResponse = await Globals.SiteAPI.GetOnlineCount();
             var wordForms = new string[] { "игрок", "игрока", "игроков" };
             string text = "Не найдено";
             if (onlineResponse.IsOK) {
@@ -82,14 +81,14 @@ namespace NoblegardenLauncherSharp.Controllers
             );
         }
         private async Task DrawLastNews() {
-            var newsResponse = await Globals.NobleRequest.GetLastNews();
+            var newsResponse = await Globals.SiteAPI.GetLastNews();
             var newsAsJSONArray = newsResponse.GetFormattedData();
 
-            var newsList = new List<SingleNewsModel>();
+            var newsList = new List<SitePost>();
             for (int i = 0; i < newsAsJSONArray.Count; i++) {
                 var current = newsAsJSONArray[i];
                 newsList.Add(
-                    new SingleNewsModel(
+                    new SitePost(
                         (string)current.title,
                         (string)current.preview,
                         (string)current.link,
@@ -109,7 +108,7 @@ namespace NoblegardenLauncherSharp.Controllers
         }
 
         private async Task SetDiscordLink() {
-            var discordLinkResponse = await Globals.NobleRequest.GetActualDiscordLink();
+            var discordLinkResponse = await Globals.SiteAPI.GetActualDiscordLink();
             var link = discordLinkResponse.GetFormattedData();
 
             await Application.Current.Dispatcher.BeginInvoke(
@@ -121,7 +120,7 @@ namespace NoblegardenLauncherSharp.Controllers
             );
         }
         private async Task SetVKLink() {
-            var discordLinkResponse = await Globals.NobleRequest.GetActualVKLink();
+            var discordLinkResponse = await Globals.SiteAPI.GetActualVKLink();
             var link = discordLinkResponse.GetFormattedData();
 
             await Application.Current.Dispatcher.BeginInvoke(
@@ -134,17 +133,17 @@ namespace NoblegardenLauncherSharp.Controllers
         }
 
         private async Task GetBasePatches() {
-            var defaultPatchesResponse = await Globals.UpdateServerRequest.GetBasePatches();
+            var defaultPatchesResponse = await Globals.UpdateServerAPI.GetBasePatches();
             var patchesInfo = defaultPatchesResponse.GetFormattedData();
             var defaultPatches = JObjectConverter.ConvertToPatch(patchesInfo);
-            Globals.Patches = new NoblePatchGroupController(defaultPatches);
+            Globals.Patches = new NoblePatchGroupModel(defaultPatches);
         }
 
         private async Task GetAndDrawCustomPatches() {
-            var customPatchesResponse = await Globals.UpdateServerRequest.GetCustomPatches();
+            var customPatchesResponse = await Globals.UpdateServerAPI.GetCustomPatches();
             var patchesInfo = customPatchesResponse.GetFormattedData();
             var customPatches = JObjectConverter.ConvertToPatch(patchesInfo);
-            Globals.CustomPatches = new NoblePatchGroupController(customPatches);
+            Globals.CustomPatches = new NoblePatchGroupModel(customPatches);
 
             await Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,

@@ -1,54 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
-namespace NoblegardenLauncherSharp.Controllers
+namespace NoblegardenLauncherSharp.Models
 {
-    public class BaseFileController
+    public class FileWithDefaultDictionaryContentModel : FileModel
     {
-        public static readonly string WORKING_DIR = @"D:\";
-        protected string PathToFile;
-
-        public BaseFileController(string RelativePath) {
-            PathToFile = Path.GetFullPath(
-                Path.Combine(
-                    WORKING_DIR,
-                    RelativePath
-                )
-            );
-
+        public Dictionary<string, string> DefaultContent;
+        public FileWithDefaultDictionaryContentModel(string RelativePath, Dictionary<string, string> DefaultContent) : base(RelativePath) {
+            this.DefaultContent = DefaultContent;
             CreateFileIfNotExist();
             FillWithDefaults();
         }
 
         private void CreateFileIfNotExist() {
-            if (Exists()) return;
+            if (Exists())
+                return;
             try {
                 File.Create(PathToFile).Close();
-            } catch {
+            }
+            catch {
                 throw new Exception($"Не удалось создать файл {PathToFile}");
             }
         }
 
-        protected virtual Dictionary<string, string> GetDefaultContent() {
-            return new Dictionary<string, string>();
-        }
-
         protected void FillWithDefaults() {
-            if (GetDefaultContent().Count == 0 || !Exists() || HasAnyContent())
+            if (DefaultContent.Count == 0 || !Exists() || HasAnyContent())
                 return;
 
             try {
                 using (Stream file = new FileStream(PathToFile, FileMode.Open, FileAccess.Write, FileShare.Read)) {
                     using (StreamWriter writer = new StreamWriter(file)) {
-                        var defaultContent = GetDefaultContent();
-                        foreach (KeyValuePair<string, string> entry in GetDefaultContent()) {
+                        foreach (KeyValuePair<string, string> entry in DefaultContent) {
                             writer.WriteLine($"{entry.Key}={entry.Value}");
                         }
                     }
                 }
-            } catch {
+            }
+            catch {
                 throw new Exception($"Не удалось заполнить файл {PathToFile} стандартными значениями");
             }
         }
@@ -77,14 +66,6 @@ namespace NoblegardenLauncherSharp.Controllers
             }
 
             return content;
-        }
-
-        protected bool Exists() {
-            return File.Exists(PathToFile);
-        }
-
-        protected bool HasAnyContent() {
-            return Exists() && new FileInfo(PathToFile).Length > 0;
         }
     }
 }

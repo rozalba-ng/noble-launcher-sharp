@@ -1,16 +1,20 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
 
 namespace NoblegardenLauncherSharp.Controllers
 {
     public class SettingsFileController : BaseFileController
     {
-        public SettingsFileController() : base("launcher-config.ini") {}
+        public Dictionary<string, string> SettingsAsDictionary = new Dictionary<string, string>();
+        public SettingsFileController() : base("launcher-config.ini") {
+            SettingsAsDictionary = ReadAsDictionary();
+        }
 
-        protected override string[] GetDefaultContent() {
-            return new string[] {
-                "threads=1",
-                "custom_patches="
+        protected override Dictionary<string, string> GetDefaultContent() {
+            var defaultContent = new Dictionary<string, string> {
+                { "threads", "1" },
+                { "custom_patches", "" }
             };
+            return defaultContent;
         }
     }
 }

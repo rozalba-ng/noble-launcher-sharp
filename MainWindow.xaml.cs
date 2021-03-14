@@ -52,8 +52,7 @@ namespace NoblegardenLauncherSharp {
             var id = Int32.Parse(target.Tag.ToString());
 
             var patch = Globals.CustomPatches.GetPatchByID(id);
-            var patchController = new NoblePatchController(patch);
-            patchController.ToggleSelection();
+            patch.ToggleSelection();
 
             var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
             var settingsScrollerView = (ScrollViewer)ElementSearcher.FindName("SettingsScrollerView");

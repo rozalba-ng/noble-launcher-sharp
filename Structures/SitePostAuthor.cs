@@ -1,11 +1,10 @@
-﻿namespace NoblegardenLauncherSharp.Models
+﻿namespace NoblegardenLauncherSharp.Structures
 {
-    public class AuthorModel
+    public struct SitePostAuthor
     {
         public string Name { get; set; }
         public string Link { get; set; }
-
-        public AuthorModel(string name, string link) {
+        public SitePostAuthor(string name, string link) {
             Name = name.Trim();
             Link = link;
         }

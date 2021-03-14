@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NoblegardenLauncherSharp.Controllers
@@ -68,12 +69,11 @@ namespace NoblegardenLauncherSharp.Controllers
             var CurrentActiveImage = CurrentImage.Source;
 
             if (currentImageIndex == -1) {
-                for (int i = 0; i < Globals.SliderElements.Count; i++) {
+                Parallel.For(0, Globals.SliderElements.Count, (i) => {
                     if (CurrentActiveImage.ToString() == Globals.SliderElements[i].Image.ToString()) {
                         currentImageIndex = i;
-                        break;
                     }
-                }
+                });
             }
 
             return currentImageIndex;

@@ -29,5 +29,9 @@
             var NameParts = LocalPath.Split('/');
             Name = NameParts[NameParts.Length - 1];
         }
+
+        public void ToggleSelection() {
+            Selected = !Selected;
+        }
     }
 }
