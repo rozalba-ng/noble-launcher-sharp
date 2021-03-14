@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 
 namespace NoblegardenLauncherSharp.Controllers
@@ -135,15 +136,15 @@ namespace NoblegardenLauncherSharp.Controllers
         private async Task GetBasePatches() {
             var defaultPatchesResponse = await Globals.UpdateServerAPI.GetBasePatches();
             var patchesInfo = defaultPatchesResponse.GetFormattedData();
-            var defaultPatches = JObjectConverter.ConvertToPatch(patchesInfo);
-            Globals.Patches = new NoblePatchGroupModel(defaultPatches);
+            var defaultPatches = JObjectConverter.ConvertToNecessaryPatchesList(patchesInfo);
+            Globals.Patches = new NoblePatchGroupModel<NecessaryPatchModel>(defaultPatches);
         }
 
         private async Task GetAndDrawCustomPatches() {
             var customPatchesResponse = await Globals.UpdateServerAPI.GetCustomPatches();
             var patchesInfo = customPatchesResponse.GetFormattedData();
-            var customPatches = JObjectConverter.ConvertToPatch(patchesInfo);
-            Globals.CustomPatches = new NoblePatchGroupModel(customPatches);
+            List<CustomPatchModel> customPatches = JObjectConverter.ConvertToCustomPatchesList(patchesInfo);
+            Globals.CustomPatches = new NoblePatchGroupModel<CustomPatchModel>(customPatches);
 
             await Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,

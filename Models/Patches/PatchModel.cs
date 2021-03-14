@@ -1,6 +1,6 @@
 ﻿namespace NoblegardenLauncherSharp.Models
 {
-    public class NoblePatchModel
+    public class PatchModel
     {
         public int Index { get; set; }
         public string Name { get; set; }
@@ -10,16 +10,18 @@
         public string Hash { get; set; }
         public bool Selected { get; set; }
 
-        public NoblePatchModel() {
+        public PatchModel() {
             Selected = false;
         }
 
-        public NoblePatchModel(string LocalPath, string RemotePath, string Hash, string Description) {
+        public PatchModel(string LocalPath, string RemotePath, string Hash, string Description) {
             this.LocalPath = LocalPath;
             this.RemotePath = RemotePath;
             this.Hash = Hash;
             this.Description = Description;
             Selected = false;
+
+            CalcNameFromPath();
         }
 
         public void CalcNameFromPath() {
@@ -30,8 +32,16 @@
             Name = NameParts[NameParts.Length - 1];
         }
 
-        public void ToggleSelection() {
-            Selected = !Selected;
+        public virtual void ChangeSelectionTo(bool To) {
+            return;
+        }
+
+        public virtual NecessaryPatchModel ToNecessaryPatch() {
+            return new NecessaryPatchModel(LocalPath, RemotePath, Hash, Description);
+        }
+
+        public virtual CustomPatchModel ToCustomPatchModel() {
+            return new CustomPatchModel(LocalPath, RemotePath, Hash, Description);
         }
     }
 }

@@ -1,32 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using NoblegardenLauncherSharp.Models;
 
 namespace NoblegardenLauncherSharp.Controllers
 {
-    public class NoblePatchGroupModel
+    public class NoblePatchGroupModel<PatchType>
     {
-        public ObservableCollection<NoblePatchModel> List;
+        public List<PatchType> List;
 
-        public NoblePatchGroupModel(IEnumerable<NoblePatchModel> Patches) {
-            List = new ObservableCollection<NoblePatchModel>(Patches);
+        public NoblePatchGroupModel(IEnumerable<PatchType> Patches) {
+            List = new List<PatchType>(Patches);
         }
 
-        public NoblePatchModel GetPatchByID(int id) {
+        public PatchType GetPatchByID(int id) {
             return List[id];
-        }
-
-        public List<NoblePatchModel> GetOnlySelected() {
-            var SelectedPatches = new List<NoblePatchModel>();
-
-            Parallel.For(0, List.Count, (i) => {
-                if (List[i].Selected) {
-                    SelectedPatches.Add(List[i]);
-                }
-            });
-
-            return SelectedPatches;
         }
     }
 }

@@ -62,6 +62,9 @@
     </ApplicationDefinition>
     <Compile Include="Models\Files\FileModel.cs" />
     <Compile Include="Models\Files\FileWithDefaultDictionaryContentModel.cs" />
+    <Compile Include="Models\Patches\CustomPatchModel.cs" />
+    <Compile Include="Models\Patches\PatchModel.cs" />
+    <Compile Include="Models\Settings\SettingsModel.cs" />
     <Compile Include="Structures\SitePost.cs" />
     <Compile Include="Structures\SitePostAuthor.cs" />
     <Page Include="MainWindow.xaml">
@@ -78,13 +81,12 @@
     <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Controllers\SettingsBlockController.cs" />
-    <Compile Include="Controllers\SettingsFileController.cs" />
     <Compile Include="Controllers\SliderBlockController.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Models\API\UpdateServerAPIModel.cs" />
     <Compile Include="Models\API\SiteAPIModel.cs" />
     <Compile Include="Models\API\ResponseModel.cs" />
-    <Compile Include="Models\Patches\NoblePatchModel.cs" />
+    <Compile Include="Models\Patches\NecessaryPatchModel.cs" />
     <Compile Include="Models\API\APIModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -92,7 +94,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="Models\SliderElementModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -28,8 +28,8 @@ namespace NoblegardenLauncherSharp.Controllers
             return convertedList;
         }
 
-        private static NoblePatchModel ConvertTokenToPatch(JToken token) {
-            NoblePatchModel patch = new NoblePatchModel();
+        private static PatchModel ConvertTokenToPatch(JToken token) {
+            PatchModel patch = new PatchModel();
             var reader = new JTokenReader(token);
             bool isObjectStarted = false;
 
@@ -67,16 +67,32 @@ namespace NoblegardenLauncherSharp.Controllers
             return patch;
         }
 
-        public static List<NoblePatchModel> ConvertToPatch(JObject Target) {
+        public static List<NecessaryPatchModel> ConvertToNecessaryPatchesList(JObject Target) {
             var tokens = ConvertToTokenList(Target);
-            var patches = new NoblePatchModel[tokens.Count];
+            var patches = new NecessaryPatchModel[tokens.Count];
 
             Parallel.For(0, tokens.Count, (i) => {
-                patches[i] = ConvertTokenToPatch(tokens[i]);
-                patches[i].Index = i;
+                var patch = ConvertTokenToPatch(tokens[i]);
+                patch.Index = i;
+                var patchAsNecessaryPatch = patch.ToNecessaryPatch();
+                patches[i] = patchAsNecessaryPatch;
             });
 
-            return new List<NoblePatchModel>(patches);
+            return new List<NecessaryPatchModel>(patches);
+        }
+
+        public static List<CustomPatchModel> ConvertToCustomPatchesList(JObject Target) {
+            var tokens = ConvertToTokenList(Target);
+            var patches = new CustomPatchModel[tokens.Count];
+
+            Parallel.For(0, tokens.Count, (i) => {
+                var patch = ConvertTokenToPatch(tokens[i]);
+                patch.Index = i;
+                var customPatch = patch.ToCustomPatchModel();
+                patches[i] = customPatch;
+            });
+
+            return new List<CustomPatchModel>(patches);
         }
     }
 }
