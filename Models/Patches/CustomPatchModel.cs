@@ -14,7 +14,7 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public void GetSelectionFromSettings() {
-            var selectCustomPatchesLocalPaths = Globals.Settings.GetSelectedCustomPatchesLocalPaths();
+            var selectCustomPatchesLocalPaths = SettingsModel.GetInstance().GetSelectedCustomPatchesLocalPaths();
             Parallel.For(0, selectCustomPatchesLocalPaths.Count, (i) => {
                 if (selectCustomPatchesLocalPaths[i] == LocalPath) {
                     ChangeSelectionTo(true);

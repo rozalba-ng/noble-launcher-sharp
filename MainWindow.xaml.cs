@@ -2,20 +2,21 @@
 using System.Diagnostics;
 using NoblegardenLauncherSharp.Controllers;
 using System;
-using System.Windows.Controls;
+using NoblegardenLauncherSharp.Models;
 
 namespace NoblegardenLauncherSharp {
     public partial class MainWindow : Window
     {
         private readonly SliderBlockController SliderController;
-        private readonly SettingsBlockController SettingsController;
-        private readonly ElementSearcherController ElementSearcher;
+        private readonly SettingsBlockController SettingsBlockController;
         public MainWindow()
         {
             InitializeComponent();
-            ElementSearcher = ElementSearcherController.Init(this);
+            ElementSearcherController.Init(this);
+            SettingsModel.Init();
+            SiteAPIModel.Init("https://noblegarden.net");
             SliderController = SliderBlockController.Init();
-            SettingsController = SettingsBlockController.Init();
+            SettingsBlockController = SettingsBlockController.Init();
         }
 
         private async void OnWindowLoad(object sender, RoutedEventArgs e) {
@@ -44,21 +45,13 @@ namespace NoblegardenLauncherSharp {
         }
 
         private void ToggleSettingsVisibility(object sender, RoutedEventArgs e) {
-            SettingsController.ToggleVisibility();
+            SettingsBlockController.ToggleVisibility();
         }
 
         private void OnCustomPatchSelectorClick(object sender, RoutedEventArgs e) {
             var target = (FrameworkElement)sender;
             var id = Int32.Parse(target.Tag.ToString());
-
-            var patch = Globals.CustomPatches.GetPatchByID(id);
-            patch.ChangeSelectionTo(!patch.Selected);
-
-            var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
-            var settingsScrollerView = (ScrollViewer)ElementSearcher.FindName("SettingsScrollerView");
-            var offset = settingsScrollerView.VerticalOffset;
-            customPatchesView.Items.Refresh();
-            settingsScrollerView.ScrollToVerticalOffset(offset);
+            SettingsBlockController.ToggleCustomPatchSelection(id);
         }
     }
 }

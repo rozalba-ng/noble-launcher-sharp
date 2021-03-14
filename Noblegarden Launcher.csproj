@@ -67,6 +67,7 @@
     <Compile Include="Models\Settings\SettingsModel.cs" />
     <Compile Include="Structures\SitePost.cs" />
     <Compile Include="Structures\SitePostAuthor.cs" />
+    <Compile Include="Structures\SliderElement.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,7 +77,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\ElementSearcherController.cs" />
-    <Compile Include="Controllers\BaseFileController.cs" />
     <Compile Include="Controllers\JObjectConverter.cs" />
     <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
@@ -94,7 +94,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\SliderElementModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

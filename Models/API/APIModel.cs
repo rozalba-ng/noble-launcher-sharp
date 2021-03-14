@@ -10,7 +10,6 @@ namespace NoblegardenLauncherSharp.Models
     {
         public string BaseURL;
 
-        public APIModel() { }
         public APIModel(string BaseURL) {
             this.BaseURL = BaseURL;
         }

@@ -5,7 +5,16 @@ namespace NoblegardenLauncherSharp.Models
 {
     public class UpdateServerAPIModel : APIModel
     {
-        public UpdateServerAPIModel() : base() { }
+        private static UpdateServerAPIModel instance;
+        private UpdateServerAPIModel(string BaseURL) : base(BaseURL) { }
+
+        public static UpdateServerAPIModel Init(string BaseURL) {
+            if (instance == null) {
+                instance = new UpdateServerAPIModel(BaseURL);
+            }
+
+            return instance;
+        }
 
         public async Task<NobleResponseModel> GetActualLauncherVersion() {
             var response = await MakeAsyncRequest("/launcher-version.json");

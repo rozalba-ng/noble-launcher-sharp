@@ -4,12 +4,25 @@ namespace NoblegardenLauncherSharp.Models
 {
     public class SettingsModel : FileWithDefaultDictionaryContentModel
     {
+        private static SettingsModel instance;
         public Dictionary<string, string> SettingsAsDictionary = new Dictionary<string, string>();
-        public SettingsModel() : base("launcher-config.ini", new Dictionary<string, string> {
+        private SettingsModel() : base("launcher-config.ini", new Dictionary<string, string> {
                 { "threads", "1" },
                 { "custom_patches", "" }
         }) {
             SettingsAsDictionary = ReadAsDictionary();
+        }
+
+        public static SettingsModel Init() {
+            if (instance == null) {
+                instance = new SettingsModel();
+            }
+
+            return instance;
+        }
+
+        public static SettingsModel GetInstance() {
+            return instance;
         }
 
         public List<string> GetSelectedCustomPatchesLocalPaths() {

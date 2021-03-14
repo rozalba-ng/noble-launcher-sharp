@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Models;
+using NoblegardenLauncherSharp.Structures;
 
 namespace NoblegardenLauncherSharp
 {
@@ -13,14 +14,10 @@ namespace NoblegardenLauncherSharp
         public static NoblePatchGroupModel<NecessaryPatchModel> Patches;
         public static NoblePatchGroupModel<CustomPatchModel> CustomPatches;
 
-        public static UpdateServerAPIModel UpdateServerAPI = new UpdateServerAPIModel();
-        public static readonly SiteAPIModel SiteAPI = new SiteAPIModel("https://noblegarden.net");
-        public static SettingsModel Settings = new SettingsModel();
-
-        public static readonly List<SliderElementModel> SliderElements = new List<SliderElementModel> {
-            new SliderElementModel("Персонажи", "https://noblegarden.net/charlist", "Images/square-character.jpg"),
-            new SliderElementModel("Гильдии", "https://noblegarden.net/guild", "Images/square-guild.jpg"),
-            new SliderElementModel("Сюжеты", "https://noblegarden.net/storyline", "Images/square-plots.jpg")
+        public static readonly List<SliderElement> SliderElements = new List<SliderElement> {
+            new SliderElement("Персонажи", "https://noblegarden.net/charlist", "Images/square-character.jpg"),
+            new SliderElement("Гильдии", "https://noblegarden.net/guild", "Images/square-guild.jpg"),
+            new SliderElement("Сюжеты", "https://noblegarden.net/storyline", "Images/square-plots.jpg")
         };
 
         public enum LOADING_STEPS {

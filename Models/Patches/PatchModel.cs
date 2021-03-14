@@ -37,11 +37,17 @@
         }
 
         public virtual NecessaryPatchModel ToNecessaryPatch() {
-            return new NecessaryPatchModel(LocalPath, RemotePath, Hash, Description);
+            var patch = new NecessaryPatchModel(LocalPath, RemotePath, Hash, Description) {
+                Index = Index
+            };
+            return patch;
         }
 
         public virtual CustomPatchModel ToCustomPatchModel() {
-            return new CustomPatchModel(LocalPath, RemotePath, Hash, Description);
+            var patch = new CustomPatchModel(LocalPath, RemotePath, Hash, Description) {
+                Index = Index
+            };
+            return patch;
         }
     }
 }
