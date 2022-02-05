@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace NoblegardenLauncherSharp.Models
 {
@@ -7,7 +10,6 @@ namespace NoblegardenLauncherSharp.Models
         private static SettingsModel instance;
         public Dictionary<string, string> SettingsAsDictionary = new Dictionary<string, string>();
         private SettingsModel() : base("launcher-config.ini", new Dictionary<string, string> {
-                { "threads", "1" },
                 { "custom_patches", "" }
         }) {
             SettingsAsDictionary = ReadAsDictionary();
@@ -35,6 +37,27 @@ namespace NoblegardenLauncherSharp.Models
 
             var splittedPatches = customPatchesAsString.Split(',');
             return new List<string>(splittedPatches);
+        }
+
+        public void ToggleCustomPatchSavedSelection(string name) {
+            var customPatches = GetSelectedCustomPatchesLocalPaths();
+            if (customPatches.Contains(name)) {
+                customPatches.Remove(name);
+            } else {
+                customPatches.Add(name);
+            }
+
+            SettingsAsDictionary["custom_patches"] = "";
+
+            for (var i = 0; i < customPatches.Count; i++) {
+                if (SettingsAsDictionary["custom_patches"].Length == 0) {
+                    SettingsAsDictionary["custom_patches"] = customPatches[i];
+                }
+                else {
+                    SettingsAsDictionary["custom_patches"] = SettingsAsDictionary["custom_patches"] + "," +customPatches[i];
+                }
+            }
+            WriteDictionary(SettingsAsDictionary);
         }
     }
 }

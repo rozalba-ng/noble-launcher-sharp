@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using NoblegardenLauncherSharp.Models;
+using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
 namespace NoblegardenLauncherSharp.Controllers
@@ -47,6 +48,7 @@ namespace NoblegardenLauncherSharp.Controllers
         public void ToggleCustomPatchSelection(int customPatchID) {
             var patch = Globals.CustomPatches.GetPatchByID(customPatchID);
             patch.ChangeSelectionTo(!patch.Selected);
+            SettingsModel.GetInstance().ToggleCustomPatchSavedSelection(patch.LocalPath);
             var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
             var settingsScrollerView = (ScrollViewer)ElementSearcher.FindName("SettingsScrollerView");
             var offset = settingsScrollerView.VerticalOffset;

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows;
 using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
@@ -9,7 +11,7 @@ namespace NoblegardenLauncherSharp
     {
         public static readonly string WORKING_DIR = @"D:\";
         public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
-        public static readonly string LAUNCHER_VERSION = "1.3.1";
+        public static readonly string LAUNCHER_VERSION = "1.3.2";
 
         public static NoblePatchGroupModel<NecessaryPatchModel> Patches;
         public static NoblePatchGroupModel<CustomPatchModel> CustomPatches;
@@ -53,6 +55,12 @@ namespace NoblegardenLauncherSharp
 
             int lastTenInCount = count % 100;
             return GetRightWordForm(lastTenInCount, words);
+        }
+
+        public static void OpenLinkFromTag(object sender, RoutedEventArgs e) {
+            var target = (FrameworkElement)sender;
+            string link = target.Tag.ToString();
+            Process.Start(link);
         }
     }
 }

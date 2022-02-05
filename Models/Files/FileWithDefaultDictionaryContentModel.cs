@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace NoblegardenLauncherSharp.Models
@@ -49,7 +50,7 @@ namespace NoblegardenLauncherSharp.Models
 
             try {
                 using (Stream file = new FileStream(PathToFile, FileMode.Open, FileAccess.Read, FileShare.None)) {
-                    using (StreamReader reader = new StreamReader(file)) {
+                    using (StreamReader reader = new StreamReader(file, false)) {
                         string line;
                         while ((line = reader.ReadLine()) != null) {
                             var lineParts = line.Split('=');
@@ -66,6 +67,27 @@ namespace NoblegardenLauncherSharp.Models
             }
 
             return content;
+        }
+
+        protected void WriteDictionary(Dictionary<string, string> Dict) {
+            if (!Exists()) return;
+
+            File.WriteAllText(PathToFile, "");
+
+            try {
+                using (Stream file = new FileStream(PathToFile, FileMode.Open, FileAccess.Write, FileShare.None)) {
+                    using (StreamWriter writer = new StreamWriter(file)) {
+                        foreach (KeyValuePair<string, string> pair in Dict) {
+                            Debug.WriteLine(pair);
+                            writer.WriteLine($"{pair.Key}={pair.Value}");
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                //throw new Exception($"Не удалось записать содержимое в файл {PathToFile}");
+                throw (e);
+            }
         }
     }
 }

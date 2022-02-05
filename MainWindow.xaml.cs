@@ -7,15 +7,13 @@ using NoblegardenLauncherSharp.Models;
 namespace NoblegardenLauncherSharp {
     public partial class MainWindow : Window
     {
-        private readonly SliderBlockController SliderController;
         private readonly SettingsBlockController SettingsBlockController;
         public MainWindow()
         {
             InitializeComponent();
-            ElementSearcherController.Init(this);
             SettingsModel.Init();
+            ElementSearcherController.Init(this);
             SiteAPIModel.Init("https://noblegarden.net");
-            SliderController = SliderBlockController.Init();
             SettingsBlockController = SettingsBlockController.Init();
         }
 
@@ -31,21 +29,6 @@ namespace NoblegardenLauncherSharp {
             var target = (FrameworkElement)sender;
             string link = target.Tag.ToString();
             Process.Start(link);
-        }
-
-        private void OnSliderPreviousButtonClick(object sender, RoutedEventArgs e) {
-            SliderController.SlideToPrevious();
-        }
-
-        private void OnSliderNextButtonClick(object sender, RoutedEventArgs e) {
-            SliderController.SlideToNext();
-        }
-        private void OnSlideCompleted(object sender, EventArgs e) {
-            SliderController.OnSlideCompleted();
-        }
-
-        private void ToggleSettingsVisibility(object sender, RoutedEventArgs e) {
-            SettingsBlockController.ToggleVisibility();
         }
 
         private void OnCustomPatchSelectorClick(object sender, RoutedEventArgs e) {
