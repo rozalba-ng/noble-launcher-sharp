@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NoblegardenLauncherSharp.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="216" d:DesignWidth="276">
+             d:DesignHeight="232" d:DesignWidth="276">
     <Grid ClipToBounds="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -21,7 +21,7 @@
             <ColumnDefinition Width="16"/>
         </Grid.ColumnDefinitions>
         <Rectangle Fill="White" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" IsHitTestVisible="False"/>
-        <Image Name="SquareCurrent" Width="290" Height="217" MouseLeftButtonUp="OpenSliderLink" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Image Name="SquareCurrent" Width="290" Height="232" MouseLeftButtonUp="OpenSliderLink" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Style.Triggers>

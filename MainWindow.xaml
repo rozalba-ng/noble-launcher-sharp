@@ -26,7 +26,7 @@
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35" />
-                    <RowDefinition Height="411" />
+                    <RowDefinition Height="416" />
                     <RowDefinition Height="110" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -41,7 +41,7 @@
                         <RowDefinition Height="32" />
                         <RowDefinition Height="60" />
                         <RowDefinition Height="32" />
-                        <RowDefinition Height="216" />
+                        <RowDefinition Height="232" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -49,8 +49,8 @@
                             <ColumnDefinition Width="15" />
                             <ColumnDefinition Width="130" />
                         </Grid.ColumnDefinitions>
-                        <components:LinkPanel Text="Discord" Grid.Column="0" Image="Images/discord.png" Fill="#FF6C71B4"/>
-                        <components:LinkPanel Text="Группа VK" Grid.Column="2" Image="Images/vk.png" Fill="#FF254E79"/>
+                        <components:LinkPanel Text="Discord" Grid.Column="0" Image="Images/discord.png" Fill="#FF6C71B4" Type="Discord"/>
+                        <components:LinkPanel Text="Группа VK" Grid.Column="2" Image="Images/vk.png" Fill="#FF254E79" Type="VK"/>
                     </Grid>
                     <Grid Grid.Row="2">
                         <components:CurrentOnline />
@@ -60,146 +60,9 @@
                     </Grid>
                 </Grid>
             </Grid>
-
-            <!--
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="16" />
-                <ColumnDefinition Width="596"/>
-                <ColumnDefinition Width="264"/>
-                <ColumnDefinition Width="16" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="55"/>
-                <RowDefinition Height="545"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="560" />
-                    <ColumnDefinition Width="24" />
-                    <ColumnDefinition Width="280" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="411" />
-                    <RowDefinition Height="110" />
-                </Grid.RowDefinitions>
-            
-                <Grid Grid.Row="1" Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60" />
-                        <RowDefinition Height="32" />
-                        <RowDefinition Height="60" />
-                        <RowDefinition Height="32" />
-                        <RowDefinition Height="216" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="130" />
-                        <ColumnDefinition Width="16" />
-                        <ColumnDefinition Width="130" />
-                    </Grid.ColumnDefinitions>
-            
-                    <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" ClipToBounds="True">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="24"/>
-                            <RowDefinition Height="16"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="16"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="24"/>
-                            <ColumnDefinition Width="8"/>
-                            <ColumnDefinition Width="24"/>
-                            <ColumnDefinition Width="16"/>
-                        </Grid.ColumnDefinitions>
-                        <Rectangle Fill="White" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" IsHitTestVisible="False"/>
-                        <Image Name="SquareCurrent" Width="290" Height="217" MouseLeftButtonUp="OpenLinkFromTag" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Image.Style>
-                                <Style TargetType="{x:Type Image}">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Cursor" Value="Hand"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Image.Style>
-                            <Image.Triggers>
-                                <EventTrigger RoutedEvent="MouseEnter">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SquareCurrent" Storyboard.TargetProperty="Width">
-                                                <LinearDoubleKeyFrame Value="290" KeyTime="00:00:00" />
-                                                <LinearDoubleKeyFrame Value="300" KeyTime="00:00:0.25" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="MouseLeave">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SquareCurrent" Storyboard.TargetProperty="Width">
-                                                <LinearDoubleKeyFrame Value="300" KeyTime="00:00:00" />
-                                                <LinearDoubleKeyFrame Value="290" KeyTime="00:00:0.25" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Image.Triggers>
-                        </Image>
-                        <Image Name="SquareMoving" Width="290" Height="217" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="6" Visibility="Hidden" />
-                        <Border BorderBrush="#4CFFFFFF" BorderThickness="1, 1, 1, 1" IsHitTestVisible="False" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3">
-                            <Rectangle IsHitTestVisible="False" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3">
-                                <Rectangle.Fill>
-                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#00000000" Offset="0"/>
-                                        <GradientStop Color="#FF12161A" Offset="0.85"/>
-                                    </LinearGradientBrush>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Border>
-                        <TextBlock Name="SquareName" Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI Black" Foreground="#FFF" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <Border BorderBrush="#26FFFFFF" BorderThickness="1, 1, 1, 1" Grid.Row="1" Grid.Column="2">
-                            <Button Name="SliderPreviousButton" Grid.Row="1" Grid.Column="2" Content="&lt;" Click="OnSliderPreviousButtonClick">
-                                <Button.Style>
-                                    <Style TargetType="{x:Type Button}">
-                                        <Setter Property="Background" Value="Black"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Black"/>
-                                                <Setter Property="Foreground" Value="#FF1F7DE0"/>
-                                                <Setter Property="Cursor" Value="Hand"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </Border>
-                        <Rectangle Grid.Row="1" Grid.Column="3" Fill="Transparent"/>
-                        <Border BorderBrush="#26FFFFFF" BorderThickness="1, 1, 1, 1" Grid.Row="1" Grid.Column="4">
-                            <Button Name="SliderNextButton" Grid.Row="1" Grid.Column="4" Content=">" Click="OnSliderNextButtonClick">
-                                <Button.Style>
-                                    <Style TargetType="{x:Type Button}">
-                                        <Setter Property="Background" Value="Black"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="Black"/>
-                                                <Setter Property="Foreground" Value="#FF1F7DE0"/>
-                                                <Setter Property="Cursor" Value="Hand"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Grid>
-            
-            <Grid Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Width="280" Margin="284,0,0,0" Name="SettingsView">
+            <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Width="280" Margin="0,0,0,0" Name="SettingsView" HorizontalAlignment="Right">
+                <components:SettingsWindow />
+                <!--
                 <Rectangle Fill="#FFFAFAFA" Width="280">
                     <Rectangle.Effect>
                         <DropShadowEffect Direction="180" Opacity="0.2"/>
@@ -221,32 +84,6 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="Настройки" FontSize="20" Foreground="#FF091526" FontFamily="Segoe UI Black" />
 
-                        <Border BorderBrush="#FF062131" BorderThickness="2" Grid.Row="3" Grid.Column="1" CornerRadius="4">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="6"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="10"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="12"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Rectangle Fill="#FFFAFAFA" Height="19" Width="69" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,-12,0,0" Grid.Row="0" Grid.Column="1"/>
-                                <TextBlock FontSize="16" FontFamily="Corbel" Height="19" Width="62" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-12,0,0" Foreground="#FF091526" Grid.Row="0" Grid.Column="1">
-                                    Загрузка
-                                </TextBlock>
-                                <TextBlock FontSize="14" FontFamily="Corbel" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#D8091526" Grid.Row="2" Grid.Column="1">
-                                    Потоков загрузки
-                                </TextBlock>
-                                <ComboBox HorizontalAlignment="Right" Grid.Row="2" Grid.Column="1" FontSize="14" SelectedIndex="0" FontFamily="Bahnschrift Light" Width="50" Margin="0,0,12,0" Height="20">
-                                    <TextBlock>1</TextBlock>
-                                    <TextBlock>2</TextBlock>
-                                    <TextBlock>3</TextBlock>
-                                </ComboBox>
-                            </Grid>
-                        </Border>
                         <Border BorderBrush="#FF062131" BorderThickness="2" Grid.Row="3" Grid.Column="1" CornerRadius="4">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -352,7 +189,51 @@
                         </Border>
                     </Grid>
                 </ScrollViewer>
+                -->
             </Grid>
+
+            <!--
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="596"/>
+                <ColumnDefinition Width="264"/>
+                <ColumnDefinition Width="16" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="545"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="560" />
+                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition Width="280" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="411" />
+                    <RowDefinition Height="110" />
+                </Grid.RowDefinitions>
+            
+                <Grid Grid.Row="1" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="32" />
+                        <RowDefinition Height="216" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="130" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </Grid>
+            
+            
             <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="900" />

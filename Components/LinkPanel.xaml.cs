@@ -1,32 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using NoblegardenLauncherSharp.Models;
+using NoblegardenLauncherSharp.Controllers;
 
 namespace NoblegardenLauncherSharp.Components
 {
-    /// <summary>
-    /// Логика взаимодействия для LinkPanel.xaml
-    /// </summary>
     public partial class LinkPanel : UserControl
     {
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(LinkPanel), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(ImageSource), typeof(LinkPanel), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty FillProperty = DependencyProperty.Register("Fill", typeof(Brush), typeof(LinkPanel), new PropertyMetadata(default(string)));
-
+        public static readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(LinkPanel), new PropertyMetadata(new PropertyChangedCallback(OnTypePropertyChanged)));
+        private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
+        private readonly ElementSearcherController ElementSearcher;
         public string Text {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
+        }
+
+        public string Type {
+            get { return (string)GetValue(TypeProperty); }
+            set { SetValue(TypeProperty, value); }
         }
 
         public ImageSource Image {
@@ -41,10 +41,51 @@ namespace NoblegardenLauncherSharp.Components
 
         public LinkPanel() {
             InitializeComponent();
+            ElementSearcher = new ElementSearcherController(this);
+
+            Task.Run(() => SetDiscordLink());
         }
 
         private void OpenLink(object sender, MouseButtonEventArgs e) {
             Globals.OpenLinkFromTag(sender, e);
+        }
+
+        static private void OnTypePropertyChanged(DependencyObject targetObject, DependencyPropertyChangedEventArgs e) {
+            string newType = (string)e.NewValue;
+            Task.Run(async () => {
+                LinkPanel panel = targetObject as LinkPanel;
+                switch (newType) {
+                    case "Discord":
+                    await panel.SetDiscordLink();
+                    return;
+                    case "VK":
+                    await panel.SetVKLink();
+                    return;
+                    default:
+                    throw new Exception("Not found panel with type " + newType);
+                }
+            });
+        }
+
+        private async Task SetDiscordLink() {
+            var discordLinkResponse = await SiteAPI.GetActualDiscordLink();
+            var link = discordLinkResponse.GetFormattedData();
+            await ApplyTag(link);
+        }
+        private async Task SetVKLink() {
+            var discordLinkResponse = await SiteAPI.GetActualVKLink();
+            var link = discordLinkResponse.GetFormattedData();
+            await ApplyTag(link);
+        }
+
+        private async Task ApplyTag(string tag) {
+            await Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render,
+                new Action(() => {
+                    var view = (Rectangle)ElementSearcher.FindName("LinkPanelView");
+                    view.Tag = tag;
+                })
+            );
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NoblegardenLauncherSharp.Models;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
@@ -12,9 +13,8 @@ namespace NoblegardenLauncherSharp.Controllers
         private readonly ElementSearcherController ElementSearcher;
 
         private SettingsBlockController() {
-            ElementSearcher = ElementSearcherController.GetInstance();
+            ElementSearcher = new ElementSearcherController(App.Current.MainWindow);
         }
-
         public static SettingsBlockController Init() {
             if (instance == null) {
                 instance = new SettingsBlockController();

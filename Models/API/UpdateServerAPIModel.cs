@@ -8,9 +8,12 @@ namespace NoblegardenLauncherSharp.Models
         private static UpdateServerAPIModel instance;
         private UpdateServerAPIModel(string BaseURL) : base(BaseURL) { }
 
-        public static UpdateServerAPIModel Init(string BaseURL) {
+        public static UpdateServerAPIModel Instance() {
             if (instance == null) {
-                instance = new UpdateServerAPIModel(BaseURL);
+                SiteAPIModel SiteAPI = SiteAPIModel.Instance();
+                var updateServerAddressResponse = Task.Run(() => SiteAPI.GetUpdateServerAddress()).Result;
+                string updateServerIP = (string)updateServerAddressResponse.GetFormattedData();
+                instance = new UpdateServerAPIModel($"http://{updateServerIP}");
             }
 
             return instance;

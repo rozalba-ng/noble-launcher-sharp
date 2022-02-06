@@ -68,6 +68,9 @@
     <Compile Include="Components\CurrentOnline.xaml.cs">
       <DependentUpon>CurrentOnline.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\CustomPatches.xaml.cs">
+      <DependentUpon>CustomPatches.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Header.xaml.cs">
       <DependentUpon>Header.xaml</DependentUpon>
     </Compile>
@@ -76,6 +79,9 @@
     </Compile>
     <Compile Include="Components\News.xaml.cs">
       <DependentUpon>News.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\SingleNews.xaml.cs">
       <DependentUpon>SingleNews.xaml</DependentUpon>
@@ -99,6 +105,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\CustomPatches.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\Header.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\News.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,7 +146,6 @@
     <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Controllers\SettingsBlockController.cs" />
-    <Compile Include="Controllers\SliderBlockController.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Models\API\UpdateServerAPIModel.cs" />
     <Compile Include="Models\API\SiteAPIModel.cs" />
