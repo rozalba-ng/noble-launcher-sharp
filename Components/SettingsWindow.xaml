@@ -6,7 +6,7 @@
              xmlns:components="clr-namespace:NoblegardenLauncherSharp.Components"
              mc:Ignorable="d" 
              d:DesignHeight="545" d:DesignWidth="280">
-    <Grid>
+    <Grid Name="SettingsView">
         <Rectangle Fill="#FFFAFAFA" Width="280">
             <Rectangle.Effect>
                 <DropShadowEffect Direction="180" Opacity="0.2"/>
@@ -31,4 +31,18 @@
             </Grid>
         </ScrollViewer>
     </Grid>
+    <UserControl.Resources>
+        <Storyboard x:Key="ShowSettings">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SettingsView" Storyboard.TargetProperty="Margin">
+                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="284,0,0,0" />
+                <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="0,0,0,0" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="HideSettings">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SettingsView" Storyboard.TargetProperty="Margin">
+                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
+                <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="284,0,0,0" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
 </UserControl>

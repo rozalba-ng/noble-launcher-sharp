@@ -1,27 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using NoblegardenLauncherSharp.Controllers;
+using NoblegardenLauncherSharp.Structures;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace NoblegardenLauncherSharp.Components
 {
-    /// <summary>
-    /// Логика взаимодействия для SettingsWindow.xaml
-    /// </summary>
     public partial class SettingsWindow : UserControl
     {
+        private bool IsOnScreen = false;
+        private readonly ElementSearcherController ElementSearcher;
         public SettingsWindow() {
             InitializeComponent();
+            ElementSearcher = new ElementSearcherController(this);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsButtonClick, ToggleOnScreen);
+        }
+
+        public void ToggleOnScreen() {
+            if (IsOnScreen) {
+                PlayHideAnimation();
+            }
+            else {
+                PlayShowAnimation();
+            }
+            IsOnScreen = !IsOnScreen;
+        }
+        private void PlayShowAnimation() {
+            Storyboard showAnim = ElementSearcher.FindStoryboard("ShowSettings");
+            if (showAnim != null) {
+                showAnim.Begin();
+            }
+        }
+
+        private void PlayHideAnimation() {
+            Storyboard hideAnim = ElementSearcher.FindStoryboard("HideSettings");
+            if (hideAnim != null) {
+                hideAnim.Begin();
+            }
         }
     }
 }

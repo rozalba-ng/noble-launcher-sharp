@@ -276,17 +276,5 @@
                 <DiscreteBooleanKeyFrame Value="False" KeyTime="0:0:0.5" />
             </BooleanAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Key="ShowSettings">
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SettingsView" Storyboard.TargetProperty="Margin">
-                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="284,0,0,0" />
-                <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="0,0,0,0" />
-            </ThicknessAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Key="HideSettings">
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SettingsView" Storyboard.TargetProperty="Margin">
-                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
-                <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="284,0,0,0" />
-            </ThicknessAnimationUsingKeyFrames>
-        </Storyboard>
     </Window.Resources>
 </Window>

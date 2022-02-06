@@ -23,13 +23,11 @@ namespace NoblegardenLauncherSharp.Components
     /// </summary>
     public partial class CustomPatches : UserControl
     {
-        private readonly SettingsBlockController SettingsBlockController;
         private readonly ElementSearcherController ElementSearcher;
         private readonly UpdateServerAPIModel UpdateServerAPI = UpdateServerAPIModel.Instance();
         public CustomPatches() {
             InitializeComponent();
             ElementSearcher = new ElementSearcherController(this);
-            SettingsBlockController = SettingsBlockController.Init();
             Task.Run(() => GetAndDrawCustomPatches());
         }
 
@@ -40,7 +38,14 @@ namespace NoblegardenLauncherSharp.Components
         private void OnCustomPatchSelectorClick(object sender, RoutedEventArgs e) {
             var target = (FrameworkElement)sender;
             var id = Int32.Parse(target.Tag.ToString());
-            SettingsBlockController.ToggleCustomPatchSelection(id);
+            var patch = Globals.CustomPatches.GetPatchByID(id);
+            patch.ChangeSelectionTo(!patch.Selected);
+            SettingsModel.GetInstance().ToggleCustomPatchSavedSelection(patch.LocalPath);
+            var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
+            //var settingsScrollerView = (ScrollViewer)ElementSearcher.FindName("SettingsScrollerView");
+            //var offset = settingsScrollerView.VerticalOffset;
+            customPatchesView.Items.Refresh();
+            //settingsScrollerView.ScrollToVerticalOffset(offset);
         }
         private async Task GetAndDrawCustomPatches() {
             var customPatchesResponse = await UpdateServerAPI.GetCustomPatches();

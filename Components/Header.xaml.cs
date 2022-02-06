@@ -1,4 +1,5 @@
 ﻿using NoblegardenLauncherSharp.Controllers;
+using NoblegardenLauncherSharp.Structures;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,14 +10,13 @@ namespace NoblegardenLauncherSharp.Components
     /// </summary>
     public partial class Header : UserControl
     {
-        private readonly SettingsBlockController SettingsBlockController;
         public Header() {
             InitializeComponent();
-            SettingsBlockController = SettingsBlockController.Init();
         }
 
         private void ToggleSettingsVisibility(object sender, RoutedEventArgs e) {
-            SettingsBlockController.ToggleVisibility();
+            //SettingsBlockController.ToggleVisibility();
+            EventDispatcher.Dispatch(EventDispatcherEvent.SettingsButtonClick);
         }
     }
 }
