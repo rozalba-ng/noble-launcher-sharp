@@ -1,19 +1,12 @@
 ﻿using NoblegardenLauncherSharp.Controllers;
+using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace NoblegardenLauncherSharp.Components
@@ -32,13 +25,13 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private void OpenCustomPatchLink(object sender, MouseButtonEventArgs e) {
-            Globals.OpenLinkFromTag(sender, e);
+            Static.OpenLinkFromTag(sender, e);
         }
 
         private void OnCustomPatchSelectorClick(object sender, RoutedEventArgs e) {
             var target = (FrameworkElement)sender;
             var id = Int32.Parse(target.Tag.ToString());
-            var patch = Globals.CustomPatches.GetPatchByID(id);
+            var patch = Static.CustomPatches.GetPatchByID(id);
             patch.ChangeSelectionTo(!patch.Selected);
             SettingsModel.GetInstance().ToggleCustomPatchSavedSelection(patch.LocalPath);
             var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
@@ -51,13 +44,13 @@ namespace NoblegardenLauncherSharp.Components
             var customPatchesResponse = await UpdateServerAPI.GetCustomPatches();
             var patchesInfo = customPatchesResponse.GetFormattedData();
             List<CustomPatchModel> customPatches = JObjectConverter.ConvertToCustomPatchesList(patchesInfo);
-            Globals.CustomPatches = new NoblePatchGroupModel<CustomPatchModel>(customPatches);
+            Static.CustomPatches = new NoblePatchGroupModel<CustomPatchModel>(customPatches);
 
             await Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() => {
                     var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
-                    customPatchesView.ItemsSource = Globals.CustomPatches.List;
+                    customPatchesView.ItemsSource = Static.CustomPatches.List;
                 })
             );
         }

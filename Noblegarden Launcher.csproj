@@ -90,6 +90,7 @@
       <DependentUpon>Slider.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\EventDispatcher.cs" />
+    <Compile Include="Globals\Static.cs" />
     <Compile Include="Models\Files\FileModel.cs" />
     <Compile Include="Models\Files\FileWithDefaultDictionaryContentModel.cs" />
     <Compile Include="Models\Patches\CustomPatchModel.cs" />
@@ -147,7 +148,6 @@
     <Compile Include="Controllers\JObjectConverter.cs" />
     <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
-    <Compile Include="Globals.cs" />
     <Compile Include="Models\API\UpdateServerAPIModel.cs" />
     <Compile Include="Models\API\SiteAPIModel.cs" />
     <Compile Include="Models\API\ResponseModel.cs" />

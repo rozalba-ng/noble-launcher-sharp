@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Models;
 
 namespace NoblegardenLauncherSharp.Controllers
@@ -23,7 +24,7 @@ namespace NoblegardenLauncherSharp.Controllers
             if (actualLauncherVersion == "") {
                 throw new Exception("Сервер не вернул актуальной версии лаунчера");
             }
-            if (actualLauncherVersion != Globals.LAUNCHER_VERSION) {
+            if (actualLauncherVersion != Static.LAUNCHER_VERSION) {
                 throw new Exception("Используется неактуальная версия лаунчера");
             }
         }
@@ -45,7 +46,7 @@ namespace NoblegardenLauncherSharp.Controllers
             var defaultPatchesResponse = await UpdateServerAPI.GetBasePatches();
             var patchesInfo = defaultPatchesResponse.GetFormattedData();
             var defaultPatches = JObjectConverter.ConvertToNecessaryPatchesList(patchesInfo);
-            Globals.Patches = new NoblePatchGroupModel<NecessaryPatchModel>(defaultPatches);
+            Static.Patches = new NoblePatchGroupModel<NecessaryPatchModel>(defaultPatches);
         }
 
         private TextBlock GetCurrentLoadingStepView() {

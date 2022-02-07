@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NoblegardenLauncherSharp.Components"
+             xmlns:global="clr-namespace:NoblegardenLauncherSharp.Globals"
              mc:Ignorable="d" 
              d:DesignHeight="232" d:DesignWidth="276">
     <Grid ClipToBounds="True">
@@ -21,7 +21,7 @@
             <ColumnDefinition Width="16"/>
         </Grid.ColumnDefinitions>
         <Rectangle Fill="White" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" IsHitTestVisible="False"/>
-        <Image Name="SquareCurrent" Width="290" Height="232" MouseLeftButtonUp="OpenSliderLink" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Image Source="{x:Static global:Static.FirstSliderElementImage}" Tag="{x:Static global:Static.FirstSliderElementLink}" Name="SquareCurrent" Width="290" Height="232" MouseLeftButtonUp="OpenSliderLink" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Style.Triggers>
@@ -65,7 +65,7 @@
                 </Rectangle.Fill>
             </Rectangle>
         </Border>
-        <TextBlock Name="SquareName" Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI Black" Foreground="#FFF" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBlock Name="SquareName" Text="{x:Static global:Static.FirstSliderElementName}" Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI Black" Foreground="#FFF" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Border BorderBrush="#26FFFFFF" BorderThickness="1, 1, 1, 1" Grid.Row="1" Grid.Column="2">
             <Button Name="SliderPreviousButton" Grid.Row="1" Grid.Column="2" Content="&lt;  " Click="OnSliderPreviousButtonClick">
                 <Button.Style>

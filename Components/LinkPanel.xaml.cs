@@ -8,6 +8,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Controllers;
+using NoblegardenLauncherSharp.Globals;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -47,7 +48,7 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private void OpenLink(object sender, MouseButtonEventArgs e) {
-            Globals.OpenLinkFromTag(sender, e);
+            Static.OpenLinkFromTag(sender, e);
         }
 
         static private void OnTypePropertyChanged(DependencyObject targetObject, DependencyPropertyChangedEventArgs e) {

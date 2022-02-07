@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Controllers;
+using NoblegardenLauncherSharp.Globals;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -21,7 +22,7 @@ namespace NoblegardenLauncherSharp.Components
             Task.Run(() => DrawCurrentOnline());
         }
         private void OpenCurrentOnlineLink(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Globals.OpenLinkFromTag(sender, e);
+            Static.OpenLinkFromTag(sender, e);
         }
 
         private async Task DrawCurrentOnline() {
@@ -31,7 +32,7 @@ namespace NoblegardenLauncherSharp.Components
             if (onlineResponse.IsOK) {
                 try {
                     int playersCount = Int32.Parse(onlineResponse.GetFormattedData());
-                    string wordForm = Globals.GetRightWordForm(playersCount, wordForms);
+                    string wordForm = Static.GetRightWordForm(playersCount, wordForms);
                     text = $"{playersCount} {wordForm}";
                 }
                 catch {

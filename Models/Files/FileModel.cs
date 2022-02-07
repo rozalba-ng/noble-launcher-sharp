@@ -1,10 +1,11 @@
 ﻿using System.IO;
+using NoblegardenLauncherSharp.Globals;
 
 namespace NoblegardenLauncherSharp.Models
 {
     public class FileModel
     {
-        protected static readonly string WORKING_DIR = Globals.WORKING_DIR;
+        protected static readonly string WORKING_DIR = Static.WORKING_DIR;
         protected string PathToFile;
 
         public FileModel(string RelativePath) {

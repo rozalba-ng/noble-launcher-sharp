@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 
-namespace NoblegardenLauncherSharp
+namespace NoblegardenLauncherSharp.Globals
 {
-    public static class Globals
+    public static class Static
     {
         public static readonly string WORKING_DIR = @"D:\";
         public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
@@ -22,7 +23,13 @@ namespace NoblegardenLauncherSharp
             new SliderElement("Сюжеты", "https://noblegarden.net/storyline", "Images/square-plots.jpg")
         };
 
-        public enum LOADING_STEPS {
+        // Для простого биндинга в слайдер
+        public static readonly BitmapImage FirstSliderElementImage = SliderElements[0].Image;
+        public static readonly string FirstSliderElementLink = SliderElements[0].Link;
+        public static readonly string FirstSliderElementName = SliderElements[0].Name;
+
+        public enum LOADING_STEPS
+        {
             GET_SERVER_ADDRESS = 0,
             CHECK_LAUNCHER_VERSION = 1,
             GET_LAST_UPDATES = 2,

@@ -1,8 +1,9 @@
-﻿using NoblegardenLauncherSharp.Controllers;
-using System;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
+using System.Threading.Tasks;
 using System.Windows.Controls;
+using NoblegardenLauncherSharp.Controllers;
+using NoblegardenLauncherSharp.Globals;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -18,24 +19,24 @@ namespace NoblegardenLauncherSharp.Components
         public Slider() {
             InitializeComponent();
             ElementSearcher = new ElementSearcherController(this);
-            GetImageControllers();
-            CurrentImage.Source = Globals.SliderElements[0].Image;
-            CurrentImage.Tag = Globals.SliderElements[0].Link;
-            CurrentSliderName.Text = Globals.SliderElements[0].Name;
+            CurrentImage = (Image)ElementSearcher.FindName("SquareCurrent");
+            MovingImage = (Image)ElementSearcher.FindName("SquareMoving");
+            CurrentSliderName = (TextBlock)ElementSearcher.FindName("SquareName");
         }
+
         private void OpenSliderLink(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Globals.OpenLinkFromTag(sender, e);
+            Static.OpenLinkFromTag(sender, e);
         }
 
         private void OnSliderPreviousButtonClick(object sender, RoutedEventArgs e) {
             if (IsOnSlide)
                 return;
             int previousIndex = GetPreviousImageIndex();
-            MovingImage.Source = Globals.SliderElements[previousIndex].Image;
-            MovingImage.Tag = Globals.SliderElements[previousIndex].Link;
+            MovingImage.Source = Static.SliderElements[previousIndex].Image;
+            MovingImage.Tag = Static.SliderElements[previousIndex].Link;
             MovingImage.Visibility = Visibility.Visible;
             currentImageIndex = previousIndex;
-            CurrentSliderName.Text = Globals.SliderElements[previousIndex].Name;
+            CurrentSliderName.Text = Static.SliderElements[previousIndex].Name;
             PlayRightToLeftTransition();
         }
 
@@ -43,11 +44,11 @@ namespace NoblegardenLauncherSharp.Components
             if (IsOnSlide)
                 return;
             int nextIndex = GetNextImageIndex();
-            MovingImage.Source = Globals.SliderElements[nextIndex].Image;
-            MovingImage.Tag = Globals.SliderElements[nextIndex].Link;
+            MovingImage.Source = Static.SliderElements[nextIndex].Image;
+            MovingImage.Tag = Static.SliderElements[nextIndex].Link;
             MovingImage.Visibility = Visibility.Visible;
             currentImageIndex = nextIndex;
-            CurrentSliderName.Text = Globals.SliderElements[nextIndex].Name;
+            CurrentSliderName.Text = Static.SliderElements[nextIndex].Name;
             PlayLeftToRightTransition();
         }
 
@@ -64,8 +65,8 @@ namespace NoblegardenLauncherSharp.Components
             var CurrentActiveImage = CurrentImage.Source;
 
             if (currentImageIndex == -1) {
-                Parallel.For(0, Globals.SliderElements.Count, (i) => {
-                    if (CurrentActiveImage.ToString() == Globals.SliderElements[i].Image.ToString()) {
+                Parallel.For(0, Static.SliderElements.Count, (i) => {
+                    if (CurrentActiveImage.ToString() == Static.SliderElements[i].Image.ToString()) {
                         currentImageIndex = i;
                     }
                 });
@@ -76,7 +77,7 @@ namespace NoblegardenLauncherSharp.Components
 
         private int GetNextImageIndex() {
             int currentIndex = GetCurrentImageIndex();
-            if (currentIndex == Globals.SliderElements.Count - 1) {
+            if (currentIndex == Static.SliderElements.Count - 1) {
                 return 0;
             }
 
@@ -86,16 +87,10 @@ namespace NoblegardenLauncherSharp.Components
         private int GetPreviousImageIndex() {
             int currentIndex = GetCurrentImageIndex();
             if (currentIndex == 0) {
-                return Globals.SliderElements.Count - 1;
+                return Static.SliderElements.Count - 1;
             }
 
             return currentIndex - 1;
-        }
-
-        private void GetImageControllers() {
-            CurrentImage = (Image)ElementSearcher.FindName("SquareCurrent");
-            MovingImage = (Image)ElementSearcher.FindName("SquareMoving");
-            CurrentSliderName = (TextBlock)ElementSearcher.FindName("SquareName");
         }
 
         private void PlayRightToLeftTransition() {

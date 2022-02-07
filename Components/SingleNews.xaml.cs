@@ -1,10 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using NoblegardenLauncherSharp.Globals;
+using System.Windows.Controls;
 
 namespace NoblegardenLauncherSharp.Components
 {
-    /// <summary>
-    /// Логика взаимодействия для SingleNews.xaml
-    /// </summary>
     public partial class SingleNews : UserControl
     {
         public SingleNews() {
@@ -12,7 +10,7 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private void OpenNewsLink(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Globals.OpenLinkFromTag(sender, e);
+            Static.OpenLinkFromTag(sender, e);
         }
     }
 }
