@@ -38,7 +38,7 @@
                 </Style>
             </Image.Style>
         </Image>
-        <Image Name = "CloseIcon" Source="../Images/close.png" Grid.Column="6">
+        <Image Name = "CloseIcon" Source="../Images/close.png" Grid.Column="6" MouseLeftButtonUp="CloseClick">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Setter Property="Opacity" Value="0.6"/>
