@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NoblegardenLauncherSharp.Structures;
 
-namespace NoblegardenLauncherSharp.Controllers
+namespace NoblegardenLauncherSharp.Models
 {
     class EventDispatcher
     {

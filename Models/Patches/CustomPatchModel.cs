@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using NoblegardenLauncherSharp.Globals;
+using System.Threading.Tasks;
 
 namespace NoblegardenLauncherSharp.Models
 {
@@ -14,7 +15,7 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public void GetSelectionFromSettings() {
-            var selectCustomPatchesLocalPaths = SettingsModel.GetInstance().GetSelectedCustomPatchesLocalPaths();
+            var selectCustomPatchesLocalPaths = Settings.GetSelectedCustomPatches();
             Parallel.For(0, selectCustomPatchesLocalPaths.Count, (i) => {
                 if (selectCustomPatchesLocalPaths[i] == LocalPath) {
                     ChangeSelectionTo(true);

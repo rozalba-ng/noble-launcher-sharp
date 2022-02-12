@@ -16,10 +16,10 @@ namespace NoblegardenLauncherSharp.Components
     public partial class News : UserControl
     {
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
-        private readonly ElementSearcherController ElementSearcher;
+        private readonly ElementSearcher ElementSearcher;
         public News() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcherController(this);
+            ElementSearcher = new ElementSearcher(this);
             Task.Run(() => DrawLastNews());
         }
         private async Task DrawLastNews() {

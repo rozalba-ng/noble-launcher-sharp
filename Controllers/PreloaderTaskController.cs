@@ -11,9 +11,9 @@ namespace NoblegardenLauncherSharp.Controllers
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
         private readonly UpdateServerAPIModel UpdateServerAPI = UpdateServerAPIModel.Instance();
         private TextBlock CurrentLoadingStepText;
-        private readonly ElementSearcherController ElementSearcher;
+        private readonly ElementSearcher ElementSearcher;
         public PreloaderTaskController () {
-            ElementSearcher = new ElementSearcherController(App.Current.MainWindow);
+            ElementSearcher = new ElementSearcher(App.Current.MainWindow);
             GetCurrentLoadingStepView();
         }
 
@@ -24,7 +24,7 @@ namespace NoblegardenLauncherSharp.Controllers
             if (actualLauncherVersion == "") {
                 throw new Exception("Сервер не вернул актуальной версии лаунчера");
             }
-            if (actualLauncherVersion != Static.LAUNCHER_VERSION) {
+            if (actualLauncherVersion != Settings.LAUNCHER_VERSION) {
                 throw new Exception("Используется неактуальная версия лаунчера");
             }
         }

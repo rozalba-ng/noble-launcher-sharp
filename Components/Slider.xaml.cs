@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Globals;
+using NoblegardenLauncherSharp.Models;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -11,14 +11,14 @@ namespace NoblegardenLauncherSharp.Components
     {
         public bool IsOnSlide = false;
         private int currentImageIndex = 0;
-        private Image CurrentImage;
-        private Image MovingImage;
-        private TextBlock CurrentSliderName;
-        private readonly ElementSearcherController ElementSearcher;
+        private readonly Image CurrentImage;
+        private readonly Image MovingImage;
+        private readonly TextBlock CurrentSliderName;
+        private readonly ElementSearcher ElementSearcher;
 
         public Slider() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcherController(this);
+            ElementSearcher = new ElementSearcher(this);
             CurrentImage = (Image)ElementSearcher.FindName("SquareCurrent");
             MovingImage = (Image)ElementSearcher.FindName("SquareMoving");
             CurrentSliderName = (TextBlock)ElementSearcher.FindName("SquareName");

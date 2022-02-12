@@ -1,4 +1,4 @@
-﻿using NoblegardenLauncherSharp.Controllers;
+﻿using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 using System.Windows;
 using System.Windows.Controls;

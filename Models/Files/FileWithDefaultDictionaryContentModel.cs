@@ -43,7 +43,7 @@ namespace NoblegardenLauncherSharp.Models
             }
         }
 
-        protected Dictionary<string, string> ReadAsDictionary() {
+        public Dictionary<string, string> ReadAsDictionary() {
             var content = new Dictionary<string, string>();
             if (!Exists() || !HasAnyContent())
                 return content;
@@ -69,7 +69,7 @@ namespace NoblegardenLauncherSharp.Models
             return content;
         }
 
-        protected void WriteDictionary(Dictionary<string, string> Dict) {
+        public void WriteDictionary(Dictionary<string, string> Dict) {
             if (!Exists()) return;
 
             File.WriteAllText(PathToFile, "");

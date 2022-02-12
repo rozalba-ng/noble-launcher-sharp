@@ -7,7 +7,6 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Globals;
 
 namespace NoblegardenLauncherSharp.Components
@@ -19,7 +18,7 @@ namespace NoblegardenLauncherSharp.Components
         public static readonly DependencyProperty FillProperty = DependencyProperty.Register("Fill", typeof(Brush), typeof(LinkPanel), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(LinkPanel), new PropertyMetadata(new PropertyChangedCallback(OnTypePropertyChanged)));
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
-        private readonly ElementSearcherController ElementSearcher;
+        private readonly ElementSearcher ElementSearcher;
         public string Text {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
@@ -42,7 +41,7 @@ namespace NoblegardenLauncherSharp.Components
 
         public LinkPanel() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcherController(this);
+            ElementSearcher = new ElementSearcher(this);
 
             Task.Run(() => SetDiscordLink());
         }

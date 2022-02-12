@@ -1,16 +1,15 @@
 ﻿using System.Windows;
 using System.Diagnostics;
 using NoblegardenLauncherSharp.Controllers;
-using System;
-using NoblegardenLauncherSharp.Models;
+using NoblegardenLauncherSharp.Globals;
 
 namespace NoblegardenLauncherSharp {
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
+            Settings.Parse();
             InitializeComponent();
-            SettingsModel.Init();
         }
 
         private async void OnWindowLoad(object sender, RoutedEventArgs e) {

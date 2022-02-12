@@ -10,10 +10,6 @@ namespace NoblegardenLauncherSharp.Globals
 {
     public static class Static
     {
-        public static readonly string WORKING_DIR = @"D:\";
-        public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
-        public static readonly string LAUNCHER_VERSION = "1.3.2";
-
         public static NoblePatchGroupModel<NecessaryPatchModel> Patches;
         public static NoblePatchGroupModel<CustomPatchModel> CustomPatches;
 

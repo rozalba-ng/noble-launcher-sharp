@@ -3,16 +3,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
-namespace NoblegardenLauncherSharp.Controllers
+namespace NoblegardenLauncherSharp.Models
 {
-    class ElementSearcherController
+    class ElementSearcher
     {
         private readonly ContentControl SearchContext;
 
         private readonly Dictionary<string, FrameworkElement> CachedElements = new Dictionary<string, FrameworkElement>();
         private readonly Dictionary<string, Storyboard> CachedStories = new Dictionary<string, Storyboard>();
 
-        public ElementSearcherController(ContentControl SearchContext) {
+        public ElementSearcher(ContentControl SearchContext) {
             this.SearchContext = SearchContext;
         }
 

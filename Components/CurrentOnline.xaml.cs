@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Globals;
 
 namespace NoblegardenLauncherSharp.Components
@@ -15,10 +14,10 @@ namespace NoblegardenLauncherSharp.Components
     public partial class CurrentOnline : UserControl
     {
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
-        private readonly ElementSearcherController ElementSearcher;
+        private readonly ElementSearcher ElementSearcher;
         public CurrentOnline() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcherController(this);
+            ElementSearcher = new ElementSearcher(this);
             Task.Run(() => DrawCurrentOnline());
         }
         private void OpenCurrentOnlineLink(object sender, System.Windows.Input.MouseButtonEventArgs e) {

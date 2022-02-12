@@ -1,6 +1,7 @@
 ﻿using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Models;
+using NoblegardenLauncherSharp.Structures;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,16 +12,13 @@ using System.Windows.Threading;
 
 namespace NoblegardenLauncherSharp.Components
 {
-    /// <summary>
-    /// Логика взаимодействия для CustomPatches.xaml
-    /// </summary>
     public partial class CustomPatches : UserControl
     {
-        private readonly ElementSearcherController ElementSearcher;
+        private readonly ElementSearcher ElementSearcher;
         private readonly UpdateServerAPIModel UpdateServerAPI = UpdateServerAPIModel.Instance();
         public CustomPatches() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcherController(this);
+            ElementSearcher = new ElementSearcher(this);
             Task.Run(() => GetAndDrawCustomPatches());
         }
 
@@ -33,12 +31,10 @@ namespace NoblegardenLauncherSharp.Components
             var id = Int32.Parse(target.Tag.ToString());
             var patch = Static.CustomPatches.GetPatchByID(id);
             patch.ChangeSelectionTo(!patch.Selected);
-            SettingsModel.GetInstance().ToggleCustomPatchSavedSelection(patch.LocalPath);
+            Settings.ToggleCustomPatchSelection(patch.LocalPath);
             var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
-            //var settingsScrollerView = (ScrollViewer)ElementSearcher.FindName("SettingsScrollerView");
-            //var offset = settingsScrollerView.VerticalOffset;
             customPatchesView.Items.Refresh();
-            //settingsScrollerView.ScrollToVerticalOffset(offset);
+            EventDispatcher.Dispatch(EventDispatcherEvent.SettingsRefresh);
         }
         private async Task GetAndDrawCustomPatches() {
             var customPatchesResponse = await UpdateServerAPI.GetCustomPatches();

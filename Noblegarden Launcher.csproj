@@ -89,13 +89,13 @@
     <Compile Include="Components\Slider.xaml.cs">
       <DependentUpon>Slider.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\EventDispatcher.cs" />
+    <Compile Include="Globals\Settings.cs" />
+    <Compile Include="Models\Common\EventDispatcher.cs" />
     <Compile Include="Globals\Static.cs" />
     <Compile Include="Models\Files\FileModel.cs" />
     <Compile Include="Models\Files\FileWithDefaultDictionaryContentModel.cs" />
     <Compile Include="Models\Patches\CustomPatchModel.cs" />
     <Compile Include="Models\Patches\PatchModel.cs" />
-    <Compile Include="Models\Settings\SettingsModel.cs" />
     <Compile Include="Structures\EventDispatcherEvent.cs" />
     <Compile Include="Structures\SitePost.cs" />
     <Compile Include="Structures\SitePostAuthor.cs" />
@@ -144,8 +144,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\ElementSearcherController.cs" />
-    <Compile Include="Controllers\JObjectConverter.cs" />
+    <Compile Include="Models\Common\ElementSearcher.cs" />
+    <Compile Include="Models\Common\JObjectConverter.cs" />
     <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
     <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Models\API\UpdateServerAPIModel.cs" />

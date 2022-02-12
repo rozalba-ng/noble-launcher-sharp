@@ -1,4 +1,4 @@
-﻿using NoblegardenLauncherSharp.Controllers;
+﻿using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -8,11 +8,12 @@ namespace NoblegardenLauncherSharp.Components
     public partial class SettingsWindow : UserControl
     {
         private bool IsOnScreen = false;
-        private readonly ElementSearcherController ElementSearcher;
+        private readonly ElementSearcher ElementSearcher;
         public SettingsWindow() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcherController(this);
+            ElementSearcher = new ElementSearcher(this);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsButtonClick, ToggleOnScreen);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsRefresh, Refresh);
         }
 
         public void ToggleOnScreen() {
@@ -24,6 +25,13 @@ namespace NoblegardenLauncherSharp.Components
             }
             IsOnScreen = !IsOnScreen;
         }
+
+        public void Refresh() {
+            var settingsScrollerView = (ScrollViewer)ElementSearcher.FindName("SettingsScrollerView");
+            var offset = settingsScrollerView.VerticalOffset;
+            settingsScrollerView.ScrollToVerticalOffset(offset);
+        }
+
         private void PlayShowAnimation() {
             Storyboard showAnim = ElementSearcher.FindStoryboard("ShowSettings");
             if (showAnim != null) {

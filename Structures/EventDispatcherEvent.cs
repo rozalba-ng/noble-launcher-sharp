@@ -3,5 +3,6 @@
     public enum EventDispatcherEvent
     {
         SettingsButtonClick,
+        SettingsRefresh,
     }
 }
