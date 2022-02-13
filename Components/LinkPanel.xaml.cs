@@ -69,12 +69,12 @@ namespace NoblegardenLauncherSharp.Components
 
         private async Task SetDiscordLink() {
             var discordLinkResponse = await SiteAPI.GetActualDiscordLink();
-            var link = discordLinkResponse.GetFormattedData();
+            var link = discordLinkResponse.FormattedData;
             await ApplyTag(link);
         }
         private async Task SetVKLink() {
             var discordLinkResponse = await SiteAPI.GetActualVKLink();
-            var link = discordLinkResponse.GetFormattedData();
+            var link = discordLinkResponse.FormattedData;
             await ApplyTag(link);
         }
 

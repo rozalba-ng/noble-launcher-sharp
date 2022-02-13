@@ -23,7 +23,7 @@ namespace NoblegardenLauncherSharp.Components
         }
         private async Task DrawLastNews() {
             var newsResponse = await SiteAPI.GetLastNews();
-            var newsAsJSONArray = newsResponse.GetFormattedData();
+            var newsAsJSONArray = newsResponse.FormattedData;
 
             var newsList = new List<SitePost>();
             for (int i = 0; i < newsAsJSONArray.Count; i++) {

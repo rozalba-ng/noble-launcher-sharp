@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NoblegardenLauncherSharp.Structures;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -14,9 +15,9 @@ namespace NoblegardenLauncherSharp.Models
             this.BaseURL = BaseURL;
         }
 
-        protected async Task<NobleResponseModel> MakeAsyncRequest(string TargetURL) {
+        protected async Task<NobleResponse> MakeAsyncRequest(string TargetURL) {
             if (BaseURL == null) {
-                return new NobleResponseModel(false, "Не определён адрес удаленного сервера");
+                return new NobleResponse(false, "Не определён адрес удаленного сервера");
             }
 
             string errMsg = "Неизвестная ошибка";
@@ -37,10 +38,10 @@ namespace NoblegardenLauncherSharp.Models
             });
 
             if (responseText != null) {
-                return new NobleResponseModel(responseText);
+                return new NobleResponse(responseText);
             }
 
-            return new NobleResponseModel(false, $"Не удалось соединиться с сервером. ({errMsg})");
+            return new NobleResponse(false, $"Не удалось соединиться с сервером. ({errMsg})");
         }
     }
 }

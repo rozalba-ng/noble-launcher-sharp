@@ -100,6 +100,7 @@
     <Compile Include="Models\Patches\CustomPatchModel.cs" />
     <Compile Include="Models\Patches\PatchModel.cs" />
     <Compile Include="Structures\EventDispatcherEvent.cs" />
+    <Compile Include="Structures\NobleResponse.cs" />
     <Compile Include="Structures\SitePost.cs" />
     <Compile Include="Structures\SitePostAuthor.cs" />
     <Compile Include="Structures\SliderElement.cs" />
@@ -156,7 +157,6 @@
     <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
     <Compile Include="Models\API\UpdateServerAPIModel.cs" />
     <Compile Include="Models\API\SiteAPIModel.cs" />
-    <Compile Include="Models\API\ResponseModel.cs" />
     <Compile Include="Models\Patches\NecessaryPatchModel.cs" />
     <Compile Include="Models\API\APIModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
