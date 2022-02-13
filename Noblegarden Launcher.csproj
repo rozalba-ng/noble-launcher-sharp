@@ -43,6 +43,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -60,14 +62,87 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\Background.xaml.cs">
+      <DependentUpon>Background.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\CurrentOnline.xaml.cs">
+      <DependentUpon>CurrentOnline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\CustomPatches.xaml.cs">
+      <DependentUpon>CustomPatches.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Header.xaml.cs">
+      <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LinkPanel.xaml.cs">
+      <DependentUpon>LinkPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\News.xaml.cs">
+      <DependentUpon>News.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Preloader.xaml.cs">
+      <DependentUpon>Preloader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SingleNews.xaml.cs">
+      <DependentUpon>SingleNews.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Slider.xaml.cs">
+      <DependentUpon>Slider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Globals\Settings.cs" />
+    <Compile Include="Models\Common\EventDispatcher.cs" />
+    <Compile Include="Globals\Static.cs" />
     <Compile Include="Models\Files\FileModel.cs" />
     <Compile Include="Models\Files\FileWithDefaultDictionaryContentModel.cs" />
     <Compile Include="Models\Patches\CustomPatchModel.cs" />
     <Compile Include="Models\Patches\PatchModel.cs" />
-    <Compile Include="Models\Settings\SettingsModel.cs" />
+    <Compile Include="Structures\EventDispatcherEvent.cs" />
     <Compile Include="Structures\SitePost.cs" />
     <Compile Include="Structures\SitePostAuthor.cs" />
     <Compile Include="Structures\SliderElement.cs" />
+    <Page Include="Components\Background.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\CurrentOnline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\CustomPatches.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\LinkPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\News.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Preloader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\SettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\SingleNews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Slider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,13 +151,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\ElementSearcherController.cs" />
-    <Compile Include="Controllers\JObjectConverter.cs" />
+    <Compile Include="Models\Common\ElementSearcher.cs" />
+    <Compile Include="Models\Common\JObjectConverter.cs" />
     <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
-    <Compile Include="Controllers\PreloaderTaskController.cs" />
-    <Compile Include="Controllers\SettingsBlockController.cs" />
-    <Compile Include="Controllers\SliderBlockController.cs" />
-    <Compile Include="Globals.cs" />
     <Compile Include="Models\API\UpdateServerAPIModel.cs" />
     <Compile Include="Models\API\SiteAPIModel.cs" />
     <Compile Include="Models\API\ResponseModel.cs" />

@@ -8,17 +8,14 @@ namespace NoblegardenLauncherSharp.Models
         private static SiteAPIModel instance;
         private SiteAPIModel(string BaseURL) : base(BaseURL) { }
 
-        public static SiteAPIModel Init(string BaseURL) {
+        public static SiteAPIModel Instance() {
             if (instance == null) {
-                instance = new SiteAPIModel(BaseURL);
+                instance = new SiteAPIModel("https://noblegarden.net");
             }
 
             return instance;
         }
 
-        public static SiteAPIModel GetInstance() {
-            return instance;
-        }
         public async Task<NobleResponseModel> GetUpdateServerAddress() {
             var response = await MakeAsyncRequest("/site/patches-ip");
             if (!response.IsOK) {

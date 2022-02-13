@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="NoblegardenLauncherSharp.Components.LinkPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NoblegardenLauncherSharp.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="130">
+    <Grid>
+        <Border BorderBrush="#26FFFFFF" BorderThickness="1, 1, 1, 1" CornerRadius="4" Grid.Row="0" Grid.Column="0">
+            <Rectangle
+                Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:LinkPanel}}, Path=Fill, FallbackValue='#000000'}"
+                Grid.Row="0"
+                Grid.Column="0"
+                RadiusX="4"
+                RadiusY="4"
+                Name="LinkPanelView"
+                MouseLeftButtonUp="OpenLink"
+            >
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+                <Rectangle.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="LinkPanelImage" Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                    <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
+                                    <SplineThicknessKeyFrame KeyTime="00:00:0.15" Value="0,80,0,0" />
+                                </ThicknessAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LinkPanelText" Storyboard.TargetProperty="Opacity">
+                                    <LinearDoubleKeyFrame Value="0.0" KeyTime="00:00:0.15" />
+                                    <LinearDoubleKeyFrame Value="1.0" KeyTime="00:00:0.25" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="LinkPanelText" Storyboard.TargetProperty="Opacity">
+                                    <LinearDoubleKeyFrame Value="1.0" KeyTime="00:00:0" />
+                                    <LinearDoubleKeyFrame Value="0.0" KeyTime="00:00:0.1" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="LinkPanelImage" Storyboard.TargetProperty="Margin" BeginTime="00:00:0.1">
+                                    <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,80,0,0" />
+                                    <SplineThicknessKeyFrame KeyTime="00:00:0.25" Value="0,0,0,0" />
+                                </ThicknessAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Rectangle.Triggers>
+            </Rectangle>
+        </Border>
+        <Image
+            Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:LinkPanel}}, Path=Image}"
+            Name = "LinkPanelImage"
+            Grid.Row="0"
+            Grid.Column="0"
+            Width="40"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsHitTestVisible="False"
+        />
+        <TextBlock
+            Name="LinkPanelText"
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" 
+            FontFamily="Segoe UI Black"
+            Foreground="White"
+            FontSize="16"
+            Opacity="0"
+            IsHitTestVisible="False"
+            Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:LinkPanel}}, Path=Text}"
+          />
+    </Grid>
+</UserControl>
