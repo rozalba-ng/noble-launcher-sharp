@@ -2,6 +2,7 @@
 {
     public enum EventDispatcherEvent
     {
+        StartPreload,
         SettingsButtonClick,
         SettingsRefresh,
     }

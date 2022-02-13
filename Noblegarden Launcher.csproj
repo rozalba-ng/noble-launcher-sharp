@@ -80,6 +80,9 @@
     <Compile Include="Components\News.xaml.cs">
       <DependentUpon>News.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Preloader.xaml.cs">
+      <DependentUpon>Preloader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -124,6 +127,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\Preloader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,7 +154,6 @@
     <Compile Include="Models\Common\ElementSearcher.cs" />
     <Compile Include="Models\Common\JObjectConverter.cs" />
     <Compile Include="Models\Patches\NoblePatchGroupModel.cs" />
-    <Compile Include="Controllers\PreloaderTaskController.cs" />
     <Compile Include="Models\API\UpdateServerAPIModel.cs" />
     <Compile Include="Models\API\SiteAPIModel.cs" />
     <Compile Include="Models\API\ResponseModel.cs" />

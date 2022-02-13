@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using NoblegardenLauncherSharp.Controllers;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 
@@ -23,21 +22,6 @@ namespace NoblegardenLauncherSharp.Globals
         public static readonly BitmapImage FirstSliderElementImage = SliderElements[0].Image;
         public static readonly string FirstSliderElementLink = SliderElements[0].Link;
         public static readonly string FirstSliderElementName = SliderElements[0].Name;
-
-        public enum LOADING_STEPS
-        {
-            GET_SERVER_ADDRESS = 0,
-            CHECK_LAUNCHER_VERSION = 1,
-            GET_LAST_UPDATES = 2,
-            GET_PATCHES_INFO = 3,
-        }
-
-        public static readonly string[] LOADING_TEXTS = {
-            "Получаем адрес сервера обновлений",
-            "Сверяем версии лаунчеров",
-            "Получаем последние новости",
-            "Получаем информацию о патчах",
-        };
 
         public static string GetRightWordForm(int count, string[] words) {
             if (count <= 0)

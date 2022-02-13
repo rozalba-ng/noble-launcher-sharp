@@ -1,5 +1,4 @@
-﻿using NoblegardenLauncherSharp.Controllers;
-using NoblegardenLauncherSharp.Models;
+﻿using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 using System;
 using System.Collections.Generic;
