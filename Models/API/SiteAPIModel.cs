@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NoblegardenLauncherSharp.Structures;
+using System;
 using System.Threading.Tasks;
 
 namespace NoblegardenLauncherSharp.Models
@@ -16,7 +17,7 @@ namespace NoblegardenLauncherSharp.Models
             return instance;
         }
 
-        public async Task<NobleResponseModel> GetUpdateServerAddress() {
+        public async Task<NobleResponse> GetUpdateServerAddress() {
             var response = await MakeAsyncRequest("/site/patches-ip");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить адрес сервера обновлений");
@@ -24,7 +25,7 @@ namespace NoblegardenLauncherSharp.Models
             return response;
         }
 
-        public async Task<NobleResponseModel> GetOnlineCount() {
+        public async Task<NobleResponse> GetOnlineCount() {
             var response = await MakeAsyncRequest($"/armory/online");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить текущий онлайн");
@@ -32,7 +33,7 @@ namespace NoblegardenLauncherSharp.Models
             return response;
         }
 
-        public async Task<NobleResponseModel> GetLastNews() {
+        public async Task<NobleResponse> GetLastNews() {
             var response = await MakeAsyncRequest($"/site/articles");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить новости");
@@ -40,7 +41,7 @@ namespace NoblegardenLauncherSharp.Models
             return response;
         }
 
-        public async Task<NobleResponseModel> GetActualDiscordLink() {
+        public async Task<NobleResponse> GetActualDiscordLink() {
             var response = await MakeAsyncRequest($"/site/discord-link");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить ссылку на Discord");
@@ -48,7 +49,7 @@ namespace NoblegardenLauncherSharp.Models
             return response;
         }
 
-        public async Task<NobleResponseModel> GetActualVKLink() {
+        public async Task<NobleResponse> GetActualVKLink() {
             var response = await MakeAsyncRequest($"/site/vk-link");
             if (!response.IsOK) {
                 throw new Exception("Не удалось получить ссылку на VK");

@@ -38,7 +38,7 @@ namespace NoblegardenLauncherSharp.Components
                 return;
             CurrentLoadingStepText.Text = "Сверяем версии лаунчеров";
             var launcherVersionResponse = await UpdateServerAPI.GetActualLauncherVersion();
-            string actualLauncherVersion = (string)launcherVersionResponse.GetFormattedData().version;
+            string actualLauncherVersion = (string)launcherVersionResponse.FormattedData.version;
             if (actualLauncherVersion == "") {
                 throw new Exception("Сервер не вернул актуальной версии лаунчера");
             }
@@ -49,7 +49,7 @@ namespace NoblegardenLauncherSharp.Components
         private async Task GetBasePatches() {
             CurrentLoadingStepText.Text = "Получаем список патчей";
             var defaultPatchesResponse = await UpdateServerAPI.GetBasePatches();
-            var patchesInfo = defaultPatchesResponse.GetFormattedData();
+            var patchesInfo = defaultPatchesResponse.FormattedData;
             var defaultPatches = JObjectConverter.ConvertToNecessaryPatchesList(patchesInfo);
             Static.Patches = new NoblePatchGroupModel<NecessaryPatchModel>(defaultPatches);
         }

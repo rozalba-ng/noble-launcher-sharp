@@ -37,7 +37,7 @@ namespace NoblegardenLauncherSharp.Components
         }
         private async Task GetAndDrawCustomPatches() {
             var customPatchesResponse = await UpdateServerAPI.GetCustomPatches();
-            var patchesInfo = customPatchesResponse.GetFormattedData();
+            var patchesInfo = customPatchesResponse.FormattedData;
             List<CustomPatchModel> customPatches = JObjectConverter.ConvertToCustomPatchesList(patchesInfo);
             Static.CustomPatches = new NoblePatchGroupModel<CustomPatchModel>(customPatches);
 

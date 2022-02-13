@@ -30,12 +30,12 @@ namespace NoblegardenLauncherSharp.Components
             string text = "Не найдено";
             if (onlineResponse.IsOK) {
                 try {
-                    int playersCount = Int32.Parse(onlineResponse.GetFormattedData());
+                    int playersCount = Int32.Parse(onlineResponse.FormattedData);
                     string wordForm = Static.GetRightWordForm(playersCount, wordForms);
                     text = $"{playersCount} {wordForm}";
                 }
                 catch {
-                    text = onlineResponse.GetFormattedData();
+                    text = onlineResponse.FormattedData;
                 }
             }
 
