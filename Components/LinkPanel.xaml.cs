@@ -42,8 +42,6 @@ namespace NoblegardenLauncherSharp.Components
         public LinkPanel() {
             InitializeComponent();
             ElementSearcher = new ElementSearcher(this);
-
-            Task.Run(() => SetDiscordLink());
         }
 
         private void OpenLink(object sender, MouseButtonEventArgs e) {

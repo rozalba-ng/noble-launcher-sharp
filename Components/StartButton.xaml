@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="NoblegardenLauncherSharp.Components.StartButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="54" d:DesignWidth="124">
+    <Grid>
+        <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="1" Cursor="Hand">
+            <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonRectangle">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Setter Property="Fill" Value="#FF12161A" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" Value="#FF090B0D" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+        </Border>
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            TextAlignment="Center"
+            Foreground="#FFFFFFFF"
+            FontFamily="Corbel"
+            IsHitTestVisible="False"
+            TextWrapping="WrapWithOverflow"
+            FontWeight="Bold"
+            FontSize="16"
+        >
+            Начать без обновления
+        </TextBlock>
+    </Grid>
+</UserControl>

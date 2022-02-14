@@ -92,6 +92,12 @@
     <Compile Include="Components\Slider.xaml.cs">
       <DependentUpon>Slider.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\StartButton.xaml.cs">
+      <DependentUpon>StartButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\UpdateButton.xaml.cs">
+      <DependentUpon>UpdateButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Globals\Settings.cs" />
     <Compile Include="Models\Common\EventDispatcher.cs" />
     <Compile Include="Globals\Static.cs" />
@@ -141,6 +147,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\Slider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\StartButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\UpdateButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

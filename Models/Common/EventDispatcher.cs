@@ -24,8 +24,14 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public static void Dispatch(EventDispatcherEvent dispatchedEvent) {
-            if (ActionHandlers[dispatchedEvent].Count == 0)
+            if (!ActionHandlers.ContainsKey(dispatchedEvent)) {
+                Console.WriteLine("Dispatcher key not found: " + dispatchedEvent);
                 return;
+            }
+            if (ActionHandlers[dispatchedEvent].Count == 0) {
+                Console.WriteLine("Dispatcher handler not found: " + dispatchedEvent);
+                return;
+            }
             ActionHandlers[dispatchedEvent].ForEach(action => action());
         }
 

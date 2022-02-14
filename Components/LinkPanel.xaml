@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NoblegardenLauncherSharp.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="130">
+             d:DesignHeight="60" d:DesignWidth="132">
     <Grid>
         <Border BorderBrush="#26FFFFFF" BorderThickness="1, 1, 1, 1" CornerRadius="4" Grid.Row="0" Grid.Column="0">
             <Rectangle

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="900">
     <Grid Name="ModalBackground" Opacity="0">
-        <Rectangle Name="ModalBackgroundRectangle" Fill="#FF062131"/>
+        <Rectangle Name="ModalBackgroundRectangle" Fill="#FF062131" IsHitTestVisible="False"/>
         <Image
             gif:AnimationBehavior.SourceUri="Images/preloader.gif"
             Width="48" Height="48"
