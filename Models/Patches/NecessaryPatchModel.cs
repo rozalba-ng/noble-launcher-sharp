@@ -1,6 +1,8 @@
-﻿namespace NoblegardenLauncherSharp.Models
+﻿using NoblegardenLauncherSharp.Interfaces;
+
+namespace NoblegardenLauncherSharp.Models
 {
-    public class NecessaryPatchModel : PatchModel
+    public class NecessaryPatchModel : PatchModel, IUpdateable
     {
         public NecessaryPatchModel(string LocalPath, string RemotePath, string Hash, string Description) : base(LocalPath, RemotePath, Hash, Description) {
             ChangeSelectionTo(true);

@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="54" d:DesignWidth="124">
     <Grid>
-        <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="1" Cursor="Hand">
+        <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="StartUpdate">
             <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonRectangle">
                 <Rectangle.Style>
                     <Style TargetType="{x:Type Rectangle}">

@@ -1,6 +1,12 @@
-﻿namespace NoblegardenLauncherSharp.Models
+﻿using NoblegardenLauncherSharp.Globals;
+using NoblegardenLauncherSharp.Interfaces;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace NoblegardenLauncherSharp.Models
 {
-    public class PatchModel
+    public class PatchModel: IUpdateable
     {
         public int Index { get; set; }
         public string Name { get; set; }
@@ -9,6 +15,9 @@
         public string Description { get; set; }
         public string Hash { get; set; }
         public bool Selected { get; set; }
+        private string FullPath {
+            get => Settings.WORKING_DIR + "/" + LocalPath;
+        }
 
         public PatchModel() {
             Selected = false;
@@ -48,6 +57,17 @@
                 Index = Index
             };
             return patch;
+        }
+
+        public long GetPathByteSize() {
+            if (!File.Exists(FullPath))
+                return 0;
+
+            return new FileInfo(FullPath).Length;
+        }
+
+        public Task<string> GetCRC32Hash(Action<long> OnBlockRead) {
+            return HashCalculator.CalcCRC32Hash(FullPath, OnBlockRead);
         }
     }
 }
