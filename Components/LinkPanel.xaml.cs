@@ -68,22 +68,19 @@ namespace NoblegardenLauncherSharp.Components
         private async Task SetDiscordLink() {
             var discordLinkResponse = await SiteAPI.GetActualDiscordLink();
             var link = discordLinkResponse.FormattedData;
-            await ApplyTag(link);
+            ApplyTag(link);
         }
         private async Task SetVKLink() {
             var discordLinkResponse = await SiteAPI.GetActualVKLink();
             var link = discordLinkResponse.FormattedData;
-            await ApplyTag(link);
+            ApplyTag(link);
         }
 
-        private async Task ApplyTag(string tag) {
-            await Application.Current.Dispatcher.BeginInvoke(
-                DispatcherPriority.Render,
-                new Action(() => {
-                    var view = (Rectangle)ElementSearcher.FindName("LinkPanelView");
-                    view.Tag = tag;
-                })
-            );
+        private void ApplyTag(string tag) {
+            Static.ChangeUI(() => {
+                var view = (Rectangle)ElementSearcher.FindName("LinkPanelView");
+                view.Tag = tag;
+            });
         }
     }
 }

@@ -41,13 +41,10 @@ namespace NoblegardenLauncherSharp.Components
             List<CustomPatchModel> customPatches = JObjectConverter.ConvertToCustomPatchesList(patchesInfo);
             Static.CustomPatches = new NoblePatchGroupModel<CustomPatchModel>(customPatches);
 
-            await Application.Current.Dispatcher.BeginInvoke(
-                DispatcherPriority.Render,
-                new Action(() => {
-                    var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
-                    customPatchesView.ItemsSource = Static.CustomPatches.List;
-                })
-            );
+            Static.ChangeUI(() => {
+                var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
+                customPatchesView.ItemsSource = Static.CustomPatches.List;
+            });
         }
     }
 }

@@ -14,7 +14,7 @@ namespace NoblegardenLauncherSharp.Components
     {
         private readonly ElementSearcher ElementSearcher;
         private UpdateServerAPIModel UpdateServerAPI;
-        private TextBlock CurrentLoadingStepText;
+        private readonly TextBlock CurrentLoadingStepText;
 
         public Preloader() {
             InitializeComponent();

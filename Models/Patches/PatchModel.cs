@@ -15,7 +15,7 @@ namespace NoblegardenLauncherSharp.Models
         public string Description { get; set; }
         public string Hash { get; set; }
         public bool Selected { get; set; }
-        private string FullPath {
+        public string FullPath {
             get => Settings.WORKING_DIR + "/" + LocalPath;
         }
 

@@ -1,4 +1,5 @@
-﻿using NoblegardenLauncherSharp.Models;
+﻿using NoblegardenLauncherSharp.Globals;
+using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,7 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private void CloseClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            Static.CurrentUIOperation.Abort();
             Application.Current.Shutdown();
         }
     }

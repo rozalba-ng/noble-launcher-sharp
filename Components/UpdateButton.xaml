@@ -6,8 +6,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="54" d:DesignWidth="124">
     <Grid>
-        <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="StartUpdate">
-            <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonRectangle">
+        <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="StartUpdate" Name="StartButton">
+            <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonRectangle" Fill="#FF1988D3">
                 <Rectangle.Style>
                     <Style TargetType="{x:Type Rectangle}">
                         <Setter Property="Fill" Value="#FF1988D3" />
@@ -31,7 +31,7 @@
             FontWeight="Bold"
             FontSize="18"
         >
-            Обновить
+            Проверить
         </TextBlock>
     </Grid>
 </UserControl>

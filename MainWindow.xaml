@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:gif="clr-namespace:XamlAnimatedGif;assembly=XamlAnimatedGif"
         xmlns:components="clr-namespace:NoblegardenLauncherSharp.Components"
         mc:Ignorable="d"
         WindowStyle="None"
@@ -54,13 +53,10 @@
                         <components:LinkPanel Text="Discord" Grid.Column="0" Image="Images/discord.png" Fill="#FF6C71B4" Type="Discord"/>
                         <components:LinkPanel Text="Группа VK" Grid.Column="2" Image="Images/vk.png" Fill="#FF254E79" Type="VK"/>
                     </Grid>
-                    <Grid Grid.Row="2">
-                        <components:CurrentOnline />
-                    </Grid>
-                    <Grid Grid.Row="4">
-                        <components:Slider />
-                    </Grid>
+                    <components:CurrentOnline Grid.Row="2"/>
+                    <components:Slider Grid.Row="4" />
                 </Grid>
+                <components:Updater Grid.Row="3" Grid.Column="0"/>
                 <Grid Grid.Row="3" Grid.Column="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -71,9 +67,7 @@
                     <components:UpdateButton Grid.Column="2"/>
                 </Grid>
             </Grid>
-            <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Width="280" Margin="0,0,0,0" Name="SettingsView" HorizontalAlignment="Right">
-                <components:SettingsWindow />
-            </Grid>
+            <components:SettingsWindow Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Width="280" />
             <components:Preloader Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan = "3" />
         </Grid>
     </Border>

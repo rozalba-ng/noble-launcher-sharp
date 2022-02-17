@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 
@@ -9,6 +12,7 @@ namespace NoblegardenLauncherSharp.Globals
 {
     public static class Static
     {
+        public static DispatcherOperation CurrentUIOperation;
         public static NoblePatchGroupModel<NecessaryPatchModel> Patches;
         public static NoblePatchGroupModel<CustomPatchModel> CustomPatches;
 
@@ -48,6 +52,15 @@ namespace NoblegardenLauncherSharp.Globals
             var target = (FrameworkElement)sender;
             string link = target.Tag.ToString();
             Process.Start(link);
+        }
+
+        public static void ChangeUI(Action action) {
+            if (Application.Current == null)
+                return;
+            CurrentUIOperation = Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render,
+                action
+            );
         }
     }
 }

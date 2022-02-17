@@ -24,8 +24,6 @@ namespace NoblegardenLauncherSharp.Models
                     }
                 }
             });
-
-            OnBlockRead(new FileInfo(path).Length);
             return hash.ToString("X8");
         }
     }

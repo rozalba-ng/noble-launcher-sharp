@@ -39,13 +39,10 @@ namespace NoblegardenLauncherSharp.Components
                 }
             }
 
-            await Application.Current.Dispatcher.BeginInvoke(
-                DispatcherPriority.Render,
-                new Action(() => {
-                    var onlineCountBlock = (TextBlock)ElementSearcher.FindName("CurrentOnlineText");
-                    onlineCountBlock.Text = text;
-                })
-            );
+            Static.ChangeUI(() => {
+                var onlineCountBlock = (TextBlock)ElementSearcher.FindName("CurrentOnlineText");
+                onlineCountBlock.Text = text;
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NoblegardenLauncherSharp.Models;
+﻿using NoblegardenLauncherSharp.Globals;
+using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 using System;
 using System.Collections.Generic;
@@ -39,13 +40,10 @@ namespace NoblegardenLauncherSharp.Components
                 );
             }
 
-            await Application.Current.Dispatcher.BeginInvoke(
-                DispatcherPriority.Render,
-                new Action(() => {
-                    var newsListView = (ListView)ElementSearcher.FindName("LastNewsView");
-                    newsListView.ItemsSource = newsList;
-                })
-            );
+            Static.ChangeUI(() => {
+                var newsListView = (ListView)ElementSearcher.FindName("LastNewsView");
+                newsListView.ItemsSource = newsList;
+            });
         }
     }
 }
