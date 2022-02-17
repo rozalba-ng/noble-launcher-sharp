@@ -40,7 +40,7 @@ namespace NoblegardenLauncherSharp.Components
                 );
             }
 
-            Static.ChangeUI(() => {
+            Static.InUIThread(() => {
                 var newsListView = (ListView)ElementSearcher.FindName("LastNewsView");
                 newsListView.ItemsSource = newsList;
             });

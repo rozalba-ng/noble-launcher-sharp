@@ -14,16 +14,12 @@ namespace NoblegardenLauncherSharp.Components
             ElementSearcher = new ElementSearcher(this);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsButtonClick, ToggleOnScreen);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsRefresh, Refresh);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, PlayHideAnimation);
         }
 
         public void ToggleOnScreen() {
-            if (IsOnScreen) {
-                PlayHideAnimation();
-            }
-            else {
-                PlayShowAnimation();
-            }
-            IsOnScreen = !IsOnScreen;
+            if (IsOnScreen) PlayHideAnimation();
+            else PlayShowAnimation();
         }
 
         public void Refresh() {
@@ -33,16 +29,22 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private void PlayShowAnimation() {
+            if (IsOnScreen)
+                return;
             Storyboard showAnim = ElementSearcher.FindStoryboard("ShowSettings");
             if (showAnim != null) {
                 showAnim.Begin();
+                IsOnScreen = true;
             }
         }
 
         private void PlayHideAnimation() {
+            if (!IsOnScreen)
+                return;
             Storyboard hideAnim = ElementSearcher.FindStoryboard("HideSettings");
             if (hideAnim != null) {
                 hideAnim.Begin();
+                IsOnScreen = false;
             }
         }
     }

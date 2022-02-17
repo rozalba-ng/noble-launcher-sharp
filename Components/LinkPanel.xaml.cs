@@ -77,7 +77,7 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private void ApplyTag(string tag) {
-            Static.ChangeUI(() => {
+            Static.InUIThread(() => {
                 var view = (Rectangle)ElementSearcher.FindName("LinkPanelView");
                 view.Tag = tag;
             });

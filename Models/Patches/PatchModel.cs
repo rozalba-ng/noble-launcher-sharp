@@ -13,20 +13,25 @@ namespace NoblegardenLauncherSharp.Models
         public string LocalPath { get; set; }
         public string RemotePath { get; set; }
         public string Description { get; set; }
-        public string Hash { get; set; }
+        public string RemoteHash { get; set; }
+        public string LocalHash { get; set; }
         public bool Selected { get; set; }
         public string FullPath {
             get => Settings.WORKING_DIR + "/" + LocalPath;
+        }
+
+        public string PathToTMP {
+            get => FullPath + ".tmp";
         }
 
         public PatchModel() {
             Selected = false;
         }
 
-        public PatchModel(string LocalPath, string RemotePath, string Hash, string Description) {
+        public PatchModel(string LocalPath, string RemotePath, string RemoteHash, string Description) {
             this.LocalPath = LocalPath;
             this.RemotePath = RemotePath;
-            this.Hash = Hash;
+            this.RemoteHash = RemoteHash;
             this.Description = Description;
             Selected = false;
 
@@ -46,14 +51,14 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public virtual NecessaryPatchModel ToNecessaryPatch() {
-            var patch = new NecessaryPatchModel(LocalPath, RemotePath, Hash, Description) {
+            var patch = new NecessaryPatchModel(LocalPath, RemotePath, RemoteHash, Description) {
                 Index = Index
             };
             return patch;
         }
 
         public virtual CustomPatchModel ToCustomPatchModel() {
-            var patch = new CustomPatchModel(LocalPath, RemotePath, Hash, Description) {
+            var patch = new CustomPatchModel(LocalPath, RemotePath, RemoteHash, Description) {
                 Index = Index
             };
             return patch;
@@ -66,8 +71,16 @@ namespace NoblegardenLauncherSharp.Models
             return new FileInfo(FullPath).Length;
         }
 
-        public Task<string> GetCRC32Hash(Action<long> OnBlockRead) {
-            return HashCalculator.CalcCRC32Hash(FullPath, OnBlockRead);
+        public Task<string> CalcCRC32Hash(Action<long> OnBlockRead) {
+            return HashCalculator.CalcCRC32Hash(this, OnBlockRead);
+        }
+
+        public Task<long> GetRemoteSize() {
+            return FileDownloader.GetFileSize(this);
+        }
+
+        public Task LoadUpdated(Action<long> OnChunkLoaded) {
+            return FileDownloader.DownloadFile(this, OnChunkLoaded);
         }
     }
 }

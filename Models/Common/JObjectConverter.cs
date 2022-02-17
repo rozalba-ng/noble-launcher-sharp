@@ -47,7 +47,7 @@ namespace NoblegardenLauncherSharp.Models
                                 patch.RemotePath = reader.ReadAsString();
                                 break;
                             case "crc32-hash":
-                                patch.Hash = reader.ReadAsString();
+                                patch.RemoteHash = reader.ReadAsString();
                                 break;
                             case "description":
                                 patch.Description = reader.ReadAsString();

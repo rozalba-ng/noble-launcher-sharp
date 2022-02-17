@@ -39,7 +39,7 @@ namespace NoblegardenLauncherSharp.Components
                 }
             }
 
-            Static.ChangeUI(() => {
+            Static.InUIThread(() => {
                 var onlineCountBlock = (TextBlock)ElementSearcher.FindName("CurrentOnlineText");
                 onlineCountBlock.Text = text;
             });

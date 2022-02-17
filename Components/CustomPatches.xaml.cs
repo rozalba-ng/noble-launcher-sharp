@@ -41,7 +41,7 @@ namespace NoblegardenLauncherSharp.Components
             List<CustomPatchModel> customPatches = JObjectConverter.ConvertToCustomPatchesList(patchesInfo);
             Static.CustomPatches = new NoblePatchGroupModel<CustomPatchModel>(customPatches);
 
-            Static.ChangeUI(() => {
+            Static.InUIThread(() => {
                 var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
                 customPatchesView.ItemsSource = Static.CustomPatches.List;
             });

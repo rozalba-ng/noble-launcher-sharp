@@ -54,7 +54,7 @@ namespace NoblegardenLauncherSharp.Globals
             Process.Start(link);
         }
 
-        public static void ChangeUI(Action action) {
+        public static void InUIThread(Action action) {
             if (Application.Current == null)
                 return;
             CurrentUIOperation = Application.Current.Dispatcher.BeginInvoke(

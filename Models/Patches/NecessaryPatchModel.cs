@@ -17,7 +17,7 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public override CustomPatchModel ToCustomPatchModel() {
-            return new CustomPatchModel(LocalPath, RemotePath, Hash, Description);
+            return new CustomPatchModel(LocalPath, RemotePath, RemoteHash, Description);
         }
     }
 }

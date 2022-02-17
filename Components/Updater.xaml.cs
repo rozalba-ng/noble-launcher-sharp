@@ -2,6 +2,7 @@
 using NoblegardenLauncherSharp.Interfaces;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,8 +29,18 @@ namespace NoblegardenLauncherSharp.Components
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, Update);
         }
         public async void Update() {
-            List<IUpdateable> patches = Static.Patches.List.ToList<IUpdateable>();
+            List<IUpdateable> necessaryPatches = Static.Patches.List.ToList<IUpdateable>();
+            List<IUpdateable> selectedCustomPatches = Static.CustomPatches.List.FindAll(patch => patch.Selected).ToList<IUpdateable>();
+
+            List<IUpdateable> patches = new List<IUpdateable>();
+            necessaryPatches.ForEach(patch => patches.Add(patch));
+            selectedCustomPatches.ForEach(patch => patches.Add(patch));
+
             await CalcHashes(patches);
+
+            List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
+
+            await DownloadFiles(patchesToUpdate, await GetSummaryDownloadSize(patchesToUpdate));
         }
 
         private long GetSummaryHashFileSize(List<IUpdateable> patches) {
@@ -48,20 +59,76 @@ namespace NoblegardenLauncherSharp.Components
             return Task.Run(async () => {
                 for (int i = 0; i < patches.Count; i++) {
                     var patch = patches[i];
-                    Static.ChangeUI(() => {
+                    Static.InUIThread(() => {
                         CurrentAction.Text = "Считаем чек-суммы: " + patch.LocalPath;
                     });
-                    await patch.GetCRC32Hash((blockSize) => {
+                    var hash = await patch.CalcCRC32Hash((blockSize) => {
                         currentRead += blockSize;
                         double readBytesProgress = (double)(currentRead) / (double)(summarySize);
                         int progress = (int)(readBytesProgress * 100);
-                        Static.ChangeUI(() => {
-                            if (progress != ProgressBar.Value) {
-                                ProgressBar.Value = progress;
-                                CurrentProgress.Text = progress.ToString() + "%";
-                            }
-                        });
+                        SetProgress(progress);
                     });
+
+                    patch.LocalHash = hash;
+                }
+            });
+        }
+
+        private async Task<long> GetSummaryDownloadSize(List<IUpdateable> patches) {
+            long summarySize = 0;
+            Static.InUIThread(() => {
+                CurrentAction.Text = "Считаем размер обновления";
+                SetProgress(0);
+            });
+            
+            await Task.Run(async () => {
+                for (int i = 0; i < patches.Count; i++) {
+                    var patch = patches[i];
+                    Static.InUIThread(() => {
+                        CurrentAction.Text = "Считаем размер обновления: " + patch.LocalPath;
+                    });
+
+                    var size = await patch.GetRemoteSize();
+                    summarySize += size;
+                    double fileProgress = (double)(i + 1) / (double)(patches.Count);
+                    int progress = (int)(fileProgress * 100);
+                    SetProgress(progress);
+                }
+            });
+
+            return summarySize;
+        }
+
+        private Task DownloadFiles(List<IUpdateable> patches, long summarySize) {
+            long currentLoaded = 0;
+
+            Static.InUIThread(() => {
+                CurrentAction.Text = "Загружаем файлы";
+                SetProgress(0);
+            });
+
+            return Task.Run(async () => {
+                for (int i = 0; i < patches.Count; i++) {
+                    var patch = patches[i];
+                    Static.InUIThread(() => {
+                        CurrentAction.Text = "Загружаем файл: " + patch.LocalPath + "(" + (i + 1) + "/" + patches.Count + ")";
+                    });
+
+                    await patch.LoadUpdated((loadedChunkSize) => {
+                        currentLoaded += loadedChunkSize;
+                        double downloadProgress = (double)(currentLoaded) / (double)(summarySize);
+                        int progress = (int)(downloadProgress * 100);
+                        SetProgress(progress);
+                    });
+                }
+            });
+        }
+
+        private void SetProgress(int progress) {
+            Static.InUIThread(() => {
+                if (progress != ProgressBar.Value) {
+                    ProgressBar.Value = progress;
+                    CurrentProgress.Text = progress.ToString() + "%";
                 }
             });
         }

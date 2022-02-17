@@ -24,7 +24,7 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public override NecessaryPatchModel ToNecessaryPatch() {
-            return new NecessaryPatchModel(LocalPath, RemotePath, Hash, Description);
+            return new NecessaryPatchModel(LocalPath, RemotePath, RemoteHash, Description);
         }
 
         public override CustomPatchModel ToCustomPatchModel() {

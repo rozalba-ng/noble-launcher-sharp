@@ -7,7 +7,13 @@ namespace NoblegardenLauncherSharp.Interfaces
     {
         string FullPath { get; }
         string LocalPath { get; set; }
+        string RemotePath { get; set; }
+        string PathToTMP { get; }
+        string LocalHash { get; set; }
+        string RemoteHash { get; set; }
         long GetPathByteSize();
-        Task<string> GetCRC32Hash(Action<long> OnBlockRead);
+        Task<string> CalcCRC32Hash(Action<long> OnBlockRead);
+        Task<long> GetRemoteSize();
+        Task LoadUpdated(Action<long> OnChunkLoaded);
     }
 }

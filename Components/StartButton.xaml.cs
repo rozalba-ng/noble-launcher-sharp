@@ -1,5 +1,6 @@
 ﻿using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Models;
+using NoblegardenLauncherSharp.Structures;
 using System;
 using System.IO;
 using System.Windows.Controls;
@@ -17,6 +18,7 @@ namespace NoblegardenLauncherSharp.Components
         public StartButton() {
             InitializeComponent();
             ElementSearcher = new ElementSearcher(this);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, DisableButton);
 
             if (!IsEXEPresented()) {
                 DisableButton();
