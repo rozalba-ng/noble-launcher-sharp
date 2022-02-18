@@ -9,7 +9,7 @@
     <Grid Name="ModalBackground" Opacity="0">
         <Rectangle Name="ModalBackgroundRectangle" Fill="#FF062131" IsHitTestVisible="False"/>
         <Image
-            gif:AnimationBehavior.SourceUri="Images/preloader.gif"
+            gif:AnimationBehavior.SourceUri="../Images/preloader.gif"
             Width="48" Height="48"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

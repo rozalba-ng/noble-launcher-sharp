@@ -6,5 +6,6 @@
         SettingsButtonClick,
         SettingsRefresh,
         StartUpdate,
+        CompleteUpdate,
     }
 }

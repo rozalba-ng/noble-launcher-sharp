@@ -236,15 +236,15 @@
     <Resource Include="Images\vk.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\preloader.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\square-character.jpg" />
     <Resource Include="Images\square-guild.jpg" />
     <Resource Include="Images\square-plots.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\preloader.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,24 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:gif="clr-namespace:XamlAnimatedGif;assembly=XamlAnimatedGif"
              mc:Ignorable="d" 
              d:DesignHeight="54" d:DesignWidth="124">
-    <Grid>
+    <Grid Name="UpdateButtonContainer">
         <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="StartUpdate" Name="StartButton">
-            <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonRectangle" Fill="#FF1988D3">
+            <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonRectangle">
                 <Rectangle.Style>
                     <Style TargetType="{x:Type Rectangle}">
                         <Setter Property="Fill" Value="#FF1988D3" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Fill" Value="#FF156CA6" />
+                                <Setter Property="Fill" Value="#FF14679C" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Rectangle.Style>
             </Rectangle>
         </Border>
+        <Image
+            Name="UpdateButtonPreloader"
+            gif:AnimationBehavior.SourceUri="../Images/preloader.gif"
+            Width="48" Height="48"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsHitTestVisible="False"
+            Panel.ZIndex="2"
+            Opacity="0"
+        />
         <TextBlock
+            Name="UpdateButtonText"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             TextAlignment="Center"
@@ -30,6 +42,7 @@
             TextWrapping="WrapWithOverflow"
             FontWeight="Bold"
             FontSize="18"
+            Opacity="1"
         >
             Проверить
         </TextBlock>

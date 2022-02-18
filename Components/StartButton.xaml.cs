@@ -18,10 +18,11 @@ namespace NoblegardenLauncherSharp.Components
         public StartButton() {
             InitializeComponent();
             ElementSearcher = new ElementSearcher(this);
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, DisableButton);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, () => ToggleButtonState(false));
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompleteUpdate, () => ToggleButtonState(true));
 
             if (!IsEXEPresented()) {
-                DisableButton();
+                ToggleButtonState(false);
             }
         }
 
@@ -30,13 +31,13 @@ namespace NoblegardenLauncherSharp.Components
             return File.Exists(pathToEXE);
         }
 
-        private void DisableButton() {
+        private void ToggleButtonState(bool enabled) {
             var container = (Grid)ElementSearcher.FindName("StartButtonContainer");
             var bg = (Rectangle)ElementSearcher.FindName("StartButtonBg");
             var buttonBrush = new SolidColorBrush {
-                Color = Color.FromRgb(170, 170, 170)
+                Color = enabled ? Color.FromRgb(80, 190, 60) : Color.FromRgb(170, 170, 170)
             };
-            container.IsHitTestVisible = false;
+            container.IsHitTestVisible = enabled;
             bg.Fill = buttonBrush;
         }
     }

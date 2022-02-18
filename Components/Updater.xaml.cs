@@ -4,9 +4,11 @@ using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Shell;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -41,6 +43,8 @@ namespace NoblegardenLauncherSharp.Components
             List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
 
             await DownloadFiles(patchesToUpdate, await GetSummaryDownloadSize(patchesToUpdate));
+            RenameFiles(patchesToUpdate);
+            CompleteUpdate();
         }
 
         private long GetSummaryHashFileSize(List<IUpdateable> patches) {
@@ -53,6 +57,7 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private Task CalcHashes(List<IUpdateable> patches) {
+            if (patches.Count == 0) return Task.Run(() => { });
             long currentRead = 0;
             long summarySize = GetSummaryHashFileSize(patches);
 
@@ -76,6 +81,10 @@ namespace NoblegardenLauncherSharp.Components
 
         private async Task<long> GetSummaryDownloadSize(List<IUpdateable> patches) {
             long summarySize = 0;
+            if (patches.Count == 0) {
+                return 0;
+            }
+
             Static.InUIThread(() => {
                 CurrentAction.Text = "Считаем размер обновления";
                 SetProgress(0);
@@ -100,6 +109,8 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private Task DownloadFiles(List<IUpdateable> patches, long summarySize) {
+            if (patches.Count == 0)
+                return Task.Run(() => { });
             long currentLoaded = 0;
 
             Static.InUIThread(() => {
@@ -122,6 +133,31 @@ namespace NoblegardenLauncherSharp.Components
                     });
                 }
             });
+        }
+
+        private void RenameFiles(List<IUpdateable> patches) {
+            if (patches.Count == 0)
+                return;
+            patches.ForEach(patch => {
+                if (!File.Exists(patch.PathToTMP))
+                    return;
+
+                if (File.Exists(patch.FullPath)) {
+                    File.Delete(patch.FullPath);
+                }
+
+                File.Move(patch.PathToTMP, patch.FullPath);
+            });
+        }
+
+        private void CompleteUpdate() {
+            Static.InUIThread(() => {
+                CurrentAction.Text = "Обновлено!";
+                CurrentProgress.Text = "";
+                ProgressBar.Value = 100;
+            });
+
+            EventDispatcher.Dispatch(EventDispatcherEvent.CompleteUpdate);
         }
 
         private void SetProgress(int progress) {

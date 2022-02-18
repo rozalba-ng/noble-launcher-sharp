@@ -9,20 +9,21 @@ namespace NoblegardenLauncherSharp.Components
 {
     public partial class Header : UserControl
     {
-        private ElementSearcher ElementSearcher;
+        private readonly ElementSearcher ElementSearcher;
         public Header() {
             InitializeComponent();
             ElementSearcher = new ElementSearcher(this);
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, MakeUnclickable);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, () => SetSettingsClickable(false));
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompleteUpdate, () => SetSettingsClickable(true));
         }
 
         private void ToggleSettingsVisibility(object sender, RoutedEventArgs e) {
             EventDispatcher.Dispatch(EventDispatcherEvent.SettingsButtonClick);
         }
 
-        private void MakeUnclickable() {
+        private void SetSettingsClickable(bool clickable) {
             var icon = (Image)ElementSearcher.FindName("SettingsIcon");
-            icon.IsHitTestVisible = false;
+            icon.IsHitTestVisible = clickable;
         }
 
         private void CloseClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
