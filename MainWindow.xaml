@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:components="clr-namespace:NoblegardenLauncherSharp.Components"
+        xmlns:globals="clr-namespace:NoblegardenLauncherSharp.Globals"
         mc:Ignorable="d"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
@@ -68,6 +69,19 @@
                 </Grid>
             </Grid>
             <components:SettingsWindow Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Width="280" />
+            <TextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                TextAlignment="Left"
+                Text="{x:Static globals:Settings.LAUNCHER_VERSION}"
+                Foreground="#FFFFFFFF"
+                FontFamily="Corbel"
+                IsHitTestVisible="False"
+                FontSize="10"
+                Margin="0,0,0,12"
+                Grid.Row="2"
+                Grid.Column="1"
+             />
             <components:Preloader Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan = "3" />
         </Grid>
     </Border>
