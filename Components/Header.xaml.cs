@@ -24,6 +24,7 @@ namespace NoblegardenLauncherSharp.Components
         private void SetSettingsClickable(bool clickable) {
             var icon = (Image)ElementSearcher.FindName("SettingsIcon");
             icon.IsHitTestVisible = clickable;
+            icon.Opacity = clickable ? 1 : 0.33;
         }
 
         private void CloseClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -34,6 +35,10 @@ namespace NoblegardenLauncherSharp.Components
             Static.CustomPatches.List.FindAll(patch => File.Exists(patch.PathToTMP)).ForEach(patch => File.Delete(patch.PathToTMP));
 
             Application.Current.Shutdown();
+        }
+
+        private void HandleDrag(object sender, System.Windows.Input.MouseEventArgs e) {
+            Application.Current.MainWindow.DragMove();
         }
     }
 }

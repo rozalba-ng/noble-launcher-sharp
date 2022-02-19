@@ -2,6 +2,7 @@
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -28,9 +29,22 @@ namespace NoblegardenLauncherSharp.Components
             UpdateServerAPI = UpdateServerAPIModel.Instance();
             grid.Opacity = 1;
 
+            Migration();
             await CheckLauncherVersion();
             await GetBasePatches();
             PlaySuccessLoadAnimation();
+        }
+
+        public void Migration() {
+            CurrentLoadingStepText.Text = "Мигрируем со старой версии";
+            if (Directory.Exists(Settings.WORKING_DIR + "/Launcher")) {
+                Directory.Delete(Settings.WORKING_DIR + "/Launcher", true);
+            }
+
+            if (File.Exists(Settings.WORKING_DIR + "/Noblegarden Launcher.exe")) {
+                File.Delete(Settings.WORKING_DIR + "/Noblegarden Launcher.exe");
+            }
+
         }
 
         public async Task CheckLauncherVersion() {

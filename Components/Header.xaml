@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="55" d:DesignWidth="900">
-    <Grid Width="900" Height="55" Background="#FF062131">
+    <Grid Width="900" Height="55" Background="#FF062131" MouseDown="HandleDrag">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="16" />
             <ColumnDefinition Width="48" />
@@ -25,7 +25,7 @@
         <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Text="NOBLEGARDEN" FontSize="24" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" Margin="0,2,0,0" />
         <TextBlock Grid.Column="2" Text="Ролевой сервер World of Warcraft" FontFamily="Corbel" FontSize="14" Foreground="#D8FAFAFA" VerticalAlignment="Bottom" Margin="0,0,0,6"/>
         <Rectangle Fill="#59050505" Grid.Row="0" Grid.Column="2" RadiusY="16" RadiusX="16" Height="32" Margin="308,-18,138,41" Grid.ColumnSpan="2" />
-        <Image Name = "SettingsIcon" MouseLeftButtonUp="ToggleSettingsVisibility" Source="../Images/settings.png" Grid.Column="4" Width="24">
+        <Image Name = "SettingsIcon" MouseDown="ToggleSettingsVisibility" Source="../Images/settings.png" Grid.Column="4" Width="24">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Setter Property="Opacity" Value="0.6"/>
@@ -38,7 +38,7 @@
                 </Style>
             </Image.Style>
         </Image>
-        <Image Name = "CloseIcon" Source="../Images/close.png" Grid.Column="6" MouseLeftButtonUp="CloseClick">
+        <Image Name = "CloseIcon" Source="../Images/close.png" Grid.Column="6" MouseDown="CloseClick">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Setter Property="Opacity" Value="0.6"/>
