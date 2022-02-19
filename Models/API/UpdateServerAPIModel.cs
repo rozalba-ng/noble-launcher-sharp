@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Structures;
 
 namespace NoblegardenLauncherSharp.Models
@@ -22,22 +23,28 @@ namespace NoblegardenLauncherSharp.Models
 
         public async Task<NobleResponse> GetActualLauncherVersion() {
             var response = await MakeAsyncRequest("/launcher-version.json");
-            if (!response.IsOK)
-                throw new Exception("Не удалось получить данные об актуальной версии лаунчера");
+            if (!response.IsOK) {
+                Static.ShutdownWithError("Не удалось получить данные об актуальной версии лаунчера");
+                return new NobleResponse();
+            }
             return response;
         }
 
         public async Task<NobleResponse> GetCustomPatches() {
             var response = await MakeAsyncRequest("/custom-patches.json");
-            if (!response.IsOK)
-                throw new Exception("Не удалось получить данные о необязательных патчах");
+            if (!response.IsOK) {
+                Static.ShutdownWithError("Не удалось получить данные о необязательных патчах");
+                return new NobleResponse();
+            }
             return response;
         }
 
         public async Task<NobleResponse> GetBasePatches() {
             var response = await MakeAsyncRequest("/patches.json");
-            if (!response.IsOK)
-                throw new Exception("Не удалось получить данные об обязательных патчах");
+            if (!response.IsOK) {
+                Static.ShutdownWithError("Не удалось получить данные об обязательных патчах");
+                return new NobleResponse();
+            }
             return response;
         }
     }

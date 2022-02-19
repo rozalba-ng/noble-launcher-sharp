@@ -4,6 +4,7 @@ using NoblegardenLauncherSharp.Structures;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NoblegardenLauncherSharp.Components
@@ -54,10 +55,10 @@ namespace NoblegardenLauncherSharp.Components
             var launcherVersionResponse = await UpdateServerAPI.GetActualLauncherVersion();
             string actualLauncherVersion = (string)launcherVersionResponse.FormattedData.version;
             if (actualLauncherVersion == "") {
-                throw new Exception("Сервер не вернул актуальной версии лаунчера");
+                Static.ShutdownWithError("Сервер не вернул актуальной версии лаунчера");
             }
             if (actualLauncherVersion != Settings.LAUNCHER_VERSION) {
-                throw new Exception("Используется неактуальная версия лаунчера");
+                Static.ShutdownWithError("Используется неактуальная версия лаунчера.\nТекущая: " + Settings.LAUNCHER_VERSION + ", актуальная: " + actualLauncherVersion);
             }
         }
         private async Task GetBasePatches() {

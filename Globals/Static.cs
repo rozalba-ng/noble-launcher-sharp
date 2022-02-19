@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -61,6 +62,27 @@ namespace NoblegardenLauncherSharp.Globals
                 DispatcherPriority.Render,
                 action
             );
+        }
+
+        public static void Shutdown() {
+            if (CurrentUIOperation != null) {
+                CurrentUIOperation.Abort();
+            }
+            FileDownloader.AbortAnyLoad();
+
+            if (Patches != null) {
+                Patches.List.FindAll(patch => File.Exists(patch.PathToTMP)).ForEach(patch => File.Delete(patch.PathToTMP));
+            }
+            if (CustomPatches != null) {
+                CustomPatches.List.FindAll(patch => File.Exists(patch.PathToTMP)).ForEach(patch => File.Delete(patch.PathToTMP));
+            }
+
+            Application.Current.Shutdown();
+        }
+
+        public static void ShutdownWithError(string error) {
+            System.Windows.Forms.MessageBox.Show(error, "Ошибка");
+            Shutdown();
         }
     }
 }

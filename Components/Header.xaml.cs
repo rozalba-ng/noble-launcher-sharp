@@ -28,13 +28,7 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private void CloseClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Static.CurrentUIOperation.Abort();
-            FileDownloader.AbortAnyLoad();
-
-            Static.Patches.List.FindAll(patch => File.Exists(patch.PathToTMP)).ForEach(patch => File.Delete(patch.PathToTMP));
-            Static.CustomPatches.List.FindAll(patch => File.Exists(patch.PathToTMP)).ForEach(patch => File.Delete(patch.PathToTMP));
-
-            Application.Current.Shutdown();
+            Static.Shutdown();
         }
 
         private void HandleDrag(object sender, System.Windows.Input.MouseEventArgs e) {

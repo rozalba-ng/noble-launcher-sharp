@@ -54,13 +54,14 @@ namespace NoblegardenLauncherSharp.Components
                 LinkPanel panel = targetObject as LinkPanel;
                 switch (newType) {
                     case "Discord":
-                    await panel.SetDiscordLink();
-                    return;
+                        await panel.SetDiscordLink();
+                        return;
                     case "VK":
-                    await panel.SetVKLink();
-                    return;
+                        await panel.SetVKLink();
+                        return;
                     default:
-                    throw new Exception("Not found panel with type " + newType);
+                        Static.ShutdownWithError("Не найдена панель типа " + newType);
+                        return;
                 }
             });
         }

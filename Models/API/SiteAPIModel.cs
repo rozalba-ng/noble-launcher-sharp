@@ -1,4 +1,5 @@
-﻿using NoblegardenLauncherSharp.Structures;
+﻿using NoblegardenLauncherSharp.Globals;
+using NoblegardenLauncherSharp.Structures;
 using System;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace NoblegardenLauncherSharp.Models
 
         public static SiteAPIModel Instance() {
             if (instance == null) {
-                instance = new SiteAPIModel("https://noblegarden.net");
+                instance = new SiteAPIModel(Settings.NOBLE_DOMAIN);
             }
 
             return instance;
@@ -20,7 +21,8 @@ namespace NoblegardenLauncherSharp.Models
         public async Task<NobleResponse> GetUpdateServerAddress() {
             var response = await MakeAsyncRequest("/site/patches-ip");
             if (!response.IsOK) {
-                throw new Exception("Не удалось получить адрес сервера обновлений");
+                Static.ShutdownWithError("Не удалось получить адрес сервера обновлений");
+                return new NobleResponse();
             }
             return response;
         }
@@ -28,7 +30,8 @@ namespace NoblegardenLauncherSharp.Models
         public async Task<NobleResponse> GetOnlineCount() {
             var response = await MakeAsyncRequest($"/armory/online");
             if (!response.IsOK) {
-                throw new Exception("Не удалось получить текущий онлайн");
+                Static.ShutdownWithError("Не удалось получить текущий онлайн");
+                return new NobleResponse();
             }
             return response;
         }
@@ -36,7 +39,8 @@ namespace NoblegardenLauncherSharp.Models
         public async Task<NobleResponse> GetLastNews() {
             var response = await MakeAsyncRequest($"/site/articles");
             if (!response.IsOK) {
-                throw new Exception("Не удалось получить новости");
+                Static.ShutdownWithError("Не удалось получить новости");
+                return new NobleResponse();
             }
             return response;
         }
@@ -44,7 +48,8 @@ namespace NoblegardenLauncherSharp.Models
         public async Task<NobleResponse> GetActualDiscordLink() {
             var response = await MakeAsyncRequest($"/site/discord-link");
             if (!response.IsOK) {
-                throw new Exception("Не удалось получить ссылку на Discord");
+                Static.ShutdownWithError("Не удалось получить ссылку на Discord");
+                return new NobleResponse();
             }
             return response;
         }
@@ -52,7 +57,8 @@ namespace NoblegardenLauncherSharp.Models
         public async Task<NobleResponse> GetActualVKLink() {
             var response = await MakeAsyncRequest($"/site/vk-link");
             if (!response.IsOK) {
-                throw new Exception("Не удалось получить ссылку на VK");
+                Static.ShutdownWithError("Не удалось получить ссылку на VK");
+                return new NobleResponse();
             }
             return response;
         }

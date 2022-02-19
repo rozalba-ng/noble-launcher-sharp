@@ -38,6 +38,7 @@ namespace NoblegardenLauncherSharp.Components
             necessaryPatches.ForEach(patch => patches.Add(patch));
             selectedCustomPatches.ForEach(patch => patches.Add(patch));
 
+            CreateDirectories();
             await CalcHashes(patches);
 
             List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
@@ -45,6 +46,16 @@ namespace NoblegardenLauncherSharp.Components
             await DownloadFiles(patchesToUpdate, await GetSummaryDownloadSize(patchesToUpdate));
             RenameFiles(patchesToUpdate);
             CompleteUpdate();
+        }
+
+        private void CreateDirectories() {
+            if (!Directory.Exists(Settings.WORKING_DIR + "/Data")) {
+                Directory.CreateDirectory(Settings.WORKING_DIR + "/Data");
+            }
+
+            if (!Directory.Exists(Settings.WORKING_DIR + "/Data/ruRU")) {
+                Directory.CreateDirectory(Settings.WORKING_DIR + "/Data/ruRU");
+            }
         }
 
         private long GetSummaryHashFileSize(List<IUpdateable> patches) {
