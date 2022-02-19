@@ -21,10 +21,25 @@ namespace NoblegardenLauncherSharp.Models
             return size;
         }
 
+        public static void CreateFolderForDownload(IUpdateable patch) {
+            var dirPath = patch.FullPath;
+            var symb = dirPath[dirPath.Length - 1];
+            while (symb != '/') {
+                dirPath = dirPath.Substring(0, dirPath.Length - 1);
+                symb = dirPath[dirPath.Length - 1];
+            }
+
+            if (!Directory.Exists(dirPath)) {
+                Directory.CreateDirectory(dirPath);
+            }
+        }
+
         public static Task DownloadFile(IUpdateable patch, Action<long> onChunkLoaded) {
             if (CurrentWebClient != null) {
                 throw new AccessViolationException("Web client уже существует");
             }
+
+            CreateFolderForDownload(patch);
 
             if (File.Exists(patch.PathToTMP)) {
                 File.Delete(patch.PathToTMP);

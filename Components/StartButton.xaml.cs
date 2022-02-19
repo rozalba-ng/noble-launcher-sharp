@@ -1,10 +1,8 @@
 ﻿using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
-using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -47,13 +45,11 @@ namespace NoblegardenLauncherSharp.Components
             if (!IsEXEPresented())
                 return;
 
-            Thread thread = new Thread(() => Process.Start(Settings.WORKING_DIR + "/Wow.exe"));
-
-            thread.IsBackground = false;
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-
-            //Static.Shutdown();
+            if (Settings.WORKING_DIR == ".") {
+                Process.Start("Wow.exe");
+            } else {
+                Process.Start(Settings.WORKING_DIR + "/Wow.exe");
+            }
         }
     }
 }

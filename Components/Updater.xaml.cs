@@ -38,7 +38,7 @@ namespace NoblegardenLauncherSharp.Components
             necessaryPatches.ForEach(patch => patches.Add(patch));
             selectedCustomPatches.ForEach(patch => patches.Add(patch));
 
-            CreateDirectories();
+            //CreateDirectories();
             await CalcHashes(patches);
 
             List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
@@ -122,6 +122,7 @@ namespace NoblegardenLauncherSharp.Components
         private Task DownloadFiles(List<IUpdateable> patches, long summarySize) {
             if (patches.Count == 0)
                 return Task.Run(() => { });
+
             long currentLoaded = 0;
 
             Static.InUIThread(() => {
