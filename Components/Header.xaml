@@ -21,7 +21,7 @@
                 <DropShadowEffect BlurRadius="10" Direction="300"/>
             </Rectangle.Effect>
         </Rectangle>
-        <Image Name = "Logo" Source="../Images/logo-image.png" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" />
+        <Image Name = "Logo" Source="../Images/logo-image.png" Grid.Row="0" Grid.Column="1" Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Text="NOBLEGARDEN" FontSize="24" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" Margin="0,2,0,0" />
         <TextBlock Grid.Column="2" Text="Ролевой сервер World of Warcraft" FontFamily="Corbel" FontSize="14" Foreground="#D8FAFAFA" VerticalAlignment="Bottom" Margin="0,0,0,6"/>
         <Rectangle Fill="#59050505" Grid.Row="0" Grid.Column="2" RadiusY="16" RadiusX="16" Height="32" Margin="308,-18,138,41" Grid.ColumnSpan="2" />

@@ -44,7 +44,6 @@ namespace NoblegardenLauncherSharp.Components
             List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
 
             await DownloadFiles(patchesToUpdate, await GetSummaryDownloadSize(patchesToUpdate));
-            RenameFiles(patchesToUpdate);
             CompleteUpdate();
         }
 
@@ -143,22 +142,16 @@ namespace NoblegardenLauncherSharp.Components
                         int progress = (int)(downloadProgress * 100);
                         SetProgress(progress);
                     });
+
+                    if (!File.Exists(patch.PathToTMP))
+                        return;
+
+                    if (File.Exists(patch.FullPath)) {
+                        File.Delete(patch.FullPath);
+                    }
+
+                    File.Move(patch.PathToTMP, patch.FullPath);
                 }
-            });
-        }
-
-        private void RenameFiles(List<IUpdateable> patches) {
-            if (patches.Count == 0)
-                return;
-            patches.ForEach(patch => {
-                if (!File.Exists(patch.PathToTMP))
-                    return;
-
-                if (File.Exists(patch.FullPath)) {
-                    File.Delete(patch.FullPath);
-                }
-
-                File.Move(patch.PathToTMP, patch.FullPath);
             });
         }
 
