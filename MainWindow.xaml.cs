@@ -1,8 +1,9 @@
 ﻿using System.Windows;
-using System.Diagnostics;
 using NobleLauncher.Globals;
 using NobleLauncher.Models;
 using NobleLauncher.Structures;
+using System.Net;
+using System.Net.Security;
 
 namespace NobleLauncher {
     public partial class MainWindow : Window
@@ -10,6 +11,10 @@ namespace NobleLauncher {
         public MainWindow()
         {
             Settings.Parse();
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.CheckCertificateRevocationList = false;
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback((sender, cert, chain, policy) => true);
             InitializeComponent();
         }
 

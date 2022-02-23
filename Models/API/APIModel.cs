@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NobleLauncher.Models
 {
@@ -31,6 +32,7 @@ namespace NobleLauncher.Models
                     return new StreamReader(responseStream).ReadToEnd();
                 }
                 catch (Exception e) {
+                    MessageBox.Show(e.Message);
                     errMsg = $"Error: {e.Message}";
                 }
 
