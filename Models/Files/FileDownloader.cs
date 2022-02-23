@@ -65,7 +65,7 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public static Task DownloadPatch(IUpdateable patch, Action<long, int> onChunkLoaded) {
-            return DownloadFile(patch.RemotePath, patch.FullPath, onChunkLoaded);
+            return DownloadFile(patch.RemotePath, patch.PathToTMP, onChunkLoaded);
         }
 
         public static void AbortAnyLoad() {
