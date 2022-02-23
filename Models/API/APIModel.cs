@@ -1,4 +1,5 @@
-﻿using NobleLauncher.Structures;
+﻿using NobleLauncher.Globals;
+using NobleLauncher.Structures;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -32,7 +33,9 @@ namespace NobleLauncher.Models
                     return new StreamReader(responseStream).ReadToEnd();
                 }
                 catch (Exception e) {
-                    MessageBox.Show(e.Message);
+                    if (Settings.ENABLE_DEBUG_MODE) {
+                        MessageBox.Show(e.Message);
+                    }
                     errMsg = $"Error: {e.Message}";
                 }
 

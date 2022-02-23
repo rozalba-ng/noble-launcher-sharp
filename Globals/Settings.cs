@@ -8,13 +8,17 @@ namespace NobleLauncher.Globals
         public static readonly string WORKING_DIR = @".";
         public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
         public static readonly string LAUNCHER_VERSION = "1.3.2";
+        public static bool ENABLE_TLS = false;
+        public static bool ENABLE_DEBUG_MODE = false;
 
         private static List<string> SELECTED_CUSTOM_PATCHES = new List<string>();
 
         private static readonly FileWithDefaultDictionaryContentModel SettingsFile = new FileWithDefaultDictionaryContentModel(
             "launcher-config.ini",
             new Dictionary<string, string> {
-                { "custom_patches", "" }
+                { "custom_patches", "" },
+                { "enable_tls", "false" },
+                { "debug_mode", "false" }
             }
         );
 
@@ -25,25 +29,12 @@ namespace NobleLauncher.Globals
             SettingsRepresentation = config;
 
             ParseSelectedCustomPatches(SettingsRepresentation);
+            ParseEnableTLS(SettingsRepresentation);
+            ParseEnableDebugMode(SettingsRepresentation);
         }
 
         public static List<string> GetSelectedCustomPatches() {
             return SELECTED_CUSTOM_PATCHES;
-        }
-
-        private static void ParseSelectedCustomPatches(Dictionary<string, string> config) {
-            if (!config.ContainsKey("custom_patches"))
-                return;
-
-            var patches = config["custom_patches"];
-
-            if (patches == null || patches.Length == 0) {
-                SELECTED_CUSTOM_PATCHES = new List<string>();
-                return;
-            }
-
-            var splittedPatches = patches.Split(',');
-            SELECTED_CUSTOM_PATCHES = new List<string>(splittedPatches);
         }
 
         public static void ToggleCustomPatchSelection(string name) {
@@ -66,6 +57,43 @@ namespace NobleLauncher.Globals
             }
 
             SettingsFile.WriteDictionary(SettingsRepresentation);
+        }
+        private static void ParseSelectedCustomPatches(Dictionary<string, string> config) {
+            if (!config.ContainsKey("custom_patches")) {
+                config.Add("custom_patches", "");
+                SettingsFile.WriteDictionary(config);
+                return;
+            }
+
+            var patches = config["custom_patches"];
+
+            if (patches == null || patches.Length == 0) {
+                SELECTED_CUSTOM_PATCHES = new List<string>();
+                return;
+            }
+
+            var splittedPatches = patches.Split(',');
+            SELECTED_CUSTOM_PATCHES = new List<string>(splittedPatches);
+        }
+
+        private static void ParseEnableTLS(Dictionary<string, string> config) {
+            ENABLE_TLS = ParseAndReturnBoolVal(config, "enable_tls");
+            return;
+        }
+
+        private static void ParseEnableDebugMode(Dictionary<string, string> config) {
+            ENABLE_DEBUG_MODE = ParseAndReturnBoolVal(config, "debug_mode");
+            return;
+        }
+
+        private static bool ParseAndReturnBoolVal(Dictionary<string, string> config, string key) {
+            if (!config.ContainsKey(key)) {
+                config.Add(key, "false");
+                SettingsFile.WriteDictionary(config);
+                return false;
+            }
+
+            return true;
         }
     }
 }

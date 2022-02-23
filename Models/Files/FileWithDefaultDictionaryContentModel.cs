@@ -1,7 +1,9 @@
-﻿using System;
+﻿using NobleLauncher.Globals;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Forms;
 
 namespace NobleLauncher.Models
 {
@@ -20,7 +22,10 @@ namespace NobleLauncher.Models
             try {
                 File.Create(PathToFile).Close();
             }
-            catch {
+            catch (Exception e) {
+                if (Settings.ENABLE_DEBUG_MODE) {
+                    MessageBox.Show(e.Message);
+                }
                 throw new Exception($"Не удалось создать файл {PathToFile}");
             }
         }
@@ -38,7 +43,10 @@ namespace NobleLauncher.Models
                     }
                 }
             }
-            catch {
+            catch (Exception e) {
+                if (Settings.ENABLE_DEBUG_MODE) {
+                    MessageBox.Show(e.Message);
+                }
                 throw new Exception($"Не удалось заполнить файл {PathToFile} стандартными значениями");
             }
         }
@@ -62,7 +70,10 @@ namespace NobleLauncher.Models
                     }
                 }
             }
-            catch {
+            catch(Exception e) {
+                if (Settings.ENABLE_DEBUG_MODE) {
+                    MessageBox.Show(e.Message);
+                }
                 throw new Exception($"Не удалось прочитать файл {PathToFile} как экземпляр Dictionary");
             }
 
@@ -85,8 +96,10 @@ namespace NobleLauncher.Models
                 }
             }
             catch (Exception e) {
-                //throw new Exception($"Не удалось записать содержимое в файл {PathToFile}");
-                throw (e);
+                if (Settings.ENABLE_DEBUG_MODE) {
+                    MessageBox.Show(e.Message);
+                }
+                throw new Exception($"Не удалось записать содержимое в файл {PathToFile}");
             }
         }
     }

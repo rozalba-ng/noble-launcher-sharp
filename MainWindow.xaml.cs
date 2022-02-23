@@ -11,11 +11,17 @@ namespace NobleLauncher {
         public MainWindow()
         {
             Settings.Parse();
+            ToggleTLS();
+            InitializeComponent();
+        }
+
+        private void ToggleTLS() {
+            if (Settings.ENABLE_TLS)
+                return;
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             ServicePointManager.CheckCertificateRevocationList = false;
             ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback((sender, cert, chain, policy) => true);
-            InitializeComponent();
         }
 
         private void OnWindowLoad(object sender, RoutedEventArgs e) {
