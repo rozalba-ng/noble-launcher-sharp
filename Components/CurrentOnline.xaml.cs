@@ -14,10 +14,8 @@ namespace NoblegardenLauncherSharp.Components
     public partial class CurrentOnline : UserControl
     {
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
-        private readonly ElementSearcher ElementSearcher;
         public CurrentOnline() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcher(this);
             Task.Run(() => DrawCurrentOnline());
         }
         private void OpenCurrentOnlineLink(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -40,8 +38,7 @@ namespace NoblegardenLauncherSharp.Components
             }
 
             Static.InUIThread(() => {
-                var onlineCountBlock = (TextBlock)ElementSearcher.FindName("CurrentOnlineText");
-                onlineCountBlock.Text = text;
+                CurrentOnlineText.Text = text;
             });
         }
     }

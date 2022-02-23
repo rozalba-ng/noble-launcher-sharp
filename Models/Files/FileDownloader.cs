@@ -21,8 +21,8 @@ namespace NoblegardenLauncherSharp.Models
             return size;
         }
 
-        public static void CreateFolderForDownload(IUpdateable patch) {
-            var dirPath = patch.FullPath;
+        public static void CreateFolderForDownload(string fileDestination) {
+            var dirPath = fileDestination;
             var symb = dirPath[dirPath.Length - 1];
             while (symb != '/') {
                 dirPath = dirPath.Substring(0, dirPath.Length - 1);
@@ -34,15 +34,15 @@ namespace NoblegardenLauncherSharp.Models
             }
         }
 
-        public static Task DownloadFile(IUpdateable patch, Action<long> onChunkLoaded) {
+        public static Task DownloadFile(string from, string to, Action<long, int> onChunkLoaded) {
             if (CurrentWebClient != null) {
                 throw new AccessViolationException("Web client уже существует");
             }
 
-            CreateFolderForDownload(patch);
+            CreateFolderForDownload(to);
 
-            if (File.Exists(patch.PathToTMP)) {
-                File.Delete(patch.PathToTMP);
+            if (File.Exists(to)) {
+                File.Delete(to);
             }
 
             long previousDownloadedSize = 0;
@@ -51,7 +51,7 @@ namespace NoblegardenLauncherSharp.Models
             void onProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
                 var diff = e.BytesReceived - previousDownloadedSize;
                 previousDownloadedSize = e.BytesReceived;
-                onChunkLoaded(diff);
+                onChunkLoaded(diff, e.ProgressPercentage);
             }
 
             void onComplete(object sender, AsyncCompletedEventArgs e) {
@@ -61,7 +61,11 @@ namespace NoblegardenLauncherSharp.Models
             CurrentWebClient.Proxy = WebRequest.DefaultWebProxy;
             CurrentWebClient.DownloadProgressChanged += onProgressChanged;
             CurrentWebClient.DownloadFileCompleted += onComplete;
-            return CurrentWebClient.DownloadFileTaskAsync(new Uri(patch.RemotePath), patch.PathToTMP);
+            return CurrentWebClient.DownloadFileTaskAsync(new Uri(from), to);
+        }
+
+        public static Task DownloadPatch(IUpdateable patch, Action<long, int> onChunkLoaded) {
+            return DownloadFile(patch.RemotePath, patch.FullPath, onChunkLoaded);
         }
 
         public static void AbortAnyLoad() {

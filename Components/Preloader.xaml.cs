@@ -1,11 +1,10 @@
 ﻿using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
-using System;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -14,21 +13,16 @@ namespace NoblegardenLauncherSharp.Components
     /// </summary>
     public partial class Preloader : UserControl
     {
-        private readonly ElementSearcher ElementSearcher;
         private UpdateServerAPIModel UpdateServerAPI;
-        private readonly TextBlock CurrentLoadingStepText;
 
         public Preloader() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcher(this);
-            CurrentLoadingStepText = (TextBlock)ElementSearcher.FindName("CurrentLoadingStep");
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartPreload, StartPreload);
         }
 
         private async void StartPreload() {
-            var grid = (Grid)ElementSearcher.FindName("ModalBackground");
             UpdateServerAPI = UpdateServerAPIModel.Instance();
-            grid.Opacity = 1;
+            ModalBackgroundView.Opacity = 1;
 
             Migration();
             await CheckLauncherVersion();
@@ -37,7 +31,7 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         public void Migration() {
-            CurrentLoadingStepText.Text = "Мигрируем со старой версии";
+            CurrentLoadingStepView.Text = "Мигрируем со старой версии";
             if (Directory.Exists(Settings.WORKING_DIR + "/Launcher")) {
                 Directory.Delete(Settings.WORKING_DIR + "/Launcher", true);
             }
@@ -45,32 +39,45 @@ namespace NoblegardenLauncherSharp.Components
             if (File.Exists(Settings.WORKING_DIR + "/Noblegarden Launcher.exe")) {
                 File.Delete(Settings.WORKING_DIR + "/Noblegarden Launcher.exe");
             }
+        }
 
+        private async Task DownloadNewLauncherVersion(string linkToLauncher) {
+            CurrentLoadingStepView.Text = "Скачиваем новую версию лаунчера";
+            CurrentLoadingProgressView.Opacity = 1;
+            await FileDownloader.DownloadFile(
+                linkToLauncher,
+                Settings.WORKING_DIR + "/Noble Launcher.exe.tmp",
+                (chunkSize, percentage) => {
+                    CurrentLoadingProgressView.Value = percentage;
+                }
+            );
+            CurrentLoadingProgressView.Opacity = 0;
         }
 
         public async Task CheckLauncherVersion() {
             if (UpdateServerAPI == null)
                 return;
-            CurrentLoadingStepText.Text = "Сверяем версии лаунчеров";
+            CurrentLoadingStepView.Text = "Сверяем версии лаунчеров";
             var launcherVersionResponse = await UpdateServerAPI.GetActualLauncherVersion();
             string actualLauncherVersion = (string)launcherVersionResponse.FormattedData.version;
             if (actualLauncherVersion == "") {
                 Static.ShutdownWithError("Сервер не вернул актуальной версии лаунчера");
             }
             if (actualLauncherVersion != Settings.LAUNCHER_VERSION) {
+                await DownloadNewLauncherVersion((string)launcherVersionResponse.FormattedData.link);
                 Static.ShutdownWithError("Используется неактуальная версия лаунчера.\nТекущая: " + Settings.LAUNCHER_VERSION + ", актуальная: " + actualLauncherVersion);
             }
         }
         private async Task GetBasePatches() {
-            CurrentLoadingStepText.Text = "Получаем список патчей";
+            CurrentLoadingStepView.Text = "Получаем список патчей";
             var defaultPatchesResponse = await UpdateServerAPI.GetBasePatches();
             var patchesInfo = defaultPatchesResponse.FormattedData;
             var defaultPatches = JObjectConverter.ConvertToNecessaryPatchesList(patchesInfo);
             Static.Patches = new NoblePatchGroupModel<NecessaryPatchModel>(defaultPatches);
         }
         private void PlaySuccessLoadAnimation() {
-            CurrentLoadingStepText.Text = "";
-            var fadeOutAnim = ElementSearcher.FindStoryboard("FadeOutModalBG");
+            CurrentLoadingStepView.Text = "";
+            var fadeOutAnim = (Storyboard)FindResource("FadeOutModalBG");
             if (fadeOutAnim != null) {
                 fadeOutAnim.Begin();
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Structures;
 
@@ -22,7 +21,7 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public async Task<NobleResponse> GetActualLauncherVersion() {
-            var response = await MakeAsyncRequest("/launcher-version.json");
+            var response = await MakeAsyncRequest("/launcher.json");
             if (!response.IsOK) {
                 Static.ShutdownWithError("Не удалось получить данные об актуальной версии лаунчера");
                 return new NobleResponse();

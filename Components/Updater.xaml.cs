@@ -2,13 +2,11 @@
 using NoblegardenLauncherSharp.Interfaces;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Shell;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -17,17 +15,8 @@ namespace NoblegardenLauncherSharp.Components
     /// </summary>
     public partial class Updater : UserControl
     {
-        private readonly ElementSearcher ElementSearcher;
-        private readonly ProgressBar ProgressBar;
-        private readonly TextBlock CurrentAction;
-        private readonly TextBlock CurrentProgress;
-
         public Updater() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcher(this);
-            ProgressBar = (ProgressBar)ElementSearcher.FindName("Progress");
-            CurrentAction = (TextBlock)ElementSearcher.FindName("CurrentActionText");
-            CurrentProgress = (TextBlock)ElementSearcher.FindName("CurrentActionProgress");
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, Update);
         }
         public async void Update() {
@@ -38,23 +27,12 @@ namespace NoblegardenLauncherSharp.Components
             necessaryPatches.ForEach(patch => patches.Add(patch));
             selectedCustomPatches.ForEach(patch => patches.Add(patch));
 
-            //CreateDirectories();
             await CalcHashes(patches);
 
             List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
 
             await DownloadFiles(patchesToUpdate, await GetSummaryDownloadSize(patchesToUpdate));
             CompleteUpdate();
-        }
-
-        private void CreateDirectories() {
-            if (!Directory.Exists(Settings.WORKING_DIR + "/Data")) {
-                Directory.CreateDirectory(Settings.WORKING_DIR + "/Data");
-            }
-
-            if (!Directory.Exists(Settings.WORKING_DIR + "/Data/ruRU")) {
-                Directory.CreateDirectory(Settings.WORKING_DIR + "/Data/ruRU");
-            }
         }
 
         private long GetSummaryHashFileSize(List<IUpdateable> patches) {
@@ -75,7 +53,7 @@ namespace NoblegardenLauncherSharp.Components
                 for (int i = 0; i < patches.Count; i++) {
                     var patch = patches[i];
                     Static.InUIThread(() => {
-                        CurrentAction.Text = "Считаем чек-суммы: " + patch.LocalPath;
+                        ActionTextView.Text = "Считаем чек-суммы: " + patch.LocalPath;
                     });
                     var hash = await patch.CalcCRC32Hash((blockSize) => {
                         currentRead += blockSize;
@@ -96,7 +74,7 @@ namespace NoblegardenLauncherSharp.Components
             }
 
             Static.InUIThread(() => {
-                CurrentAction.Text = "Считаем размер обновления";
+                ActionTextView.Text = "Считаем размер обновления";
                 SetProgress(0);
             });
             
@@ -104,7 +82,7 @@ namespace NoblegardenLauncherSharp.Components
                 for (int i = 0; i < patches.Count; i++) {
                     var patch = patches[i];
                     Static.InUIThread(() => {
-                        CurrentAction.Text = "Считаем размер обновления: " + patch.LocalPath;
+                        ActionTextView.Text = "Считаем размер обновления: " + patch.LocalPath;
                     });
 
                     var size = await patch.GetRemoteSize();
@@ -125,7 +103,7 @@ namespace NoblegardenLauncherSharp.Components
             long currentLoaded = 0;
 
             Static.InUIThread(() => {
-                CurrentAction.Text = "Загружаем файлы";
+                ActionTextView.Text = "Загружаем файлы";
                 SetProgress(0);
             });
 
@@ -133,10 +111,10 @@ namespace NoblegardenLauncherSharp.Components
                 for (int i = 0; i < patches.Count; i++) {
                     var patch = patches[i];
                     Static.InUIThread(() => {
-                        CurrentAction.Text = "Загружаем файл: " + patch.LocalPath + "(" + (i + 1) + "/" + patches.Count + ")";
+                        ActionTextView.Text = "Загружаем файл: " + patch.LocalPath + "(" + (i + 1) + "/" + patches.Count + ")";
                     });
 
-                    await patch.LoadUpdated((loadedChunkSize) => {
+                    await patch.LoadUpdated((loadedChunkSize, percentOfFile) => {
                         currentLoaded += loadedChunkSize;
                         double downloadProgress = (double)(currentLoaded) / (double)(summarySize);
                         int progress = (int)(downloadProgress * 100);
@@ -157,9 +135,9 @@ namespace NoblegardenLauncherSharp.Components
 
         private void CompleteUpdate() {
             Static.InUIThread(() => {
-                CurrentAction.Text = "Обновлено!";
-                CurrentProgress.Text = "";
-                ProgressBar.Value = 100;
+                ActionTextView.Text = "Обновлено!";
+                ProgressTextView.Text = "";
+                ProgressView.Value = 100;
             });
 
             EventDispatcher.Dispatch(EventDispatcherEvent.CompleteUpdate);
@@ -167,9 +145,9 @@ namespace NoblegardenLauncherSharp.Components
 
         private void SetProgress(int progress) {
             Static.InUIThread(() => {
-                if (progress != ProgressBar.Value) {
-                    ProgressBar.Value = progress;
-                    CurrentProgress.Text = progress.ToString() + "%";
+                if (progress != ProgressView.Value) {
+                    ProgressView.Value = progress;
+                    ProgressTextView.Text = progress.ToString() + "%";
                 }
             });
         }

@@ -6,9 +6,9 @@
              xmlns:gif="clr-namespace:XamlAnimatedGif;assembly=XamlAnimatedGif"
              mc:Ignorable="d" 
              d:DesignHeight="54" d:DesignWidth="124">
-    <Grid Name="UpdateButtonContainer">
+    <Grid Name="UpdateButtonContainerView">
         <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="StartUpdate" Name="StartButton">
-            <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonRectangle">
+            <Rectangle RadiusX="4" RadiusY="4">
                 <Rectangle.Style>
                     <Style TargetType="{x:Type Rectangle}">
                         <Setter Property="Fill" Value="#FF1988D3" />
@@ -22,7 +22,7 @@
             </Rectangle>
         </Border>
         <Image
-            Name="UpdateButtonPreloader"
+            Name="UpdateButtonPreloaderView"
             gif:AnimationBehavior.SourceUri="../Images/preloader.gif"
             Width="48" Height="48"
             HorizontalAlignment="Center"
@@ -32,7 +32,7 @@
             Opacity="0"
         />
         <TextBlock
-            Name="UpdateButtonText"
+            Name="UpdateButtonTextView"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             TextAlignment="Center"

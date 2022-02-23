@@ -79,8 +79,8 @@ namespace NoblegardenLauncherSharp.Models
             return FileDownloader.GetFileSize(this);
         }
 
-        public Task LoadUpdated(Action<long> OnChunkLoaded) {
-            return FileDownloader.DownloadFile(this, OnChunkLoaded);
+        public Task LoadUpdated(Action<long, int> OnChunkLoaded) {
+            return FileDownloader.DownloadPatch(this, OnChunkLoaded);
         }
     }
 }

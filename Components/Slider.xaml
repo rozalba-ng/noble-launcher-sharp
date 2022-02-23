@@ -21,7 +21,7 @@
             <ColumnDefinition Width="16"/>
         </Grid.ColumnDefinitions>
         <Rectangle Fill="White" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" IsHitTestVisible="False"/>
-        <Image Source="{x:Static global:Static.FirstSliderElementImage}" Tag="{x:Static global:Static.FirstSliderElementLink}" Name="SquareCurrent" Width="290" Height="232" MouseLeftButtonUp="OpenSliderLink" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Image Source="{x:Static global:Static.FirstSliderElementImage}" Tag="{x:Static global:Static.FirstSliderElementLink}" Name="SquareCurrentView" Width="290" Height="232" MouseLeftButtonUp="OpenSliderLink" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Style.Triggers>
@@ -35,7 +35,7 @@
                 <EventTrigger RoutedEvent="MouseEnter">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SquareCurrent" Storyboard.TargetProperty="Width">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SquareCurrentView" Storyboard.TargetProperty="Width">
                                 <LinearDoubleKeyFrame Value="290" KeyTime="00:00:00" />
                                 <LinearDoubleKeyFrame Value="300" KeyTime="00:00:0.25" />
                             </DoubleAnimationUsingKeyFrames>
@@ -45,7 +45,7 @@
                 <EventTrigger RoutedEvent="MouseLeave">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SquareCurrent" Storyboard.TargetProperty="Width">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SquareCurrentView" Storyboard.TargetProperty="Width">
                                 <LinearDoubleKeyFrame Value="300" KeyTime="00:00:00" />
                                 <LinearDoubleKeyFrame Value="290" KeyTime="00:00:0.25" />
                             </DoubleAnimationUsingKeyFrames>
@@ -54,7 +54,7 @@
                 </EventTrigger>
             </Image.Triggers>
         </Image>
-        <Image Name="SquareMoving" Width="290" Height="217" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="6" Visibility="Hidden" />
+        <Image Name="SquareMovingView" Width="290" Height="217" Grid.Row="0" Grid.RowSpan="3" Stretch="UniformToFill" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="6" Visibility="Hidden" />
         <Border BorderBrush="#4CFFFFFF" BorderThickness="1, 1, 1, 1" IsHitTestVisible="False" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3">
             <Rectangle IsHitTestVisible="False" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="3">
                 <Rectangle.Fill>
@@ -65,7 +65,7 @@
                 </Rectangle.Fill>
             </Rectangle>
         </Border>
-        <TextBlock Name="SquareName" Text="{x:Static global:Static.FirstSliderElementName}" Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI Black" Foreground="#FFF" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBlock Name="SquareNameView" Text="{x:Static global:Static.FirstSliderElementName}" Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI Black" Foreground="#FFF" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Border BorderBrush="#26FFFFFF" BorderThickness="1, 1, 1, 1" Grid.Row="1" Grid.Column="2">
             <Button Name="SliderPreviousButton" Grid.Row="1" Grid.Column="2" Content="&lt;  " Click="OnSliderPreviousButtonClick">
                 <Button.Style>
@@ -104,13 +104,13 @@
     </Grid>
     <UserControl.Resources>
         <Storyboard x:Key="RightToLeft" Completed="OnSlideCompleted">
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SquareMoving" Storyboard.TargetProperty="Margin">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SquareMovingView" Storyboard.TargetProperty="Margin">
                 <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,-570,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="0,0,0,0" />
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="LeftToRight" Completed="OnSlideCompleted">
-            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SquareMoving" Storyboard.TargetProperty="Margin">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="SquareMovingView" Storyboard.TargetProperty="Margin">
                 <SplineThicknessKeyFrame KeyTime="00:00:00" Value="-570,0,0,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="0,0,0,0" />
             </ThicknessAnimationUsingKeyFrames>

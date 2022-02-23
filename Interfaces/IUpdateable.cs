@@ -14,6 +14,6 @@ namespace NoblegardenLauncherSharp.Interfaces
         long GetPathByteSize();
         Task<string> CalcCRC32Hash(Action<long> OnBlockRead);
         Task<long> GetRemoteSize();
-        Task LoadUpdated(Action<long> OnChunkLoaded);
+        Task LoadUpdated(Action<long, int> OnChunkLoaded);
     }
 }

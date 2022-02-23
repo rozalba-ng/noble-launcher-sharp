@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -14,10 +13,8 @@ namespace NoblegardenLauncherSharp.Components
     /// </summary>
     public partial class StartButton : UserControl
     {
-        private readonly ElementSearcher ElementSearcher;
         public StartButton() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcher(this);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, () => ToggleButtonState(false));
             EventDispatcher.CreateSubscription(EventDispatcherEvent.CompleteUpdate, () => ToggleButtonState(true));
 
@@ -32,13 +29,11 @@ namespace NoblegardenLauncherSharp.Components
         }
 
         private void ToggleButtonState(bool enabled) {
-            var container = (Grid)ElementSearcher.FindName("StartButtonContainer");
-            var bg = (Rectangle)ElementSearcher.FindName("StartButtonBg");
             var buttonBrush = new SolidColorBrush {
                 Color = enabled ? Color.FromRgb(80, 190, 60) : Color.FromRgb(170, 170, 170)
             };
-            container.IsHitTestVisible = enabled;
-            bg.Fill = buttonBrush;
+            StartButtonContainerView.IsHitTestVisible = enabled;
+            StartButtonBgView.Fill = buttonBrush;
         }
 
         private void Start(object sender, System.Windows.Input.MouseButtonEventArgs e) {

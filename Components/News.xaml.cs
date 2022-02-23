@@ -1,12 +1,9 @@
 ﻿using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace NoblegardenLauncherSharp.Components
 {
@@ -16,10 +13,8 @@ namespace NoblegardenLauncherSharp.Components
     public partial class News : UserControl
     {
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
-        private readonly ElementSearcher ElementSearcher;
         public News() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcher(this);
             Task.Run(() => DrawLastNews());
         }
         private async Task DrawLastNews() {
@@ -41,8 +36,7 @@ namespace NoblegardenLauncherSharp.Components
             }
 
             Static.InUIThread(() => {
-                var newsListView = (ListView)ElementSearcher.FindName("LastNewsView");
-                newsListView.ItemsSource = newsList;
+                LastNewsView.ItemsSource = newsList;
             });
         }
     }

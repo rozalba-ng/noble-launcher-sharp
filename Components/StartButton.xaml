@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="54" d:DesignWidth="124">
-    <Grid Name="StartButtonContainer" MouseLeftButtonUp="Start">
+    <Grid Name="StartButtonContainerView" MouseLeftButtonUp="Start">
         <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="1" Cursor="Hand">
-            <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonBg">
+            <Rectangle RadiusX="4" RadiusY="4" Name="StartButtonBgView">
                 <Rectangle.Style>
                     <Style TargetType="{x:Type Rectangle}">
                         <Setter Property="Fill" Value="#FF12161A" />

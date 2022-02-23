@@ -7,17 +7,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace NoblegardenLauncherSharp.Components
 {
     public partial class CustomPatches : UserControl
     {
-        private readonly ElementSearcher ElementSearcher;
         private readonly UpdateServerAPIModel UpdateServerAPI = UpdateServerAPIModel.Instance();
         public CustomPatches() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcher(this);
             Task.Run(() => GetAndDrawCustomPatches());
         }
 
@@ -31,8 +28,7 @@ namespace NoblegardenLauncherSharp.Components
             var patch = Static.CustomPatches.GetPatchByID(id);
             patch.ChangeSelectionTo(!patch.Selected);
             Settings.ToggleCustomPatchSelection(patch.LocalPath);
-            var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
-            customPatchesView.Items.Refresh();
+            CustomPatchesView.Items.Refresh();
             EventDispatcher.Dispatch(EventDispatcherEvent.SettingsRefresh);
         }
         private async Task GetAndDrawCustomPatches() {
@@ -42,8 +38,7 @@ namespace NoblegardenLauncherSharp.Components
             Static.CustomPatches = new NoblePatchGroupModel<CustomPatchModel>(customPatches);
 
             Static.InUIThread(() => {
-                var customPatchesView = (ListView)ElementSearcher.FindName("CustomPatchesView");
-                customPatchesView.ItemsSource = Static.CustomPatches.List;
+                CustomPatchesView.ItemsSource = Static.CustomPatches.List;
             });
         }
     }

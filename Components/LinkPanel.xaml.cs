@@ -18,7 +18,6 @@ namespace NoblegardenLauncherSharp.Components
         public static readonly DependencyProperty FillProperty = DependencyProperty.Register("Fill", typeof(Brush), typeof(LinkPanel), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(LinkPanel), new PropertyMetadata(new PropertyChangedCallback(OnTypePropertyChanged)));
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
-        private readonly ElementSearcher ElementSearcher;
         public string Text {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
@@ -41,7 +40,6 @@ namespace NoblegardenLauncherSharp.Components
 
         public LinkPanel() {
             InitializeComponent();
-            ElementSearcher = new ElementSearcher(this);
         }
 
         private void OpenLink(object sender, MouseButtonEventArgs e) {
@@ -79,8 +77,7 @@ namespace NoblegardenLauncherSharp.Components
 
         private void ApplyTag(string tag) {
             Static.InUIThread(() => {
-                var view = (Rectangle)ElementSearcher.FindName("LinkPanelView");
-                view.Tag = tag;
+                LinkPanelView.Tag = tag;
             });
         }
     }

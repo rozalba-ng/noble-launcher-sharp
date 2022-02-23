@@ -12,7 +12,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ProgressBar
-            Name="Progress"
+            Name="ProgressView"
             Grid.Row="0"
             Foreground="#FF1988D3"
             BorderBrush="#26FFFFFF"
@@ -27,7 +27,7 @@
             Foreground="#FFFFFFFF"
             FontFamily="Corbel"
             IsHitTestVisible="False"
-            Name="CurrentActionText"
+            Name="ActionTextView"
             FontSize="14"
             Grid.Row="2"
          >
@@ -40,7 +40,7 @@
             Foreground="#FFFFFFFF"
             FontFamily="Corbel"
             IsHitTestVisible="False"
-            Name="CurrentActionProgress"
+            Name="ProgressTextView"
             FontSize="14"
             Grid.Row="2"
          />
