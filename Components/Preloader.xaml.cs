@@ -44,7 +44,7 @@ namespace NobleLauncher.Components
         }
 
         private async Task UpdateLauncher(string linkToLauncher) {
-            CurrentLoadingStepView.Text = "Скачиваем новую версию лаунчера";
+            CurrentLoadingStepView.Text = "Скачиваем актуальную версию лаунчера";
             CurrentLoadingProgressView.Opacity = 1;
             await FileDownloader.DownloadFile(
                 linkToLauncher,
@@ -95,7 +95,6 @@ namespace NobleLauncher.Components
             }
             if (actualLauncherVersion != Settings.LAUNCHER_VERSION) {
                 await UpdateLauncher((string)launcherVersionResponse.FormattedData.link);
-                Static.ShutdownWithError("Используется неактуальная версия лаунчера.\nТекущая: " + Settings.LAUNCHER_VERSION + ", актуальная: " + actualLauncherVersion);
             }
         }
         private async Task GetBasePatches() {
