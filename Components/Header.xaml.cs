@@ -1,11 +1,11 @@
-﻿using NoblegardenLauncherSharp.Globals;
-using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Structures;
+﻿using NobleLauncher.Globals;
+using NobleLauncher.Models;
+using NobleLauncher.Structures;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     public partial class Header : UserControl
     {

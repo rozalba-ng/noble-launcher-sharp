@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     public class NoblePatchGroupModel<PatchType>
     {

@@ -2,10 +2,10 @@
 using System.Windows;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using NoblegardenLauncherSharp.Globals;
+using NobleLauncher.Globals;
 using System.Windows.Media.Animation;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     public partial class Slider : UserControl
     {

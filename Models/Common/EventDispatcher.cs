@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using NoblegardenLauncherSharp.Structures;
+using NobleLauncher.Structures;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     class EventDispatcher
     {

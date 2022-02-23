@@ -3,10 +3,10 @@ using System.Windows;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Globals;
+using NobleLauncher.Models;
+using NobleLauncher.Globals;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     /// <summary>
     /// Логика взаимодействия для CurrentOnline.xaml

@@ -1,9 +1,9 @@
-﻿using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Structures;
+﻿using NobleLauncher.Models;
+using NobleLauncher.Structures;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     public partial class SettingsWindow : UserControl
     {

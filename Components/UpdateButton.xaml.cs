@@ -1,9 +1,9 @@
-﻿using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Structures;
+﻿using NobleLauncher.Models;
+using NobleLauncher.Structures;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     /// <summary>
     /// Логика взаимодействия для UpdateButton.xaml

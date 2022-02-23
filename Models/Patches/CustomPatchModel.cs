@@ -1,7 +1,7 @@
-﻿using NoblegardenLauncherSharp.Globals;
+﻿using NobleLauncher.Globals;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     public class CustomPatchModel : PatchModel
     {

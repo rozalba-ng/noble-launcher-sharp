@@ -1,6 +1,6 @@
-﻿using NoblegardenLauncherSharp.Interfaces;
+﻿using NobleLauncher.Interfaces;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     public class NecessaryPatchModel : PatchModel, IUpdateable
     {

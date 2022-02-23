@@ -1,11 +1,11 @@
-﻿using NoblegardenLauncherSharp.Structures;
+﻿using NobleLauncher.Structures;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     public class APIModel
     {

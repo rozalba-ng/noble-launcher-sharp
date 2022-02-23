@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using NoblegardenLauncherSharp.Globals;
+using NobleLauncher.Globals;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     public class FileModel
     {

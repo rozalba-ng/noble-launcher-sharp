@@ -1,10 +1,10 @@
 ﻿using Force.Crc32;
-using NoblegardenLauncherSharp.Interfaces;
+using NobleLauncher.Interfaces;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     static class HashCalculator
     {

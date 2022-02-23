@@ -1,11 +1,11 @@
-﻿using NoblegardenLauncherSharp.Interfaces;
+﻿using NobleLauncher.Interfaces;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     static class FileDownloader
     {

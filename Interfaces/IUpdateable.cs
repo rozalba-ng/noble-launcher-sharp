@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Interfaces
+namespace NobleLauncher.Interfaces
 {
     interface IUpdateable
     {

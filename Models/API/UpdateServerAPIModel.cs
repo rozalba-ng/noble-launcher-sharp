@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using NoblegardenLauncherSharp.Globals;
-using NoblegardenLauncherSharp.Structures;
+using NobleLauncher.Globals;
+using NobleLauncher.Structures;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     public class UpdateServerAPIModel : APIModel
     {
@@ -21,7 +21,7 @@ namespace NoblegardenLauncherSharp.Models
         }
 
         public async Task<NobleResponse> GetActualLauncherVersion() {
-            var response = await MakeAsyncRequest("/launcher.json");
+            var response = await MakeAsyncRequest("/launcher-version.json");
             if (!response.IsOK) {
                 Static.ShutdownWithError("Не удалось получить данные об актуальной версии лаунчера");
                 return new NobleResponse();

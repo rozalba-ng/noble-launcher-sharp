@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     /// <summary>
     /// Логика взаимодействия для Header.xaml

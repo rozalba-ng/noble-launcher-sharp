@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Structures;
+using NobleLauncher.Models;
+using NobleLauncher.Structures;
 
-namespace NoblegardenLauncherSharp.Globals
+namespace NobleLauncher.Globals
 {
     public static class Static
     {

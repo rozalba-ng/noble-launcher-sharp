@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     class JObjectConverter
     {

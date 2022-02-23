@@ -6,10 +6,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Globals;
+using NobleLauncher.Models;
+using NobleLauncher.Globals;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     public partial class LinkPanel : UserControl
     {

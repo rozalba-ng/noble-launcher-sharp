@@ -1,14 +1,14 @@
-﻿using NoblegardenLauncherSharp.Globals;
-using NoblegardenLauncherSharp.Interfaces;
-using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Structures;
+﻿using NobleLauncher.Globals;
+using NobleLauncher.Interfaces;
+using NobleLauncher.Models;
+using NobleLauncher.Structures;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     /// <summary>
     /// Логика взаимодействия для Updater.xaml

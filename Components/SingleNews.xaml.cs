@@ -1,7 +1,7 @@
-﻿using NoblegardenLauncherSharp.Globals;
+﻿using NobleLauncher.Globals;
 using System.Windows.Controls;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     public partial class SingleNews : UserControl
     {

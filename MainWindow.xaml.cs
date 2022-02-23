@@ -1,10 +1,10 @@
 ﻿using System.Windows;
 using System.Diagnostics;
-using NoblegardenLauncherSharp.Globals;
-using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Structures;
+using NobleLauncher.Globals;
+using NobleLauncher.Models;
+using NobleLauncher.Structures;
 
-namespace NoblegardenLauncherSharp {
+namespace NobleLauncher {
     public partial class MainWindow : Window
     {
         public MainWindow()

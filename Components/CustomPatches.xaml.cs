@@ -1,6 +1,6 @@
-﻿using NoblegardenLauncherSharp.Globals;
-using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Structures;
+﻿using NobleLauncher.Globals;
+using NobleLauncher.Models;
+using NobleLauncher.Structures;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     public partial class CustomPatches : UserControl
     {

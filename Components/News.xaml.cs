@@ -1,11 +1,11 @@
-﻿using NoblegardenLauncherSharp.Globals;
-using NoblegardenLauncherSharp.Models;
-using NoblegardenLauncherSharp.Structures;
+﻿using NobleLauncher.Globals;
+using NobleLauncher.Models;
+using NobleLauncher.Structures;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace NoblegardenLauncherSharp.Components
+namespace NobleLauncher.Components
 {
     /// <summary>
     /// Логика взаимодействия для News.xaml

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace NoblegardenLauncherSharp.Structures
+namespace NobleLauncher.Structures
 {
     public struct NobleResponse
     {

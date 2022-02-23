@@ -1,9 +1,9 @@
-﻿using NoblegardenLauncherSharp.Globals;
-using NoblegardenLauncherSharp.Structures;
+﻿using NobleLauncher.Globals;
+using NobleLauncher.Structures;
 using System;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     public class SiteAPIModel : APIModel
     {

@@ -1,4 +1,4 @@
-﻿namespace NoblegardenLauncherSharp.Structures
+﻿namespace NobleLauncher.Structures
 {
     public enum EventDispatcherEvent
     {

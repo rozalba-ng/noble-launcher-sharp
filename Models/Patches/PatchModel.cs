@@ -1,10 +1,10 @@
-﻿using NoblegardenLauncherSharp.Globals;
-using NoblegardenLauncherSharp.Interfaces;
+﻿using NobleLauncher.Globals;
+using NobleLauncher.Interfaces;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace NoblegardenLauncherSharp.Models
+namespace NobleLauncher.Models
 {
     public class PatchModel: IUpdateable
     {

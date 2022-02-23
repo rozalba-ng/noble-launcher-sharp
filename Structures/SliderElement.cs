@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media.Imaging;
 
-namespace NoblegardenLauncherSharp.Structures
+namespace NobleLauncher.Structures
 {
     public struct SliderElement
     {
@@ -11,7 +11,7 @@ namespace NoblegardenLauncherSharp.Structures
             this.Name = Name.Trim();
             this.Image = new BitmapImage();
             this.Image.BeginInit();
-            this.Image.UriSource = new System.Uri($"pack://application:,,,/NoblegardenLauncherSharp;component/{Image}");
+            this.Image.UriSource = new System.Uri($"pack://application:,,,/NobleLauncher;component/{Image}");
             this.Image.EndInit();
             this.Link = Link;
         }
