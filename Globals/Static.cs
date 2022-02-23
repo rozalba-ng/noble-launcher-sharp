@@ -77,7 +77,9 @@ namespace NoblegardenLauncherSharp.Globals
                 CustomPatches.List.FindAll(patch => File.Exists(patch.PathToTMP)).ForEach(patch => File.Delete(patch.PathToTMP));
             }
 
-            Application.Current.Shutdown();
+            if (Application.Current != null) {
+                Application.Current.Shutdown();
+            }
         }
 
         public static void ShutdownWithError(string error) {

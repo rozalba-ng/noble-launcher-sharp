@@ -1,6 +1,8 @@
 ﻿using NoblegardenLauncherSharp.Globals;
 using NoblegardenLauncherSharp.Models;
 using NoblegardenLauncherSharp.Structures;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -41,17 +43,45 @@ namespace NoblegardenLauncherSharp.Components
             }
         }
 
-        private async Task DownloadNewLauncherVersion(string linkToLauncher) {
+        private async Task UpdateLauncher(string linkToLauncher) {
             CurrentLoadingStepView.Text = "Скачиваем новую версию лаунчера";
             CurrentLoadingProgressView.Opacity = 1;
             await FileDownloader.DownloadFile(
                 linkToLauncher,
-                Settings.WORKING_DIR + "/Noble Launcher.exe.tmp",
+                Settings.WORKING_DIR + "/NobleLauncher.exe.tmp",
                 (chunkSize, percentage) => {
                     CurrentLoadingProgressView.Value = percentage;
                 }
             );
-            CurrentLoadingProgressView.Opacity = 0;
+
+            using (var sw = File.CreateText("focus.vbs")) {
+                sw.WriteLine("Dim WshShell");
+                sw.WriteLine("Set WshShell = WScript.CreateObject(\"WScript.Shell\")");
+                sw.WriteLine("Dim ARGS");
+                sw.WriteLine("set ARGS = WScript.Arguments");
+                sw.WriteLine("WshShell.AppActivate(ARGS.Item(0))");
+                sw.WriteLine("WshShell.SendKeys(\"~\")");
+                sw.WriteLine("WScript.Quit(0)");
+            }
+
+            var process = new Process();
+            var startInfo = new ProcessStartInfo();
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            var cmds = new string[]{
+                "/C timeout 2",
+                "del NobleLauncher.exe",
+                "rename NobleLauncher.exe.tmp NobleLauncher.exe",
+                "start NobleLauncher.exe",
+                "timeout 1",
+                "focus.vbs \"Лаунчер Noblegarden\"",
+                "del focus.vbs"
+            };
+            startInfo.Arguments = String.Join("&", cmds);
+            process.StartInfo = startInfo;
+            process.Start();
+
+            Static.Shutdown();
         }
 
         public async Task CheckLauncherVersion() {
@@ -64,7 +94,7 @@ namespace NoblegardenLauncherSharp.Components
                 Static.ShutdownWithError("Сервер не вернул актуальной версии лаунчера");
             }
             if (actualLauncherVersion != Settings.LAUNCHER_VERSION) {
-                await DownloadNewLauncherVersion((string)launcherVersionResponse.FormattedData.link);
+                await UpdateLauncher((string)launcherVersionResponse.FormattedData.link);
                 Static.ShutdownWithError("Используется неактуальная версия лаунчера.\nТекущая: " + Settings.LAUNCHER_VERSION + ", актуальная: " + actualLauncherVersion);
             }
         }
