@@ -5,8 +5,127 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary  Source="/PresentationFramework.Aero2;component/themes/aero2.normalcolor.xaml" />-->
+                <ResourceDictionary Source="/PresentationFramework.Aero;component/themes/Aero.NormalColor.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <!-- Адские стили для скроллбаров, чтобы они выглядели нормально даже с темой Aero для 7-ки -->
+            <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="IsTabStop" Value="false"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Rectangle x:Name="rectangle" Fill="#3F090C1C" Height="{TemplateBinding Height}" SnapsToDevicePixels="True" Width="{TemplateBinding Width}"/>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Fill" TargetName="rectangle" Value="#66090C1C"/>
+                                </Trigger>
+                                <Trigger Property="IsDragging" Value="true">
+                                    <Setter Property="Fill" TargetName="rectangle" Value="#7F090C1C"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="RepeatButton">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="RepeatButton">
+                            <Grid>
+                                <ContentPresenter></ContentPresenter>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type ScrollBar}">
+                <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+                <Setter Property="BorderThickness" Value="1,0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="Bg" Width="8" Margin="0,15,0,15" Background="Transparent" SnapsToDevicePixels="true">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="Transparent" Grid.Row="0"/>
+                                <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="0">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" />
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ScrollBarThumbVertical}"/>
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- Адские стили для прогресс бара на 7-ке -->
+            <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ProgressBar}">
+                            <Grid MinHeight="14" MinWidth="200" Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Determinate" />
+                                        <VisualState x:Name="Indeterminate">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Duration="00:00:00" Storyboard.TargetName="PART_Indicator" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <SolidColorBrush>Transparent</SolidColorBrush>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="PART_Track" CornerRadius="2" BorderThickness="1">
+                                    <Border.BorderBrush>
+                                        <SolidColorBrush Color="Transparent" />
+                                    </Border.BorderBrush>
+                                </Border>
+                                <Border x:Name="PART_Indicator" CornerRadius="0" BorderThickness="1" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}" Margin="0,-1,0,1">
+                                    <Border.BorderBrush>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop Color="{DynamicResource BorderLightColor}" Offset="0.0" />
+                                                    <GradientStop Color="{DynamicResource BorderMediumColor}" Offset="1.0" />
+                                                </GradientStopCollection>
+                                            </GradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Border.BorderBrush>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="{DynamicResource ControlLightColor}" Offset="0" />
+                            <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="0" />
+                            <GradientStop Color="{DynamicResource ControlDarkColor}" Offset="1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

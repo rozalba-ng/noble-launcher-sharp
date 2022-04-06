@@ -67,39 +67,32 @@
         </Border>
         <TextBlock Name="SquareNameView" Text="{x:Static global:Static.FirstSliderElementName}" Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI Black" Foreground="#FFF" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Border BorderBrush="#26FFFFFF" BorderThickness="1, 1, 1, 1" Grid.Row="1" Grid.Column="2">
-            <Button Name="SliderPreviousButton" Grid.Row="1" Grid.Column="2" Content="&lt;  " Click="OnSliderPreviousButtonClick">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="Black"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Black"/>
-                                <Setter Property="Foreground" Value="#FF1F7DE0"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <Button Name="SliderPreviousButton" Style="{DynamicResource ClearButton}" Grid.Row="1" Grid.Column="2" Content="&lt;" Click="OnSliderPreviousButtonClick" />
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Background" Value="#FF090C1C"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF091526"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
         </Border>
-        <Rectangle Grid.Row="1" Grid.Column="3" Fill="Transparent"/>
         <Border BorderBrush="#26FFFFFF" BorderThickness="1, 1, 1, 1" Grid.Row="1" Grid.Column="4">
-            <Button Name="SliderNextButton" Grid.Row="1" Grid.Column="4" Content=">" Click="OnSliderNextButtonClick">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="Black"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Black"/>
-                                <Setter Property="Foreground" Value="#FF1F7DE0"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <Button Name="SliderNextButton" Style="{DynamicResource ClearButton}" Grid.Row="1" Grid.Column="4" Content=">" Click="OnSliderNextButtonClick"/>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Background" Value="#FF090C1C"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF091526"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
         </Border>
     </Grid>
     <UserControl.Resources>
@@ -115,5 +108,31 @@
                 <SplineThicknessKeyFrame KeyTime="00:00:0.125" Value="0,0,0,0" />
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
+        <Style x:Key="ClearButton" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid Background="Transparent">
+                                <ContentPresenter />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 </UserControl>
