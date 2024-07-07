@@ -44,7 +44,7 @@
             FontSize="18"
             Opacity="1"
         >
-            Проверить
+            Обновить
         </TextBlock>
     </Grid>
 </UserControl>

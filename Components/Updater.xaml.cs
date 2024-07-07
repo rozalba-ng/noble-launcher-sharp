@@ -15,11 +15,15 @@ namespace NobleLauncher.Components
     /// </summary>
     public partial class Updater : UserControl
     {
-        public Updater() {
+        public Updater()
+        {
             InitializeComponent();
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, CheckUpdateNeeded);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, Update);
         }
-        public async void Update() {
+
+        private async Task<List<IUpdateable>> GetPatchHashes()
+        {
             List<IUpdateable> necessaryPatches = Static.Patches.List.ToList<IUpdateable>();
             List<IUpdateable> selectedCustomPatches = Static.CustomPatches.List.FindAll(patch => patch.Selected).ToList<IUpdateable>();
 
@@ -28,6 +32,27 @@ namespace NobleLauncher.Components
             selectedCustomPatches.ForEach(patch => patches.Add(patch));
 
             await CalcHashes(patches);
+            return patches;
+        }
+        private async void CheckUpdateNeeded()
+        {
+            var patches = await GetPatchHashes();
+            if (patches.Count(patch => patch.LocalHash != patch.RemoteHash) > 0)
+            {
+                Static.InUIThread(() => {
+                    ActionTextView.Text = "Некоторые патчи устарели, пришла пора обновиться.";
+                });
+            } else
+            {
+                Static.InUIThread(() => {
+                    ActionTextView.Text = "Все патчи актуальны! Приятной игры!";
+                });
+            }
+        }
+
+        public async void Update()
+        {
+            var patches = await GetPatchHashes();
 
             List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
 
@@ -35,22 +60,26 @@ namespace NobleLauncher.Components
             CompleteUpdate();
         }
 
-        private long GetSummaryHashFileSize(List<IUpdateable> patches) {
+        private long GetSummaryHashFileSize(List<IUpdateable> patches)
+        {
             long summaryFileSize = 0;
-            for (int i = 0; i < patches.Count; i++) {
+            for (int i = 0; i < patches.Count; i++)
+            {
                 summaryFileSize += patches[i].GetPathByteSize();
             };
 
             return summaryFileSize;
         }
 
-        private Task CalcHashes(List<IUpdateable> patches) {
+        private Task CalcHashes(List<IUpdateable> patches)
+        {
             if (patches.Count == 0) return Task.Run(() => { });
             long currentRead = 0;
             long summarySize = GetSummaryHashFileSize(patches);
 
             return Task.Run(async () => {
-                for (int i = 0; i < patches.Count; i++) {
+                for (int i = 0; i < patches.Count; i++)
+                {
                     var patch = patches[i];
                     Static.InUIThread(() => {
                         ActionTextView.Text = "Считаем чек-суммы: " + patch.LocalPath;
@@ -67,9 +96,11 @@ namespace NobleLauncher.Components
             });
         }
 
-        private async Task<long> GetSummaryDownloadSize(List<IUpdateable> patches) {
+        private async Task<long> GetSummaryDownloadSize(List<IUpdateable> patches)
+        {
             long summarySize = 0;
-            if (patches.Count == 0) {
+            if (patches.Count == 0)
+            {
                 return 0;
             }
 
@@ -77,9 +108,10 @@ namespace NobleLauncher.Components
                 ActionTextView.Text = "Считаем размер обновления";
                 SetProgress(0);
             });
-            
+
             await Task.Run(async () => {
-                for (int i = 0; i < patches.Count; i++) {
+                for (int i = 0; i < patches.Count; i++)
+                {
                     var patch = patches[i];
                     Static.InUIThread(() => {
                         ActionTextView.Text = "Считаем размер обновления: " + patch.LocalPath;
@@ -96,7 +128,8 @@ namespace NobleLauncher.Components
             return summarySize;
         }
 
-        private Task DownloadFiles(List<IUpdateable> patches, long summarySize) {
+        private Task DownloadFiles(List<IUpdateable> patches, long summarySize)
+        {
             if (patches.Count == 0)
                 return Task.Run(() => { });
 
@@ -108,7 +141,8 @@ namespace NobleLauncher.Components
             });
 
             return Task.Run(async () => {
-                for (int i = 0; i < patches.Count; i++) {
+                for (int i = 0; i < patches.Count; i++)
+                {
                     var patch = patches[i];
                     Static.InUIThread(() => {
                         ActionTextView.Text = "Загружаем файл: " + patch.LocalPath + "(" + (i + 1) + "/" + patches.Count + ")";
@@ -124,7 +158,8 @@ namespace NobleLauncher.Components
                     if (!File.Exists(patch.PathToTMP))
                         return;
 
-                    if (File.Exists(patch.FullPath)) {
+                    if (File.Exists(patch.FullPath))
+                    {
                         File.Delete(patch.FullPath);
                     }
 
@@ -133,7 +168,8 @@ namespace NobleLauncher.Components
             });
         }
 
-        private void CompleteUpdate() {
+        private void CompleteUpdate()
+        {
             Static.InUIThread(() => {
                 ActionTextView.Text = "Обновлено!";
                 ProgressTextView.Text = "";
@@ -143,9 +179,11 @@ namespace NobleLauncher.Components
             EventDispatcher.Dispatch(EventDispatcherEvent.CompleteUpdate);
         }
 
-        private void SetProgress(int progress) {
+        private void SetProgress(int progress)
+        {
             Static.InUIThread(() => {
-                if (progress != ProgressView.Value) {
+                if (progress != ProgressView.Value)
+                {
                     ProgressView.Value = progress;
                     ProgressTextView.Text = progress.ToString() + "%";
                 }

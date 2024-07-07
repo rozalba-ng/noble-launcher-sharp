@@ -30,6 +30,7 @@ namespace NobleLauncher.Components
             await CheckLauncherVersion();
             await GetBasePatches();
             PlaySuccessLoadAnimation();
+            EventDispatcher.Dispatch(EventDispatcherEvent.CompletePreload);
         }
 
         public void Migration() {
@@ -93,7 +94,8 @@ namespace NobleLauncher.Components
             if (actualLauncherVersion == "") {
                 Static.ShutdownWithError("Сервер не вернул актуальной версии лаунчера");
             }
-            if (actualLauncherVersion != Settings.LAUNCHER_VERSION) {
+            if (actualLauncherVersion != Settings.LAUNCHER_VERSION)
+            {
                 await UpdateLauncher((string)launcherVersionResponse.FormattedData.link);
             }
         }
