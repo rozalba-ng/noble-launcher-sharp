@@ -7,7 +7,7 @@ namespace NobleLauncher.Globals
     public static class Settings {
         public static readonly string WORKING_DIR = @".";
         public static readonly string NOBLE_DOMAIN = "https://noblegarden.net";
-        public static readonly string LAUNCHER_VERSION = "2.0.1";
+        public static readonly string LAUNCHER_VERSION = "2.0.2";
         public static bool ENABLE_TLS = false;
         public static bool ENABLE_DEBUG_MODE = false;
 
