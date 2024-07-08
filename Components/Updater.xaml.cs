@@ -30,13 +30,11 @@ namespace NobleLauncher.Components
             List<IUpdateable> selectedCustomPatches = Static.CustomPatches.List.FindAll(patch => patch.Selected).ToList<IUpdateable>();
 
             List<IUpdateable> patches = new List<IUpdateable>();
+
             necessaryPatches.ForEach(patch => patches.Add(patch));
             selectedCustomPatches.ForEach(patch => patches.Add(patch));
-
-
             return patches;
         }
-
 
         private async void FastCheckUpdateNeeded()
         {
@@ -82,18 +80,17 @@ namespace NobleLauncher.Components
         }
         private async void CalcHash(IUpdateable patch)
         {
-            var hash = patch.CalcCRC32Hash((blockSize) => {});
-            patch.LocalHash = await hash;
+            patch.LocalHash = await patch.CalcCRC32Hash((blockSize) => {});
         }
 
         private void UpdateProgressBar(int done, int total)
         {
-            double readBytesProgress = (double)(done) / (double)(total);
-            int progress = (int)(readBytesProgress * 100);
+            double progress = (double)(done) / (double)(total);
+            int progressPercentage = (int)(progress * 100);
             Static.InUIThread(() => {
                 ActionTextView.Text = "Считаем чек-суммы... [" + done + "/" + total + "].";
             });
-            SetProgress(progress);
+            SetProgress(progressPercentage);
         }
         private Task CalcHashes(List<IUpdateable> patches)
         {
