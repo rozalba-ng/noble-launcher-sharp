@@ -47,7 +47,7 @@ namespace NobleLauncher.Components
                     CurrentOnlineText.Text = text;
                 });
 
-                Task.Delay(60000/*milliseconds*/);
+                await Task.Delay(60000/*milliseconds*/);
             }
         }
     }
