@@ -2,6 +2,7 @@
 using NobleLauncher.Interfaces;
 using NobleLauncher.Models;
 using NobleLauncher.Structures;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,11 +19,11 @@ namespace NobleLauncher.Components
         public Updater()
         {
             InitializeComponent();
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, CheckUpdateNeeded);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, FastCheckUpdateNeeded);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, Update);
         }
 
-        private async Task<List<IUpdateable>> GetPatchHashes()
+        private List<IUpdateable> GetPatches()
         {
             List<IUpdateable> necessaryPatches = Static.Patches.List.ToList<IUpdateable>();
             List<IUpdateable> selectedCustomPatches = Static.CustomPatches.List.FindAll(patch => patch.Selected).ToList<IUpdateable>();
@@ -31,28 +32,36 @@ namespace NobleLauncher.Components
             necessaryPatches.ForEach(patch => patches.Add(patch));
             selectedCustomPatches.ForEach(patch => patches.Add(patch));
 
-            await CalcHashes(patches);
+
             return patches;
         }
-        private async void CheckUpdateNeeded()
+
+
+        private async void FastCheckUpdateNeeded()
         {
-            var patches = await GetPatchHashes();
-            if (patches.Count(patch => patch.LocalHash != patch.RemoteHash) > 0)
-            {
-                Static.InUIThread(() => {
-                    ActionTextView.Text = "Некоторые патчи устарели, пришла пора обновиться.";
-                });
-            } else
-            {
+            var patches = GetPatches();
+            await Task.Run(async () => {
+                foreach (var patch in patches)
+                {
+                    var size = await patch.GetRemoteSize();
+                    if (size != patch.GetPathByteSize())
+                    {
+                        Static.InUIThread(() => {
+                            ActionTextView.Text = "Некоторые патчи устарели, пришла пора обновиться.";
+                        });
+                        return;
+                    }
+                }
                 Static.InUIThread(() => {
                     ActionTextView.Text = "Все патчи актуальны! Приятной игры!";
                 });
-            }
+            });
         }
 
         public async void Update()
         {
-            var patches = await GetPatchHashes();
+            var patches = GetPatches();
+            await CalcHashes(patches);
 
             List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
 
