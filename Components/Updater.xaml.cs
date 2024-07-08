@@ -101,7 +101,7 @@ namespace NobleLauncher.Components
             //long currentRead = 0;
             long summarySize = GetSummaryHashFileSize(patches);
 
-            return Task.Run(async () => {
+            return Task.Run(() => {
                 using (var countdownEvent = new CountdownEvent(patches.Count))
                 {
                     UpdateProgressBar(0, patches.Count);
