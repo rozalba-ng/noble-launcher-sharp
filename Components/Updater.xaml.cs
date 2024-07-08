@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -79,28 +80,40 @@ namespace NobleLauncher.Components
 
             return summaryFileSize;
         }
+        private async void CalcHash(IUpdateable patch)
+        {
+            var hash = patch.CalcCRC32Hash((blockSize) => {});
+            patch.LocalHash = await hash;
+        }
 
+        private void UpdateProgressBar(int done, int total)
+        {
+            double readBytesProgress = (double)(done) / (double)(total);
+            int progress = (int)(readBytesProgress * 100);
+            Static.InUIThread(() => {
+                ActionTextView.Text = "Считаем чек-суммы... [" + done + "/" + total + "].";
+            });
+            SetProgress(progress);
+        }
         private Task CalcHashes(List<IUpdateable> patches)
         {
             if (patches.Count == 0) return Task.Run(() => { });
-            long currentRead = 0;
+            //long currentRead = 0;
             long summarySize = GetSummaryHashFileSize(patches);
 
             return Task.Run(async () => {
-                for (int i = 0; i < patches.Count; i++)
+                using (var countdownEvent = new CountdownEvent(patches.Count))
                 {
-                    var patch = patches[i];
-                    Static.InUIThread(() => {
-                        ActionTextView.Text = "Считаем чек-суммы: " + patch.LocalPath;
-                    });
-                    var hash = await patch.CalcCRC32Hash((blockSize) => {
-                        currentRead += blockSize;
-                        double readBytesProgress = (double)(currentRead) / (double)(summarySize);
-                        int progress = (int)(readBytesProgress * 100);
-                        SetProgress(progress);
-                    });
-
-                    patch.LocalHash = hash;
+                    UpdateProgressBar(0, patches.Count);
+                    foreach (var patch in patches)
+                    {
+                        ThreadPool.QueueUserWorkItem(state => {
+                            CalcHash(patch);
+                            countdownEvent.Signal();
+                            UpdateProgressBar(patches.Count - countdownEvent.CurrentCount, patches.Count);
+                        });
+                    }
+                    countdownEvent.Wait();
                 }
             });
         }
