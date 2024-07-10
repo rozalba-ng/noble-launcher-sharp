@@ -43,8 +43,8 @@ namespace NobleLauncher.Components
             await Task.Run(async () => {
                 foreach (var patch in patches)
                 {
-                    var size = await patch.GetRemoteSize();
-                    if (size != patch.GetPathByteSize())
+                    DateTime lastModified = await patch.GetRemoteLastModified();
+                    if (lastModified > patch.GetLastModified())
                     {
                         Static.InUIThread(() => {
                             ActionTextView.Text = "Некоторые патчи устарели, пришла пора обновиться.";
