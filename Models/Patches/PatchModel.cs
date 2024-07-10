@@ -71,7 +71,7 @@ namespace NobleLauncher.Models
             return new FileInfo(FullPath).Length;
         }
 
-        public Task<string> CalcCRC32Hash(Action<long> OnBlockRead) {
+        public string CalcCRC32Hash(Action<long> OnBlockRead) {
             return HashCalculator.CalcCRC32Hash(this, OnBlockRead);
         }
 

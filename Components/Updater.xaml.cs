@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -78,9 +79,9 @@ namespace NobleLauncher.Components
 
             return summaryFileSize;
         }
-        private async void CalcHash(IUpdateable patch)
+        private void CalcHash(IUpdateable patch)
         {
-            patch.LocalHash = await patch.CalcCRC32Hash((blockSize) => {});
+            patch.LocalHash = patch.CalcCRC32Hash((blockSize) => {});
         }
 
         private void UpdateProgressBar(int done, int total)
@@ -88,31 +89,29 @@ namespace NobleLauncher.Components
             double progress = (double)(done) / (double)(total);
             int progressPercentage = (int)(progress * 100);
             Static.InUIThread(() => {
-                ActionTextView.Text = "Считаем чек-суммы... [" + done + "/" + total + "].";
+                ActionTextView.Text = "Считаем хэш-суммы... [" + done + "/" + total + "].";
             });
             SetProgress(progressPercentage);
         }
+        private int hashesCounted = 0;
         private Task CalcHashes(List<IUpdateable> patches)
         {
+            hashesCounted = 0;
             if (patches.Count == 0) return Task.Run(() => { });
-            //long currentRead = 0;
             long summarySize = GetSummaryHashFileSize(patches);
+            UpdateProgressBar(0, patches.Count);
+            Task[] tasks = new Task[patches.Count];
+            for (int i = 0; i < patches.Count; i++)
+            {
+                var patch = patches[i];
+                tasks[i] = Task.Run(() => {
+                    CalcHash(patch);
+                    int newCount = Interlocked.Increment(ref hashesCounted);
+                    UpdateProgressBar(newCount, patches.Count);
+                });
+            }
 
-            return Task.Run(() => {
-                using (var countdownEvent = new CountdownEvent(patches.Count))
-                {
-                    UpdateProgressBar(0, patches.Count);
-                    foreach (var patch in patches)
-                    {
-                        ThreadPool.QueueUserWorkItem(state => {
-                            CalcHash(patch);
-                            countdownEvent.Signal();
-                            UpdateProgressBar(patches.Count - countdownEvent.CurrentCount, patches.Count);
-                        });
-                    }
-                    countdownEvent.Wait();
-                }
-            });
+            return Task.Run(() => { Task.WhenAll(tasks).Wait(); });
         }
 
         private async Task<long> GetSummaryDownloadSize(List<IUpdateable> patches)
