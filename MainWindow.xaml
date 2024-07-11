@@ -68,7 +68,7 @@
                     <components:StartButton Grid.Column="2"/>
                 </Grid>
             </Grid>
-            <components:SettingsWindow Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Width="280" />
+            <components:SettingsWindow Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Width="560" />
             <TextBlock
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
