@@ -58,11 +58,20 @@ namespace NobleLauncher.Components
             });
         }
 
+        private async Task UpdateLastModifiedTime(List<IUpdateable> patches)
+        {
+            foreach(IUpdateable patch in  patches)
+            {
+                DateTime lastModified = await patch.GetRemoteLastModified();
+                File.SetLastWriteTime(patch.LocalPath, lastModified);
+            }
+        }
+
         public async void Update()
         {
             var patches = GetPatches();
             await CalcHashes(patches);
-
+            await UpdateLastModifiedTime(patches);
             List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
 
             await DownloadFiles(patchesToUpdate, await GetSummaryDownloadSize(patchesToUpdate));
@@ -93,7 +102,9 @@ namespace NobleLauncher.Components
             });
             SetProgress(progressPercentage);
         }
+
         private int hashesCounted = 0;
+
         private Task CalcHashes(List<IUpdateable> patches)
         {
             hashesCounted = 0;
