@@ -58,11 +58,33 @@ namespace NobleLauncher.Components
             });
         }
 
+        // https://stackoverflow.com/questions/876473/is-there-a-way-to-check-if-a-file-is-in-use
+        protected virtual bool CanWriteToFile(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return false;
+            }
+            FileInfo file = new FileInfo(path);
+            try
+            {
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+            return true;
+        }
+
         private async Task UpdateLastModifiedTime(List<IUpdateable> patches)
         {
-            foreach(IUpdateable patch in  patches)
+            foreach (IUpdateable patch in patches)
             {
-                if (File.Exists(patch.LocalPath))
+                if (CanWriteToFile(patch.LocalPath))
                 {
                     DateTime lastModified = await patch.GetRemoteLastModified();
                     File.SetLastWriteTime(patch.LocalPath, lastModified);
