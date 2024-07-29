@@ -62,8 +62,11 @@ namespace NobleLauncher.Components
         {
             foreach(IUpdateable patch in  patches)
             {
-                DateTime lastModified = await patch.GetRemoteLastModified();
-                File.SetLastWriteTime(patch.LocalPath, lastModified);
+                if (File.Exists(patch.LocalPath))
+                {
+                    DateTime lastModified = await patch.GetRemoteLastModified();
+                    File.SetLastWriteTime(patch.LocalPath, lastModified);
+                }
             }
         }
 
