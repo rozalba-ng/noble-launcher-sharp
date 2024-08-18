@@ -36,12 +36,7 @@ namespace NobleLauncher.Models
         }
 
         public static void CreateFolderForDownload(string fileDestination) {
-            var dirPath = fileDestination;
-            var symb = dirPath[dirPath.Length - 1];
-            while (symb != '/') {
-                dirPath = dirPath.Substring(0, dirPath.Length - 1);
-                symb = dirPath[dirPath.Length - 1];
-            }
+            var dirPath = Path.GetDirectoryName(fileDestination);
 
             if (!Directory.Exists(dirPath)) {
                 Directory.CreateDirectory(dirPath);
