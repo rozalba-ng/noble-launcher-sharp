@@ -24,7 +24,11 @@ namespace NobleLauncher.Models
                 );
             }
 
-        protected bool Exists() {
+        public void Delete()
+        {
+            File.Delete(PathToFile);
+        }
+        public bool Exists() {
             return File.Exists(PathToFile);
         }
 

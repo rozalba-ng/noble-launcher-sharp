@@ -16,6 +16,7 @@ namespace NobleLauncher.Globals
         public static DispatcherOperation CurrentUIOperation;
         public static NoblePatchGroupModel<NecessaryPatchModel> Patches;
         public static NoblePatchGroupModel<CustomPatchModel> CustomPatches;
+        public static List<FileModel> ClientFiles;
 
         public static readonly List<SliderElement> SliderElements = new List<SliderElement> {
             new SliderElement("Персонажи", "https://noblegarden.net/charlist", "Images/square-character.jpg"),

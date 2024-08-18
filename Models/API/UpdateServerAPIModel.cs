@@ -46,5 +46,15 @@ namespace NobleLauncher.Models
             }
             return response;
         }
+        public async Task<NobleResponse> GetClientFiles()
+        {
+            var response = await MakeAsyncRequest("/client_files.json");
+            if (!response.IsOK)
+            {
+                Static.ShutdownWithError("Не удалось получить данные о необходимых для клиента файлах.");
+                return new NobleResponse();
+            }
+            return response;
+        }
     }
 }

@@ -20,11 +20,12 @@
         <TextBlock
             Name="CurrentLoadingStepView"
             FontFamily="Bahnschrift Light"
-            FontSize="14"
+            FontSize="12"
             Text="Step"
             Foreground="#FFFAFAFA"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center" Margin="300,352,298,230"
+            VerticalAlignment="Center"
+            Margin="0,352,0,230"
         />
         <ProgressBar
             Name="CurrentLoadingProgressView"
@@ -32,21 +33,59 @@
             Maximum="100"
             Height="8"
             Width="400"
-            Margin="0, 200, 0, 0"
+            Margin="0, 220, 0, 0"
             Background="#26E6E6E6"
             Foreground="#FF0B364F"
             BorderBrush="#26E6E6E6"
         />
+        <Border CornerRadius="4" BorderBrush="#AAFFFFFF" BorderThickness="2" Cursor="Hand">
+            <Rectangle
+                RadiusX="4"
+                RadiusY="4"
+                Name="DownloadClientButton"
+                Width="160"
+                Height="45"
+                Visibility="Hidden"
+                IsHitTestVisible="False"
+                MouseLeftButtonUp="DownloadClient"
+            >
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Setter Property="Fill" Value="#FF12161A"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" Value="#FF090B0D"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+        </Border>
+        <TextBlock
+            Name="DownloadClientTextBlock"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            TextAlignment="Center"
+            Foreground="#FFFFFFFF"
+            FontFamily="Corbel"
+            IsHitTestVisible="False"
+            TextWrapping="WrapWithOverflow"
+            FontWeight="Bold"
+            FontSize="18"
+            Visibility="Hidden"
+        >
+            Скачать клиент
+        </TextBlock>
     </Grid>
     <UserControl.Resources>
         <Storyboard x:Key="FadeOutModalBG" Name="FadeOutModalAnimation">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ModalBackgroundView" Storyboard.TargetProperty="Opacity">
-                <LinearDoubleKeyFrame Value="1.0" KeyTime="00:00:00" />
-                <LinearDoubleKeyFrame Value="0.0" KeyTime="00:00:0.5" />
+                <LinearDoubleKeyFrame Value="1.0" KeyTime="00:00:00"/>
+                <LinearDoubleKeyFrame Value="0.0" KeyTime="00:00:0.5"/>
             </DoubleAnimationUsingKeyFrames>
             <BooleanAnimationUsingKeyFrames Storyboard.TargetName="ModalBackgroundRectangleView" Storyboard.TargetProperty="IsHitTestVisible">
-                <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0" />
-                <DiscreteBooleanKeyFrame Value="False" KeyTime="0:0:0.5" />
+                <DiscreteBooleanKeyFrame Value="True" KeyTime="0:0:0"/>
+                <DiscreteBooleanKeyFrame Value="False" KeyTime="0:0:0.5"/>
             </BooleanAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
