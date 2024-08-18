@@ -4,6 +4,7 @@
     {
         StartPreload,
         CompletePreload,
+        CompletePatchInfoRetrieving,
         SettingsButtonClick,
         SettingsRefresh,
         StartUpdate,

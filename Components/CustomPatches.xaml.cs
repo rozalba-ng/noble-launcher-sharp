@@ -16,9 +16,10 @@ namespace NobleLauncher.Components
         public CustomPatches() {
             InitializeComponent();
 
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, () => {
-                Task.Run(() => GetAndDrawCustomPatches());
-                Task.Run(() => GetAndDrawBasePatches());
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, async () => {
+                await Task.Run(() => GetAndDrawCustomPatches());
+                await Task.Run(() => GetAndDrawBasePatches());
+                EventDispatcher.Dispatch(EventDispatcherEvent.CompletePatchInfoRetrieving);
             });
         }
 

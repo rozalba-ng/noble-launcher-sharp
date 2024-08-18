@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -21,7 +20,7 @@ namespace NobleLauncher.Components
         public Updater()
         {
             InitializeComponent();
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, FastCheckUpdateNeeded);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePatchInfoRetrieving, FastCheckUpdateNeeded);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, Update);
         }
 
