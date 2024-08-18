@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using NobleLauncher.Models;
 using NobleLauncher.Globals;
+using NobleLauncher.Structures;
 
 namespace NobleLauncher.Components
 {
@@ -16,7 +17,8 @@ namespace NobleLauncher.Components
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
         public CurrentOnline() {
             InitializeComponent();
-            Task.Run(() => DrawCurrentOnline());
+
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, () => Task.Run(() => DrawCurrentOnline()));
         }
         private void OpenCurrentOnlineLink(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             Static.OpenLinkFromTag(sender, e);
