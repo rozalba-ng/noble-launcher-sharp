@@ -114,7 +114,10 @@ namespace NobleLauncher.Components
         }
         private void CalcHash(IUpdateable patch)
         {
-            patch.LocalHash = patch.CalcCRC32Hash((blockSize) => {});
+            if (patch.RemoteHash != null)
+            {
+                patch.LocalHash = patch.CalcCRC32Hash((blockSize) => { });
+            }
         }
 
         private void UpdateProgressBar(int done, int total)
