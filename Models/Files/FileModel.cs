@@ -17,6 +17,13 @@ namespace NobleLauncher.Models
             );
         }
 
+        public void SetRelativePath(string RelativePath) {
+            PathToFile = Path.Combine(
+                    WORKING_DIR,
+                    RelativePath
+                );
+            }
+
         protected bool Exists() {
             return File.Exists(PathToFile);
         }

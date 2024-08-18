@@ -65,6 +65,41 @@ namespace NobleLauncher.Models
             return patch;
         }
 
+        private static FileModel ConvertTokenToClientFile(JToken token)
+        {
+            FileModel file = new FileModel("");
+            var reader = new JTokenReader(token);
+            bool isObjectStarted = false;
+
+            while (reader.Read())
+            {
+                var tokenType = reader.TokenType;
+
+                if (tokenType == JsonToken.StartObject)
+                {
+                    isObjectStarted = true;
+                }
+
+                if (tokenType == JsonToken.PropertyName)
+                {
+                    string property = (string)reader.Value;
+
+                    if (isObjectStarted)
+                    {
+                        switch (property)
+                        {
+                            case "localpath":
+                                file.SetRelativePath(reader.ReadAsString());
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            return file;
+        }
+
         public static List<NecessaryPatchModel> ConvertToNecessaryPatchesList(JObject Target) {
             var tokens = ConvertToTokenList(Target);
             var patches = new NecessaryPatchModel[tokens.Count];
@@ -91,6 +126,19 @@ namespace NobleLauncher.Models
             });
 
             return new List<CustomPatchModel>(patches);
+        }
+
+        public static List<FileModel> ConvertToClientFileList(JObject Target)
+        {
+            var tokens = ConvertToTokenList(Target);
+            var files = new FileModel[tokens.Count];
+
+            Parallel.For(0, tokens.Count, (i) => {
+                FileModel file = ConvertTokenToClientFile(tokens[i]);
+                files[i] = file;
+            });
+
+            return new List<FileModel>(files);
         }
     }
 }
