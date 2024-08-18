@@ -12,10 +12,16 @@ namespace NobleLauncher.Components
     {
         public Header() {
             InitializeComponent();
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, () => SetSettingsButtonVisible());
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, () => SetSettingsClickable(false));
             EventDispatcher.CreateSubscription(EventDispatcherEvent.CompleteUpdate, () => SetSettingsClickable(true));
         }
 
+        private void SetSettingsButtonVisible()
+        {
+            SettingsIcon.Visibility = Visibility.Visible;
+            SetSettingsClickable(true);
+        }
         private void ToggleSettingsVisibility(object sender, RoutedEventArgs e) {
             EventDispatcher.Dispatch(EventDispatcherEvent.SettingsButtonClick);
         }
