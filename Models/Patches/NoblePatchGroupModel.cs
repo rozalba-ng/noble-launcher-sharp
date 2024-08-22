@@ -13,5 +13,7 @@ namespace NobleLauncher.Models
         public PatchType GetPatchByID(int id) {
             return List[id];
         }
+
+        public int Count() { return List.Count; }
     }
 }

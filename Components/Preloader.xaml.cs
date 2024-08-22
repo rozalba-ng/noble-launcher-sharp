@@ -1,9 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
 using NobleLauncher.Globals;
+using NobleLauncher.Interfaces;
 using NobleLauncher.Models;
 using NobleLauncher.Structures;
 using System;
+using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -16,13 +20,13 @@ namespace NobleLauncher.Components
     public partial class Preloader : UserControl
     {
         private UpdateServerAPIModel UpdateServerAPI;
-        private bool triedToDownloadClient;
         public Preloader() {
             InitializeComponent();
-            triedToDownloadClient = false;
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartPreload, StartPreload);
         }
 
+        private bool clientFilesExist;
+        private bool initialPatchesExist;
         private async void StartPreload()
         {
             UpdateServerAPI = UpdateServerAPIModel.Instance();
@@ -30,38 +34,30 @@ namespace NobleLauncher.Components
             Migration();
 
             await GetClientFilesList();
-            bool clientIsOk = CheckIfClientFilesOk();
-            if (!clientIsOk && triedToDownloadClient)
-            {
-                ShowError("Что-то пошло не так. Обратитесь к разработчикам программы за помощью.");
-                return;
-            }
+            await GetInitialPatchesList();
+            clientFilesExist = FastCheckClientExists();
+            initialPatchesExist = FastCheckPatchesExist();
+            bool clientIsOk = clientFilesExist && initialPatchesExist;
 
             if (!clientIsOk)
             {
                 ToggleLoadingAnimation(false);
-            }
-            if (clientIsOk)
-            {
+                EnableDownloadButton();
+            } else {
                 await GetBasePatches();
                 PlaySuccessLoadAnimation();
                 EventDispatcher.Dispatch(EventDispatcherEvent.CompletePreload);
             }
         }
 
-        private bool CheckIfClientFilesOk()
+        private void EnableDownloadButton()
         {
-            if (!FastCheckClientExists())
+            if (!CheckDirectoryName())
             {
-                if (!CheckDirectoryName())
-                {
-                    ShowError("Клиент не найден. Положите лаунчер в папку с именем Noblegarden и перезапустите.");
-                    return false;
-                }
-                ToggleDownloadButton(true);
-                return false;
+                ShowError("Клиент не найден. Положите лаунчер в папку с именем Noblegarden и перезапустите.");
+                return;
             }
-            return true;
+            ToggleDownloadButton(true);
         }
 
         private void ToggleLoadingAnimation(bool toggle)
@@ -90,6 +86,17 @@ namespace NobleLauncher.Components
             return folderName == "noblegarden" || folderName == "Noblegarden";
         }
 
+        private bool FastCheckPatchesExist()
+        {
+            foreach (IUpdateable patch in Static.InitialPatches.List)
+            {
+                if (!File.Exists(patch.LocalPath))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         private bool FastCheckClientExists()
         {
             foreach (FileModel file in Static.ClientFiles)
@@ -103,35 +110,92 @@ namespace NobleLauncher.Components
 
         private void RemoveClientFiles()
         {
+            File.Delete("noblegarden_client.zip");
             foreach (FileModel file in Static.ClientFiles)
             {
-                if (file.Exists())
-                {
-                    file.Delete();
-                }
+                file.Delete();
             }
             string interface_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Interface");
-            Directory.Delete(interface_path, true);
+            if (Directory.Exists(interface_path))
+            {
+                Directory.Delete(interface_path, true);
+            }
         }
 
         public async void DownloadClient(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            RemoveClientFiles();
-            string client_link = "http://31.129.44.181/noblegarden_client.zip";
-            string download_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "noblegarden_client.zip");
-            if (!File.Exists(download_path))
+            ToggleDownloadButton(false);
+            // Needed because unzipping cannot replace files in .net framework.
+
+            if (!clientFilesExist)
             {
-                await FileDownloader.DownloadFile(client_link, download_path, (chunkSize, percentage) =>
-                {
-                    CurrentLoadingProgressView.Value = percentage;
-                });
+                RemoveClientFiles();
+                await DownloadClientFiles();
+                ExtractClient();
             }
-            System.IO.Compression.ZipFile.ExtractToDirectory(download_path, AppDomain.CurrentDomain.BaseDirectory);
-            File.Delete(download_path);
-            triedToDownloadClient = true;
+            if (!initialPatchesExist)
+            {
+                await DownloadInitialPatches();
+            }
             EventDispatcher.Dispatch(EventDispatcherEvent.StartPreload);
         }
 
+        private string client_archive_name = "noblegarden_client.zip";
+        private Task DownloadClientFiles()
+        {
+
+            CurrentLoadingStepView.Text = "Скачивается архив с клиентом.";
+            string client_link = "http://31.129.44.181/" + client_archive_name;
+            string download_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, client_archive_name);
+            
+            return Task.Run(async () => {
+                await FileDownloader.DownloadFile(client_link, download_path, (chunkSize, percentage) =>
+                    {
+                        Static.InUIThread(() =>
+                        {
+                            CurrentLoadingProgressView.Value = percentage;
+                        });
+                    }
+                );
+            });
+        }
+        private void ExtractClient()
+        {
+            System.IO.Compression.ZipFile.ExtractToDirectory(client_archive_name, AppDomain.CurrentDomain.BaseDirectory);
+            File.Delete(client_archive_name);
+        }
+    
+        private int downloadedPatchesCount;
+        public Task DownloadInitialPatches()
+        {
+            downloadedPatchesCount = 0;
+            List<IUpdateable> missingPatches = Static.InitialPatches.List
+                .Where(patch => !File.Exists(patch.LocalPath))
+                .ToList();
+            return FileDownloader.DownloadFiles(missingPatches, () =>
+                {
+                    Static.InUIThread(() =>
+                    {
+                        CurrentLoadingStepView.Text = "Загружаем патчи.";
+                        CurrentLoadingProgressView.Value = 0;
+                    });
+                },
+                (IUpdateable patch) =>
+                {
+                    downloadedPatchesCount++;
+                    Static.InUIThread(() =>
+                    {
+                        CurrentLoadingStepView.Text = "Загрузка " + patch.LocalPath + "(" + (downloadedPatchesCount + 1) + "/" + missingPatches.Count + ")";
+                    });
+                },
+                (loadedChunkSize, percentOfFile) =>
+                {
+                    Static.InUIThread(() =>
+                    {
+                        CurrentLoadingProgressView.Value = percentOfFile;
+                    });
+                });
+        }
         public void Migration() {
             CurrentLoadingStepView.Text = "Мигрируем со старой версии";
             if (Directory.Exists(Settings.WORKING_DIR + "/Launcher")) {
@@ -149,6 +213,16 @@ namespace NobleLauncher.Components
             var patchesInfo = defaultPatchesResponse.FormattedData;
             var defaultPatches = JObjectConverter.ConvertToNecessaryPatchesList(patchesInfo);
             Static.Patches = new NoblePatchGroupModel<NecessaryPatchModel>(defaultPatches);
+        }
+
+        private async Task GetInitialPatchesList()
+        {
+            CurrentLoadingStepView.Text = "Получаем список патчей.";
+            var initialPatchesResponse = await UpdateServerAPI.GetInitialPatches();
+            var patchesInfo = initialPatchesResponse.FormattedData;
+            List<PatchModel> initialPatches = JObjectConverter.ConvertToPatchesList(patchesInfo);
+            Static.InitialPatches = new NoblePatchGroupModel<IUpdateable>(initialPatches);
+            CurrentLoadingStepView.Text = "Список патчей получен!";
         }
 
         private async Task GetClientFilesList()
