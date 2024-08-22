@@ -114,6 +114,20 @@ namespace NobleLauncher.Models
             return new List<NecessaryPatchModel>(patches);
         }
 
+        public static List<PatchModel> ConvertToPatchesList(JObject Target)
+        {
+            var tokens = ConvertToTokenList(Target);
+            var patches = new PatchModel[tokens.Count];
+
+            Parallel.For(0, tokens.Count, (i) => {
+                patches[i] = ConvertTokenToPatch(tokens[i]);
+                patches[i].Index = i;
+            });
+
+            return new List<PatchModel>(patches);
+        }
+
+
         public static List<CustomPatchModel> ConvertToCustomPatchesList(JObject Target) {
             var tokens = ConvertToTokenList(Target);
             var patches = new CustomPatchModel[tokens.Count];

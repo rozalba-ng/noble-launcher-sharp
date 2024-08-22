@@ -32,7 +32,7 @@ namespace NobleLauncher.Models
         public async Task<NobleResponse> GetCustomPatches() {
             var response = await MakeAsyncRequest("/custom-patches.json");
             if (!response.IsOK) {
-                Static.ShutdownWithError("Не удалось получить данные о необязательных патчах");
+                Static.ShutdownWithError("Не удалось получить данные о необязательных патчах.");
                 return new NobleResponse();
             }
             return response;
@@ -41,7 +41,17 @@ namespace NobleLauncher.Models
         public async Task<NobleResponse> GetBasePatches() {
             var response = await MakeAsyncRequest("/patches.json");
             if (!response.IsOK) {
-                Static.ShutdownWithError("Не удалось получить данные об обязательных патчах");
+                Static.ShutdownWithError("Не удалось получить данные об обязательных патчах.");
+                return new NobleResponse();
+            }
+            return response;
+        }
+        public async Task<NobleResponse> GetInitialPatches()
+        {
+            var response = await MakeAsyncRequest("/initial_patches.json");
+            if (!response.IsOK)
+            {
+                Static.ShutdownWithError("Не удалось получить данные о базовых патчах.");
                 return new NobleResponse();
             }
             return response;
