@@ -165,10 +165,10 @@ namespace NobleLauncher.Components
             File.Delete(client_archive_name);
         }
     
-        private int downloadedPatchesCount;
+        private int patchIndex;
         public Task DownloadInitialPatches()
         {
-            downloadedPatchesCount = 0;
+            patchIndex = 0;
             List<IUpdateable> missingPatches = Static.InitialPatches.List
                 .Where(patch => !File.Exists(patch.LocalPath))
                 .ToList();
@@ -182,10 +182,10 @@ namespace NobleLauncher.Components
                 },
                 (IUpdateable patch) =>
                 {
-                    downloadedPatchesCount++;
+                    patchIndex++;
                     Static.InUIThread(() =>
                     {
-                        CurrentLoadingStepView.Text = "Загрузка " + patch.LocalPath + "(" + (downloadedPatchesCount + 1) + "/" + missingPatches.Count + ")";
+                        CurrentLoadingStepView.Text = "Загрузка " + patch.LocalPath + "(" + patchIndex + "/" + missingPatches.Count + ")";
                     });
                 },
                 (loadedChunkSize, percentOfFile) =>
