@@ -1,5 +1,6 @@
 ﻿using NobleLauncher.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
@@ -82,6 +83,37 @@ namespace NobleLauncher.Models
                 return;
 
             CurrentWebClient.CancelAsync();
+        }
+
+        public static Task DownloadFiles(List<IUpdateable> files,
+            Action OnStart,
+            Action<IUpdateable> OnNewFileDownload,
+            Action<long, int> OnLoadUpdated)
+        {
+            if (files.Count == 0)
+                return Task.Run(() => { });
+
+            OnStart();
+
+            return Task.Run(async () => {
+                for (int i = 0; i < files.Count; i++)
+                {
+                    var file = files[i];
+                    OnNewFileDownload(file);
+
+                    await file.LoadUpdated(OnLoadUpdated);
+
+                    if (!File.Exists(file.PathToTMP))
+                        return;
+
+                    if (File.Exists(file.FullPath))
+                    {
+                        File.Delete(file.FullPath);
+                    }
+
+                    File.Move(file.PathToTMP, file.FullPath);
+                }
+            });
         }
     }
 }
