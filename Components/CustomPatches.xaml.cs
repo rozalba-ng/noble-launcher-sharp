@@ -15,8 +15,12 @@ namespace NobleLauncher.Components
         private readonly UpdateServerAPIModel UpdateServerAPI = UpdateServerAPIModel.Instance();
         public CustomPatches() {
             InitializeComponent();
-            Task.Run(() => GetAndDrawCustomPatches());
-            Task.Run(() => GetAndDrawBasePatches());
+
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, async () => {
+                await Task.Run(() => GetAndDrawCustomPatches());
+                await Task.Run(() => GetAndDrawBasePatches());
+                EventDispatcher.Dispatch(EventDispatcherEvent.CompletePatchInfoRetrieving);
+            });
         }
 
         private void OpenPatchLink(object sender, MouseButtonEventArgs e) {

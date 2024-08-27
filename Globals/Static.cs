@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using NobleLauncher.Interfaces;
 using NobleLauncher.Models;
 using NobleLauncher.Structures;
 
@@ -14,8 +15,10 @@ namespace NobleLauncher.Globals
     public static class Static
     {
         public static DispatcherOperation CurrentUIOperation;
+        public static NoblePatchGroupModel<IUpdateable> InitialPatches;
         public static NoblePatchGroupModel<NecessaryPatchModel> Patches;
         public static NoblePatchGroupModel<CustomPatchModel> CustomPatches;
+        public static List<FileModel> ClientFiles;
 
         public static readonly List<SliderElement> SliderElements = new List<SliderElement> {
             new SliderElement("Персонажи", "https://noblegarden.net/charlist", "Images/square-character.jpg"),

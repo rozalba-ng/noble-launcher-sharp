@@ -15,7 +15,7 @@ namespace NobleLauncher.Components
         private readonly SiteAPIModel SiteAPI = SiteAPIModel.Instance();
         public News() {
             InitializeComponent();
-            Task.Run(() => DrawLastNews());
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, () => Task.Run(() => DrawLastNews()));
         }
         private async Task DrawLastNews() {
             var newsResponse = await SiteAPI.GetLastNews();

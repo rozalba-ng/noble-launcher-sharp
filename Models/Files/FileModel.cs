@@ -17,7 +17,18 @@ namespace NobleLauncher.Models
             );
         }
 
-        protected bool Exists() {
+        public void SetRelativePath(string RelativePath) {
+            PathToFile = Path.Combine(
+                    WORKING_DIR,
+                    RelativePath
+                );
+            }
+
+        public void Delete()
+        {
+            File.Delete(PathToFile);
+        }
+        public bool Exists() {
             return File.Exists(PathToFile);
         }
 

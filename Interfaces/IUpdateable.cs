@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace NobleLauncher.Interfaces
 {
-    interface IUpdateable
+    public interface IUpdateable
     {
         string FullPath { get; }
         string LocalPath { get; set; }
