@@ -7,7 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -108,20 +110,6 @@ namespace NobleLauncher.Components
             return true;
         }
 
-        private void RemoveClientFiles()
-        {
-            File.Delete("noblegarden_client.zip");
-            foreach (FileModel file in Static.ClientFiles)
-            {
-                file.Delete();
-            }
-            string interface_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Interface");
-            if (Directory.Exists(interface_path))
-            {
-                Directory.Delete(interface_path, true);
-            }
-        }
-
         public async void DownloadClient(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ToggleDownloadButton(false);
@@ -129,7 +117,6 @@ namespace NobleLauncher.Components
 
             if (!clientFilesExist)
             {
-                RemoveClientFiles();
                 await DownloadClientFiles();
                 ExtractClient();
             }
@@ -159,9 +146,32 @@ namespace NobleLauncher.Components
                 );
             });
         }
+
+        public static void ExtractToDirectoryWithOverwrite(string sourceArchiveFileName, string destinationDirectoryName, Encoding entryNameEncoding = null)
+        {
+            using (ZipArchive archive = ZipFile.Open(sourceArchiveFileName, ZipArchiveMode.Read, entryNameEncoding))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    string destinationPath = Path.Combine(destinationDirectoryName, entry.FullName);
+                    string destinationDirectory = Path.GetDirectoryName(destinationPath);
+
+                    if (!Directory.Exists(destinationDirectory))
+                    {
+                        Directory.CreateDirectory(destinationDirectory);
+                    }
+
+                    if (!string.IsNullOrEmpty(Path.GetFileName(destinationPath))) // Skip directories
+                    {
+                        entry.ExtractToFile(destinationPath, overwrite: true);
+                    }
+                }
+            }
+        }
+
         private void ExtractClient()
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(client_archive_name, AppDomain.CurrentDomain.BaseDirectory);
+            ExtractToDirectoryWithOverwrite(client_archive_name, AppDomain.CurrentDomain.BaseDirectory);
             File.Delete(client_archive_name);
         }
     
