@@ -70,6 +70,7 @@
             FontWeight="Bold"
             FontSize="18"
             Visibility="Hidden"
+            IsHitTestVisible="False"
         >
             Скачать клиент
         </TextBlock>
