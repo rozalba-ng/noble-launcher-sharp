@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NobleLauncher.Components
 {
@@ -37,7 +38,10 @@ namespace NobleLauncher.Components
         }
 
         private void HandleDrag(object sender, System.Windows.Input.MouseEventArgs e) {
-            Application.Current.MainWindow.DragMove();
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Application.Current.MainWindow.DragMove();
+            }
         }
     }
 }

@@ -6,8 +6,8 @@
              xmlns:gif="clr-namespace:XamlAnimatedGif;assembly=XamlAnimatedGif"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900">
-    <Grid Name="ModalBackgroundView" Opacity="1">
-        <Rectangle Name="ModalBackgroundRectangleView" Fill="#FF062131" IsHitTestVisible="False" Margin="0,50,0,0"/>
+    <Grid Name="ModalBackgroundView" Opacity="1" IsHitTestVisible="True">
+        <Rectangle Name="ModalBackgroundRectangleView" Fill="#FF062131" Margin="0,50,0,0"/>
         <Image
             Name="LoadingAnimation"
             gif:AnimationBehavior.SourceUri="../Images/preloader.gif"
@@ -15,7 +15,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Panel.ZIndex="2"
-            IsHitTestVisible="False"
         />
         <TextBlock
             Name="CurrentLoadingStepView"
@@ -46,7 +45,6 @@
                 Width="160"
                 Height="45"
                 Visibility="Hidden"
-                IsHitTestVisible="False"
                 MouseLeftButtonUp="DownloadClient"
             >
                 <Rectangle.Style>
@@ -68,11 +66,11 @@
             TextAlignment="Center"
             Foreground="#FFFFFFFF"
             FontFamily="Corbel"
-            IsHitTestVisible="False"
             TextWrapping="WrapWithOverflow"
             FontWeight="Bold"
             FontSize="18"
             Visibility="Hidden"
+            IsHitTestVisible="False"
         >
             Скачать клиент
         </TextBlock>
