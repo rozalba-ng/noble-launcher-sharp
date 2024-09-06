@@ -34,7 +34,6 @@ namespace NobleLauncher.Components
             UpdateServerAPI = UpdateServerAPIModel.Instance();
             ModalBackgroundView.Opacity = 1;
             Migration();
-
             await GetClientFilesList();
             await GetInitialPatchesList();
             clientFilesExist = FastCheckClientExists();
@@ -56,7 +55,7 @@ namespace NobleLauncher.Components
         {
             if (!CheckDirectoryName())
             {
-                ShowError("Клиент не найден. Положите лаунчер в папку с именем Noblegarden и перезапустите.");
+                ShowError("Клиент не найден. Положите лаунчер в папку с именем Noblegarden (можно пустую).");
                 return;
             }
             ToggleDownloadButton(true);
@@ -136,7 +135,7 @@ namespace NobleLauncher.Components
             string download_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, client_archive_name);
             
             return Task.Run(async () => {
-                await FileDownloader.DownloadFile(client_link, download_path, (chunkSize, percentage) =>
+                await FileDownloader.DownloadFileWithRetries(client_link, download_path, (chunkSize, percentage) =>
                     {
                         Static.InUIThread(() =>
                         {

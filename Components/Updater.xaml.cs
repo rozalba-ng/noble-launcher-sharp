@@ -185,12 +185,11 @@ namespace NobleLauncher.Components
         }
 
         private int downloadedPatchesCount;
-        private long loadedSize;
 
         private Task DownloadFiles(List<IUpdateable> patches, long summarySize)
         {
             downloadedPatchesCount = 0;
-            loadedSize = 0;
+
             return FileDownloader.DownloadFiles(patches, () =>
                 {
                     Static.InUIThread(() =>
@@ -204,16 +203,10 @@ namespace NobleLauncher.Components
                     downloadedPatchesCount++;
                     Static.InUIThread(() =>
                     {
-                        ActionTextView.Text = "Загружаем файл: " + patch.LocalPath + "(" + (downloadedPatchesCount + 1) + "/" + patches.Count + ")";
+                        ActionTextView.Text = "Загружаем файл: " + patch.LocalPath + "(" + downloadedPatchesCount + "/" + patches.Count + ")";
                     });
                 },
-                (loadedChunkSize, percentOfFile) =>
-                {
-                    loadedSize += loadedChunkSize;
-                    double downloadProgress = (double)(loadedSize) / (double)(summarySize);
-                    int progress = (int)(downloadProgress * 100);
-                    SetProgress(progress);
-                });
+                (loadedChunkSize, percentOfFile) => SetProgress(percentOfFile));
         }
 
         private void CompleteUpdate()

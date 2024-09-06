@@ -8,9 +8,26 @@ using System.Threading.Tasks;
 
 namespace NobleLauncher.Models
 {
+    public class WebClientRange : WebClient
+    {
+        private readonly long from;
+
+        public WebClientRange(long from)
+        {
+            this.from = from;
+        }
+
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            var request = (HttpWebRequest)base.GetWebRequest(address);
+            request.AddRange(this.from);
+            return request;
+        }
+    }
+
     static class FileDownloader
     {
-        private static WebClient CurrentWebClient;
+        private static WebClientRange CurrentWebClient;
 
         public static async Task<long> GetFileSize(IUpdateable patch) {
             long size = 0;
@@ -44,38 +61,83 @@ namespace NobleLauncher.Models
             }
         }
 
-        public static Task DownloadFile(string from, string to, Action<long, int> onChunkLoaded) {
-            if (CurrentWebClient != null) {
-                throw new AccessViolationException("Web client уже существует");
-            }
-
-            CreateFolderForDownload(to);
-
-            if (File.Exists(to)) {
-                File.Delete(to);
-            }
-
-            long previousDownloadedSize = 0;
-            CurrentWebClient = new WebClient();
-
-            void onProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
-                var diff = e.BytesReceived - previousDownloadedSize;
-                previousDownloadedSize = e.BytesReceived;
-                onChunkLoaded(diff, e.ProgressPercentage);
-            }
-
-            void onComplete(object sender, AsyncCompletedEventArgs e) {
-                CurrentWebClient = null;
-            }
-
-            CurrentWebClient.Proxy = WebRequest.DefaultWebProxy;
-            CurrentWebClient.DownloadProgressChanged += onProgressChanged;
-            CurrentWebClient.DownloadFileCompleted += onComplete;
-            return CurrentWebClient.DownloadFileTaskAsync(new Uri(from), to);
+        public static Task DownloadPatch(IUpdateable patch, Action<long, int> onChunkLoaded)
+        {
+            return DownloadFileWithRetries(patch.RemotePath, patch.PathToTMP, onChunkLoaded);
         }
 
-        public static Task DownloadPatch(IUpdateable patch, Action<long, int> onChunkLoaded) {
-            return DownloadFile(patch.RemotePath, patch.PathToTMP, onChunkLoaded);
+        public static Task DownloadFileWithRetries(string from, string to, Action<long, int> onChunkLoaded, int maxRetries = 30, int retryDelay = 5000)
+        {
+            return Task.Run(async () => {
+                int attempt = 0;
+                bool downloadComplete = false;
+
+                while (attempt < maxRetries && !downloadComplete)
+                {
+                    Console.WriteLine("Attempt: " + attempt.ToString());
+                    try
+                    {
+                        // Call the updated method that supports partial downloads
+                        await DownloadFileWithResume(from, to, onChunkLoaded);
+                        downloadComplete = true; // Success
+                    }
+                    catch (WebException ex)
+                    {
+                        attempt++;
+                        if (attempt >= maxRetries)
+                        {
+                            throw new Exception($"Download failed after {maxRetries} attempts: {ex.Message}", ex);
+                        }
+                        // Wait before retrying
+                        await Task.Delay(retryDelay);
+                    }
+                }
+            });
+        }
+
+        public static Task DownloadFileWithResume(string from, string to, Action<long, int> onChunkLoaded)
+        {
+            CreateFolderForDownload(to);
+
+            long existingFileSize = 0;
+            if (File.Exists(to))
+            {
+                existingFileSize = new FileInfo(to).Length;
+            }
+
+            long previousDownloadedSize = existingFileSize;
+            long totalDownloadedSize = existingFileSize;
+            long totalFileSize = 0;
+
+            CurrentWebClient = new WebClientRange(existingFileSize);
+
+            CurrentWebClient.Proxy = WebRequest.DefaultWebProxy;
+
+            // Download file directly to the target file and append as chunks arrive
+            return Task.Run(async () =>
+            {
+                // Open the file in append mode, so new data is added after the existing content
+                using (var fileStream = new FileStream(to, FileMode.Append, FileAccess.Write, FileShare.None))
+                {
+                    using (var webStream = await CurrentWebClient.OpenReadTaskAsync(new Uri(from)))
+                    {
+                        totalFileSize = long.Parse(CurrentWebClient.ResponseHeaders["Content-Length"]) + existingFileSize;
+
+                        byte[] buffer = new byte[8192]; // Buffer size
+                        int bytesRead;
+
+                        while ((bytesRead = await webStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            await fileStream.WriteAsync(buffer, 0, bytesRead);
+                            totalDownloadedSize += bytesRead;
+
+                            // Calculate progress and call the progress callback
+                            int progressPercentage = (int)((double)totalDownloadedSize / totalFileSize * 100);
+                            onChunkLoaded(bytesRead, progressPercentage);
+                        }
+                    }
+                }
+            });
         }
 
         public static void AbortAnyLoad() {
@@ -110,7 +172,6 @@ namespace NobleLauncher.Models
                     {
                         File.Delete(file.FullPath);
                     }
-
                     File.Move(file.PathToTMP, file.FullPath);
                 }
             });
