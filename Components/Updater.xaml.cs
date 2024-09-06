@@ -204,7 +204,7 @@ namespace NobleLauncher.Components
                     downloadedPatchesCount++;
                     Static.InUIThread(() =>
                     {
-                        ActionTextView.Text = "Загружаем файл: " + patch.LocalPath + "(" + (downloadedPatchesCount + 1) + "/" + patches.Count + ")";
+                        ActionTextView.Text = "Загружаем файл: " + patch.LocalPath + "(" + downloadedPatchesCount + "/" + patches.Count + ")";
                     });
                 },
                 (loadedChunkSize, percentOfFile) =>
