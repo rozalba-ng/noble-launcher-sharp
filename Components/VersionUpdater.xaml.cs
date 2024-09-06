@@ -63,7 +63,7 @@ namespace NobleLauncher.Components
         private async void AutoUpdateLauncher(object sender, MouseButtonEventArgs e)
         {
 
-            await FileDownloader.DownloadFile(
+            await FileDownloader.DownloadFileWithRetries(
                 launcherLink,
                 Settings.WORKING_DIR + "/NobleLauncher.exe.tmp",
                 (chunkSize, percentage) => {}

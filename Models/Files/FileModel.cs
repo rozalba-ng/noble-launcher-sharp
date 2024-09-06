@@ -6,7 +6,7 @@ namespace NobleLauncher.Models
     public class FileModel
     {
         protected static readonly string WORKING_DIR = Settings.WORKING_DIR;
-        protected string PathToFile;
+        public string PathToFile;
 
         public FileModel(string RelativePath) {
             PathToFile = Path.GetFullPath(
