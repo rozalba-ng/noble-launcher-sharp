@@ -81,7 +81,7 @@ namespace NobleLauncher.Models
                         await DownloadFileWithResume(from, to, onChunkLoaded);
                         downloadComplete = true; // Success
                     }
-                    catch (WebException ex)
+                    catch (Exception ex)
                     {
                         attempt++;
                         if (attempt >= maxRetries)
@@ -98,13 +98,11 @@ namespace NobleLauncher.Models
         public static Task DownloadFileWithResume(string from, string to, Action<long, int> onChunkLoaded)
         {
             CreateFolderForDownload(to);
-
             long existingFileSize = 0;
             if (File.Exists(to))
             {
                 existingFileSize = new FileInfo(to).Length;
             }
-
             long previousDownloadedSize = existingFileSize;
             long totalDownloadedSize = existingFileSize;
             long totalFileSize = 0;
