@@ -73,13 +73,6 @@ namespace NobleLauncher.Globals
             }
             FileDownloader.AbortAnyLoad();
 
-            if (Patches != null) {
-                Patches.List.FindAll(patch => File.Exists(patch.PathToTMP)).ForEach(patch => File.Delete(patch.PathToTMP));
-            }
-            if (CustomPatches != null) {
-                CustomPatches.List.FindAll(patch => File.Exists(patch.PathToTMP)).ForEach(patch => File.Delete(patch.PathToTMP));
-            }
-
             if (Application.Current != null) {
                 Application.Current.Shutdown();
             }
