@@ -69,6 +69,7 @@
                 </Grid>
             </Grid>
             <components:SettingsWindow Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Width="560" />
+            <components:AddonsWindow Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Right" Width="560" />
             <components:VersionUpdater Grid.Column="1" Grid.Row="2"/>
             <components:Preloader Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan = "3" />
         </Grid>

@@ -15,9 +15,10 @@ namespace NobleLauncher.Globals
     public static class Static
     {
         public static DispatcherOperation CurrentUIOperation;
-        public static NoblePatchGroupModel<IUpdateable> InitialPatches;
-        public static NoblePatchGroupModel<NecessaryPatchModel> Patches;
-        public static NoblePatchGroupModel<CustomPatchModel> CustomPatches;
+        public static NobleUpdatableGroupModel<IUpdateable> InitialPatches;
+        public static NobleUpdatableGroupModel<IUpdateable> Patches;
+        public static NobleUpdatableGroupModel<IUpdateable> CustomPatches;
+        public static NobleUpdatableGroupModel<IUpdateable> Addons;
         public static List<FileModel> ClientFiles;
 
         public static readonly List<SliderElement> SliderElements = new List<SliderElement> {
