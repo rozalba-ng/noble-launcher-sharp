@@ -5,11 +5,8 @@
         StartPreload,
         CompletePreload,
         CompletePatchInfoRetrieving,
-        CompleteAddonsInfoRetrieving,
         SettingsButtonClick,
-        AddonsButtonClick,
         SettingsRefresh,
-        AddonsRefresh,
         StartUpdate,
         CompleteUpdate,
     }

@@ -146,9 +146,31 @@ namespace NobleLauncher.Components
             });
         }
 
+        public static void ExtractToDirectoryWithOverwrite(string sourceArchiveFileName, string destinationDirectoryName, Encoding entryNameEncoding = null)
+        {
+            using (ZipArchive archive = ZipFile.Open(sourceArchiveFileName, ZipArchiveMode.Read, entryNameEncoding))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    string destinationPath = Path.Combine(destinationDirectoryName, entry.FullName);
+                    string destinationDirectory = Path.GetDirectoryName(destinationPath);
+
+                    if (!Directory.Exists(destinationDirectory))
+                    {
+                        Directory.CreateDirectory(destinationDirectory);
+                    }
+
+                    if (!string.IsNullOrEmpty(Path.GetFileName(destinationPath))) // Skip directories
+                    {
+                        entry.ExtractToFile(destinationPath, overwrite: true);
+                    }
+                }
+            }
+        }
+
         private void ExtractClient()
         {
-            ArchiveManager.ExtractToDirectoryWithOverwrite(client_archive_name, AppDomain.CurrentDomain.BaseDirectory);
+            ExtractToDirectoryWithOverwrite(client_archive_name, AppDomain.CurrentDomain.BaseDirectory);
             File.Delete(client_archive_name);
         }
     
@@ -199,7 +221,7 @@ namespace NobleLauncher.Components
             var defaultPatchesResponse = await UpdateServerAPI.GetBasePatches();
             var patchesInfo = defaultPatchesResponse.FormattedData;
             var defaultPatches = JObjectConverter.ConvertToNecessaryPatchesList(patchesInfo);
-            Static.Patches = new NobleUpdatableGroupModel<IUpdateable>(defaultPatches);
+            Static.Patches = new NoblePatchGroupModel<NecessaryPatchModel>(defaultPatches);
         }
 
         private async Task GetInitialPatchesList()
@@ -208,7 +230,7 @@ namespace NobleLauncher.Components
             var initialPatchesResponse = await UpdateServerAPI.GetInitialPatches();
             var patchesInfo = initialPatchesResponse.FormattedData;
             List<PatchModel> initialPatches = JObjectConverter.ConvertToPatchesList(patchesInfo);
-            Static.InitialPatches = new NobleUpdatableGroupModel<IUpdateable>(initialPatches);
+            Static.InitialPatches = new NoblePatchGroupModel<IUpdateable>(initialPatches);
             CurrentLoadingStepView.Text = "Список патчей получен!";
         }
 

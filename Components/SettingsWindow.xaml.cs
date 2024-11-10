@@ -11,7 +11,6 @@ namespace NobleLauncher.Components
         public SettingsWindow() {
             InitializeComponent();
             EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsButtonClick, ToggleOnScreen);
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.AddonsButtonClick, ToggleOff);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsRefresh, Refresh);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, PlayHideAnimation);
         }
@@ -19,10 +18,6 @@ namespace NobleLauncher.Components
         public void ToggleOnScreen() {
             if (IsOnScreen) PlayHideAnimation();
             else PlayShowAnimation();
-        }
-        public void ToggleOff()
-        {
-            if (IsOnScreen) PlayHideAnimation();
         }
 
         public void Refresh() {

@@ -13,21 +13,9 @@ namespace NobleLauncher.Components
     {
         public Header() {
             InitializeComponent();
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, () =>
-            {
-                SetSettingsButtonVisible();
-                SetAddonsButtonVisible();
-            });
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, () =>
-            {
-                SetSettingsClickable(false);
-                SetAddonsClickable(false);
-            });
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompleteUpdate, () =>
-            {
-                SetSettingsClickable(true);
-                SetAddonsClickable(true);
-            });
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompletePreload, () => SetSettingsButtonVisible());
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, () => SetSettingsClickable(false));
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.CompleteUpdate, () => SetSettingsClickable(true));
         }
 
         private void SetSettingsButtonVisible()
@@ -35,25 +23,14 @@ namespace NobleLauncher.Components
             SettingsIcon.Visibility = Visibility.Visible;
             SetSettingsClickable(true);
         }
-        private void SetAddonsButtonVisible()
-        {
-            AddonsIcon.Visibility = Visibility.Visible;
-            SetAddonsClickable(true);
-        }
         private void ToggleSettingsVisibility(object sender, RoutedEventArgs e) {
             EventDispatcher.Dispatch(EventDispatcherEvent.SettingsButtonClick);
         }
-        
+
         private void SetSettingsClickable(bool clickable) {
             SettingsIcon.IsHitTestVisible = clickable;
             if (clickable) SettingsIcon.ClearValue(OpacityProperty);
             else SettingsIcon.SetValue(OpacityProperty, 0.33);
-        }
-        private void SetAddonsClickable(bool clickable)
-        {
-            AddonsIcon.IsHitTestVisible = clickable;
-            if (clickable) AddonsIcon.ClearValue(OpacityProperty);
-            else AddonsIcon.SetValue(OpacityProperty, 0.33);
         }
 
         private void CloseClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
@@ -65,11 +42,6 @@ namespace NobleLauncher.Components
             {
                 Application.Current.MainWindow.DragMove();
             }
-        }
-
-        private void ToggleAddonsVisibility(object sender, MouseButtonEventArgs e)
-        {
-            EventDispatcher.Dispatch(EventDispatcherEvent.AddonsButtonClick);
         }
     }
 }

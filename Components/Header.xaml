@@ -10,9 +10,7 @@
             <ColumnDefinition Width="16" />
             <ColumnDefinition Width="48" />
             <ColumnDefinition Width="548"/>
-            <ColumnDefinition Width="176"/>
-            <ColumnDefinition Width="24"/>
-            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="214"/>
             <ColumnDefinition Width="24"/>
             <ColumnDefinition Width="12"/>
             <ColumnDefinition Width="24"/>
@@ -27,12 +25,7 @@
         <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Text="NOBLEGARDEN" FontSize="24" Foreground="#D8FAFAFA" FontFamily="Segoe UI Black" Margin="0,2,0,0" />
         <TextBlock Grid.Column="2" Text="Ролевой сервер World of Warcraft" FontFamily="Corbel" FontSize="14" Foreground="#D8FAFAFA" VerticalAlignment="Bottom" Margin="0,0,0,6"/>
         <Rectangle Fill="#59050505" Grid.Row="0" Grid.Column="2" RadiusY="16" RadiusX="16" Height="32" Margin="308,-18,138,41" Grid.ColumnSpan="2" />
-        <Image Name = "AddonsIcon"
-               MouseDown="ToggleAddonsVisibility"
-               Source="../Images/addons.png"
-               Grid.Column="4"
-               Width="24"
-               Visibility="Hidden">
+        <Image Name = "SettingsIcon" MouseDown="ToggleSettingsVisibility" Source="../Images/settings.png" Grid.Column="4" Width="24" Visibility="Hidden">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Setter Property="Opacity" Value="0.6"/>
@@ -45,20 +38,7 @@
                 </Style>
             </Image.Style>
         </Image>
-        <Image Name = "SettingsIcon" MouseDown="ToggleSettingsVisibility" Source="../Images/settings.png" Grid.Column="6" Width="24" Visibility="Hidden">
-            <Image.Style>
-                <Style TargetType="{x:Type Image}">
-                    <Setter Property="Opacity" Value="0.6"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Opacity" Value="0.85"/>
-                            <Setter Property="Cursor" Value="Hand"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Image.Style>
-        </Image>
-        <Image Name = "CloseIcon" Source="../Images/close.png" Grid.Column="8" MouseDown="CloseClick">
+        <Image Name = "CloseIcon" Source="../Images/close.png" Grid.Column="6" MouseDown="CloseClick">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                     <Setter Property="Opacity" Value="0.6"/>

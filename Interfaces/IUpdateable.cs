@@ -11,12 +11,7 @@ namespace NobleLauncher.Interfaces
         string PathToTMP { get; }
         string LocalHash { get; set; }
         string RemoteHash { get; set; }
-        string Name { get; set; }
-        bool Selected { get; set; }
         long GetPathByteSize();
-
-        void ChangeSelectionTo(bool To);
-        bool IsUpdateNeeded();
         DateTime GetLastModified();
         string CalcCRC32Hash(Action<long> OnBlockRead);
         Task<long> GetRemoteSize();

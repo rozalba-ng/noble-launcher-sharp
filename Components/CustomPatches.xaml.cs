@@ -1,5 +1,4 @@
 ﻿using NobleLauncher.Globals;
-using NobleLauncher.Interfaces;
 using NobleLauncher.Models;
 using NobleLauncher.Structures;
 using System;
@@ -31,7 +30,7 @@ namespace NobleLauncher.Components
         private void OnCustomPatchSelectorClick(object sender, RoutedEventArgs e) {
             var target = (FrameworkElement)sender;
             var id = Int32.Parse(target.Tag.ToString());
-            var patch = Static.CustomPatches.GetUpdatableById(id);
+            var patch = Static.CustomPatches.GetPatchByID(id);
             patch.ChangeSelectionTo(!patch.Selected);
             Settings.ToggleCustomPatchSelection(patch.LocalPath);
             CustomPatchesView.Items.Refresh();
@@ -42,7 +41,7 @@ namespace NobleLauncher.Components
             var customPatchesResponse = await UpdateServerAPI.GetCustomPatches();
             var patchesInfo = customPatchesResponse.FormattedData;
             List<CustomPatchModel> customPatches = JObjectConverter.ConvertToCustomPatchesList(patchesInfo);
-            Static.CustomPatches = new NobleUpdatableGroupModel<IUpdateable>(customPatches);
+            Static.CustomPatches = new NoblePatchGroupModel<CustomPatchModel>(customPatches);
 
             Static.InUIThread(() => {
                 CustomPatchesView.ItemsSource = Static.CustomPatches.List;
@@ -54,7 +53,7 @@ namespace NobleLauncher.Components
             var basePatchesResponse = await UpdateServerAPI.GetBasePatches();
             var patchesInfo = basePatchesResponse.FormattedData;
             List<NecessaryPatchModel> basePatches = JObjectConverter.ConvertToNecessaryPatchesList(patchesInfo);
-            Static.Patches = new NobleUpdatableGroupModel<IUpdateable>(basePatches);
+            Static.Patches = new NoblePatchGroupModel<NecessaryPatchModel>(basePatches);
             Static.InUIThread(() => {
                 NecessaryPatchesView.ItemsSource = Static.Patches.List;
             });
