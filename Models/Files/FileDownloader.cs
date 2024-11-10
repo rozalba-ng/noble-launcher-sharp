@@ -83,6 +83,8 @@ namespace NobleLauncher.Models
                     }
                     catch (WebException ex)
                     {
+                        if (ex.Message == "The remote server returned an error: (416) Requested Range Not Satisfiable.")
+                            return;
                         attempt++;
                         if (attempt >= maxRetries)
                         {
@@ -150,7 +152,8 @@ namespace NobleLauncher.Models
         public static Task DownloadFiles(List<IUpdateable> files,
             Action OnStart,
             Action<IUpdateable> OnNewFileDownload,
-            Action<long, int> OnLoadUpdated)
+            Action<long, int> OnLoadUpdated,
+            bool IsArchive = false)
         {
             if (files.Count == 0)
                 return Task.Run(() => { });
@@ -167,12 +170,14 @@ namespace NobleLauncher.Models
 
                     if (!File.Exists(file.PathToTMP))
                         return;
-
-                    if (File.Exists(file.FullPath))
+                    string full_path = file.FullPath;
+                    if (IsArchive)
+                        full_path = full_path + ".zip";
+                    if (File.Exists(full_path))
                     {
-                        File.Delete(file.FullPath);
+                        File.Delete(full_path);
                     }
-                    File.Move(file.PathToTMP, file.FullPath);
+                    File.Move(file.PathToTMP, full_path);
                 }
             });
         }

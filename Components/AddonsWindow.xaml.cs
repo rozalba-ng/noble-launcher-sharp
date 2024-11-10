@@ -5,14 +5,14 @@ using System.Windows.Media.Animation;
 
 namespace NobleLauncher.Components
 {
-    public partial class SettingsWindow : UserControl
+    public partial class AddonsWindow : UserControl
     {
         private bool IsOnScreen = false;
-        public SettingsWindow() {
+        public AddonsWindow() {
             InitializeComponent();
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsButtonClick, ToggleOnScreen);
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.AddonsButtonClick, ToggleOff);
-            EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsRefresh, Refresh);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.SettingsButtonClick, ToggleOff);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.AddonsButtonClick, ToggleOnScreen);
+            EventDispatcher.CreateSubscription(EventDispatcherEvent.AddonsRefresh, Refresh);
             EventDispatcher.CreateSubscription(EventDispatcherEvent.StartUpdate, PlayHideAnimation);
         }
 
@@ -26,14 +26,14 @@ namespace NobleLauncher.Components
         }
 
         public void Refresh() {
-            var offset = SettingsScrollerView.VerticalOffset;
-            SettingsScrollerView.ScrollToVerticalOffset(offset);
+            var offset = AddonsScrollerView.VerticalOffset;
+            AddonsScrollerView.ScrollToVerticalOffset(offset);
         }
 
         private void PlayShowAnimation() {
             if (IsOnScreen)
                 return;
-            Storyboard showAnim = (Storyboard)FindResource("ShowSettings");
+            Storyboard showAnim = (Storyboard)FindResource("ShowAddons");
             if (showAnim != null) {
                 showAnim.Begin();
                 IsOnScreen = true;
@@ -43,7 +43,7 @@ namespace NobleLauncher.Components
         private void PlayHideAnimation() {
             if (!IsOnScreen)
                 return;
-            Storyboard hideAnim = (Storyboard)FindResource("HideSettings");
+            Storyboard hideAnim = (Storyboard)FindResource("HideAddons");
             if (hideAnim != null) {
                 hideAnim.Begin();
                 IsOnScreen = false;
