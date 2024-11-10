@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace NobleLauncher.Components
 {
@@ -85,8 +86,15 @@ namespace NobleLauncher.Components
             {
                 if (CanWriteToFile(patch.LocalPath))
                 {
-                    DateTime lastModified = await patch.GetRemoteLastModified();
-                    File.SetLastWriteTime(patch.LocalPath, lastModified);
+                    try
+                    {
+                        DateTime lastModified = await patch.GetRemoteLastModified();
+                        File.SetLastWriteTime(patch.LocalPath, lastModified);
+                    }
+                    catch (Exception _)
+                    {
+                        continue;
+                    }
                 }
             }
         }
@@ -96,10 +104,26 @@ namespace NobleLauncher.Components
             var patches = GetPatches();
             await CalcHashes(patches);
             await UpdateLastModifiedTime(patches);
-            List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.LocalHash != patch.RemoteHash);
+            List<IUpdateable> patchesToUpdate = patches.FindAll(patch => patch.IsUpdateNeeded());
 
             await DownloadFiles(patchesToUpdate, await GetSummaryDownloadSize(patchesToUpdate));
+
+            List<IUpdateable> addons = Static.Addons.List.FindAll(addon => addon.Selected && addon.IsUpdateNeeded()).ToList();
+            await DownloadFiles(addons, await GetSummaryDownloadSize(addons), /*IsArchive=*/true);
+            UpdateAddons(addons);
+            
             CompleteUpdate();
+        }
+
+        private void UpdateAddons(List<IUpdateable> addons)
+        {
+            foreach (IUpdateable addon in addons)
+            {
+                var NameParts = addon.RemotePath.Split('/');
+                string archive_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, addon.LocalPath, NameParts[NameParts.Length - 1]);
+                ArchiveManager.ExtractToDirectoryWithOverwrite(archive_path, addon.LocalPath);
+                File.Delete(archive_path);
+            }
         }
 
         private long GetSummaryHashFileSize(List<IUpdateable> patches)
@@ -186,7 +210,7 @@ namespace NobleLauncher.Components
 
         private int downloadedPatchesCount;
 
-        private Task DownloadFiles(List<IUpdateable> patches, long summarySize)
+        private Task DownloadFiles(List<IUpdateable> patches, long summarySize, bool IsArchive = false)
         {
             downloadedPatchesCount = 0;
 
@@ -203,10 +227,11 @@ namespace NobleLauncher.Components
                     downloadedPatchesCount++;
                     Static.InUIThread(() =>
                     {
-                        ActionTextView.Text = "Загружаем файл: " + patch.LocalPath + "(" + downloadedPatchesCount + "/" + patches.Count + ")";
+                        ActionTextView.Text = "Загружаем файл: " + patch.Name + "(" + downloadedPatchesCount + "/" + patches.Count + ")";
                     });
                 },
-                (loadedChunkSize, percentOfFile) => SetProgress(percentOfFile));
+                (loadedChunkSize, percentOfFile) => SetProgress(percentOfFile),
+                IsArchive);
         }
 
         private void CompleteUpdate()

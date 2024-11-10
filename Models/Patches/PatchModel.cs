@@ -16,11 +16,11 @@ namespace NobleLauncher.Models
         public string RemoteHash { get; set; }
         public string LocalHash { get; set; }
         public bool Selected { get; set; }
-        public string FullPath {
+        public virtual string FullPath {
             get => Settings.WORKING_DIR + "/" + LocalPath;
         }
 
-        public string PathToTMP {
+        public virtual string PathToTMP {
             get => FullPath + ".tmp";
         }
 
@@ -92,6 +92,11 @@ namespace NobleLauncher.Models
 
         public Task LoadUpdated(Action<long, int> OnChunkLoaded) {
             return FileDownloader.DownloadPatch(this, OnChunkLoaded);
+        }
+
+        public virtual bool IsUpdateNeeded()
+        {
+            return LocalHash != RemoteHash;
         }
     }
 }

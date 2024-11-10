@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace NobleLauncher.Models
 {
@@ -63,6 +64,51 @@ namespace NobleLauncher.Models
             }
             patch.CalcNameFromPath();
             return patch;
+        }
+        private static AddonModel ConvertTokenToAddon(JToken token)
+        {
+            AddonModel addon = new AddonModel();
+            var reader = new JTokenReader(token);
+            bool isObjectStarted = false;
+
+            while (reader.Read())
+            {
+                var tokenType = reader.TokenType;
+
+                if (tokenType == JsonToken.StartObject)
+                {
+                    isObjectStarted = true;
+                }
+
+                if (tokenType == JsonToken.PropertyName)
+                {
+                    string property = (string)reader.Value;
+
+                    if (isObjectStarted)
+                    {
+                        switch (property)
+                        {
+                            case "path":
+                                addon.RemotePath = reader.ReadAsString();
+                                break;
+                            case "version":
+                                addon.RemoteVersion = new Version(reader.ReadAsString());
+                                break;
+                            case "description":
+                                addon.Description = reader.ReadAsString();
+                                break;
+                            default:
+                                break;
+                        }
+                    } else
+                    {
+                        addon.Name = property;
+                    }
+                }
+            }
+            addon.CalcLocalPath();
+            addon.GetSelectionFromSettings();
+            return addon;
         }
 
         private static FileModel ConvertTokenToClientFile(JToken token)
@@ -153,6 +199,20 @@ namespace NobleLauncher.Models
             });
 
             return new List<FileModel>(files);
+        }
+
+
+        public static List<AddonModel> ConvertToAddonList(JObject Target)
+        {
+            var tokens = ConvertToTokenList(Target);
+            var addons = new AddonModel[tokens.Count];
+
+            Parallel.For(0, tokens.Count, (i) => {
+                addons[i] = ConvertTokenToAddon(tokens[i]);
+                addons[i].Index = i;
+            });
+
+            return new List<AddonModel>(addons);
         }
     }
 }
